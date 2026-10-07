@@ -6,7 +6,14 @@
 <title>แชทกับ AI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
+<link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
+<link href="[https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Google+Sans:wght@400;500;600&display=swap](https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Google+Sans:wght@400;500;600&display=swap)" rel="stylesheet">
+<!-- เปลี่ยนเป็นฟอนต์ที่รองรับทั้งภาษาไทยและอังกฤษผ่าน Google Fonts API ได้จริง -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Prompt:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
   --wine: #120307;
@@ -40,7 +47,7 @@ html, body {
   height: 100%;
   width: 100%;
   overflow: hidden;
-  font-family: 'Google Sans', system-ui, -apple-system, sans-serif;
+  font-family: 'Google Sans',  system-ui, -apple-system, sans-serif;
   color: var(--text);
   background: radial-gradient(120% 90% at 20% 0%, #4a0a18 0%, var(--wine) 60%) fixed;
 }
@@ -106,8 +113,8 @@ html, body {
 .history-item.active { background: var(--glass-hover); border-color: var(--line); color: var(--text); font-weight: 500; }
 .history-item .title-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
 .history-item .del-btn {
-  border: 0; background: none; color: var(--muted); cursor: pointer; padding: 2px; display: none;
-  border-radius: 6px; line-height: 0;
+  border: 0; background: none; color: var(--muted); cursor: pointer; padding: 4px; display: none;
+  border-radius: 6px; line-height: 0; flex: none;
 }
 .history-item:hover .del-btn { display: block; }
 .history-item .del-btn:hover { color: #ff4d4d; background: rgba(255,255,255,0.1); }
@@ -228,6 +235,7 @@ textarea::placeholder { color: var(--muted); }
     transform: translateX(-100%); z-index: 100;
   }
   .sidebar.open { transform: translateX(0); }
+  .history-item .del-btn { display: block; opacity: 0.7; }
   #toggleSidebar, #closeSidebarBtn { display: grid; }
 }
 </style>
@@ -308,7 +316,6 @@ textarea::placeholder { color: var(--muted); }
 const WEBHOOK = "";
 const $ = id => document.getElementById(id);
 
-// ป้องกันระบบพังเมื่อ localStorage โดนบล็อก
 const store = {
   get(k){
     try {
@@ -417,7 +424,6 @@ async function switchChat(id){
   closeMobileSidebar();
 }
 
-// ผูก Event Listeners ทันทีโดยไม่ต้องรอ API
 function bindEvents(){
   $('form').addEventListener('submit', e => {
     e.preventDefault();
@@ -430,7 +436,8 @@ function bindEvents(){
   input.addEventListener('input', () => {
     input.style.height = 'auto';
     input.style.height = Math.min(input.scrollHeight, 140) + 'px';
-    sendBtn.disabled = busy || !convId || !input.value.trim();
+    // แก้ไข: ปลดล็อกปุ่มส่งทันทีที่มีข้อความ ไม่ขึ้นกับ convId
+    sendBtn.disabled = busy || !input.value.trim();
   });
 
   input.addEventListener('keydown', e => {
@@ -488,7 +495,8 @@ async function init(){
     convId = store.get('bp_convId');
 
     if(!userKey){
-      const u = await api('/users', { method:'POST', body:{} }, auth=false);
+      // แก้ไข: ส่ง { auth: false } อยู่ภายใน options object
+      const u = await api('/users', { method:'POST', body:{}, auth: false });
       userKey = u.key; userId = u.user.id;
       store.set('bp_userKey', userKey);
       store.set('bp_userId', userId);
@@ -588,6 +596,21 @@ function render(p, who, timeIso){
     b.textContent = p.text || '[ข้อความไม่รองรับ]';
   }
 
+  // เพิ่มปุ่มคัดลอกข้อความย่อยในกล่องแชท
+  if (p.text) {
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'copy-btn';
+    copyBtn.title = 'คัดลอกข้อความ';
+    copyBtn.innerHTML = `<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+    copyBtn.onclick = (e) => {
+      e.stopPropagation();
+      navigator.clipboard?.writeText(p.text);
+      copyBtn.style.color = '#7dffb0';
+      setTimeout(() => copyBtn.style.color = '', 1500);
+    };
+    b.appendChild(copyBtn);
+  }
+
   row.appendChild(b);
   const meta = document.createElement('div');
   meta.className = 'msg-meta';
@@ -599,7 +622,17 @@ function render(p, who, timeIso){
 }
 
 async function send(text){
-  if(busy || !convId || !text.trim()) return;
+  if(busy || !text.trim()) return;
+
+  // หากยังไม่มีห้องแชท ให้พยายามสร้างอัตโนมัติก่อนส่ง
+  if(!convId){
+    await createNewConversation();
+    if(!convId){
+      alert('ไม่สามารถเชื่อมต่อได้ กรุณาตรวจสอบ Webhook ID ในหน้าตั้งค่า');
+      return;
+    }
+  }
+
   saveConversationToHistory(convId, text.slice(0, 30));
 
   busy = true; sendBtn.disabled = true;
@@ -642,7 +675,6 @@ async function startNewChat(){
   closeMobileSidebar();
 }
 
-// เริ่มต้นผูกปุ่มทันที
 bindEvents();
 init();
 </script>
