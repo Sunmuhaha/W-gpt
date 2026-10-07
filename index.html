@@ -6,14 +6,10 @@
 <title>แชทกับ AI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Google+Sans:wght@400;500;600&family=Prompt:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
-<link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
-<link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
-<link href="[https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Google+Sans:wght@400;500;600&display=swap](https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Google+Sans:wght@400;500;600&display=swap)" rel="stylesheet">
-<!-- เปลี่ยนเป็นฟอนต์ที่รองรับทั้งภาษาไทยและอังกฤษผ่าน Google Fonts API ได้จริง -->
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Prompt:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght,MONO@0,300..800,1;1,300..800,1&display=swap" rel="stylesheet">
 <style>
 :root {
   --wine: #120307;
@@ -47,7 +43,7 @@ html, body {
   height: 100%;
   width: 100%;
   overflow: hidden;
-  font-family: 'Google Sans',  system-ui, -apple-system, sans-serif;
+  font-family: 'Google Sans', 'Prompt', system-ui, -apple-system, sans-serif;
   color: var(--text);
   background: radial-gradient(120% 90% at 20% 0%, #4a0a18 0%, var(--wine) 60%) fixed;
 }
@@ -114,16 +110,16 @@ html, body {
 .history-item .title-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
 .history-item .del-btn {
   border: 0; background: none; color: var(--muted); cursor: pointer; padding: 4px; display: none;
-  border-radius: 6px; line-height: 0; flex: none;
+  border-radius: 6px; line-height: 0; flex: none; transition: all 0.2s;
 }
 .history-item:hover .del-btn { display: block; }
-.history-item .del-btn:hover { color: #ff4d4d; background: rgba(255,255,255,0.1); }
+.history-item .del-btn:hover { color: #ff4d4d; background: rgba(255,255,255,0.15); }
 
 #closeSidebarBtn { display: none; }
 
 .app { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px; height: 100%; }
 
-header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-radius: 22px; }
+header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-radius: 22px; z-index: 10; }
 .avatar {
   width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; flex: none;
   background: linear-gradient(135deg, var(--coral), var(--crimson));
@@ -134,13 +130,13 @@ header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; bord
 .status { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; margin-top: 1px; }
 .dot { width: 8px; height: 8px; border-radius: 50%; background: #ffb4bf; transition: .3s; }
 .dot.on { background: #7dffb0; box-shadow: 0 0 10px #7dffb0; }
-.dot.err { background: #ff4d4d; }
+.dot.err { background: #ff4d4d; box-shadow: 0 0 10px #ff4d4d; }
 .sp { flex: 1; }
 
 .icon-btn {
   width: 38px; height: 38px; border-radius: 12px; border: 1px solid var(--line); background: var(--glass);
   color: var(--text); cursor: pointer; display: grid; place-items: center; transition: all .2s;
-  user-select: none;
+  user-select: none; z-index: 10;
 }
 .icon-btn:hover { background: var(--glass-strong); }
 .icon-btn:active { transform: scale(.95); }
@@ -158,20 +154,24 @@ header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; bord
 .empty { margin: auto; text-align: center; max-width: 360px; color: var(--muted); line-height: 1.6; }
 .empty h2 { color: var(--text); font-weight: 600; font-size: 22px; margin-bottom: 8px; }
 
-.msg { display: flex; flex-direction: column; max-width: 82%; gap: 4px; }
+.msg { display: flex; flex-direction: column; max-width: 85%; gap: 4px; }
 .msg.user { align-self: flex-end; align-items: flex-end; }
 .msg.bot { align-self: flex-start; align-items: flex-start; }
 
-.msg-meta { font-size: 11px; color: var(--muted); padding: 0 4px; }
+.msg-meta {
+  font-size: 11px; color: var(--muted); padding: 2px 4px;
+  display: flex; align-items: center; gap: 8px;
+}
+.msg.bot .msg-meta { justify-content: flex-start; }
+.msg.user .msg-meta { justify-content: flex-end; }
 
 .bubble {
   position: relative; padding: 12px 16px; border-radius: 20px; line-height: 1.6;
-  font-size: 14.5px; word-break: break-word; white-space: pre-wrap;
+  font-size: 14.5px; word-break: break-word; white-space: pre-wrap; max-width: 100%;
 }
 .bot .bubble {
   background: var(--glass-strong); border: 1px solid var(--line); border-bottom-left-radius: 6px;
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
-  padding-right: 48px;
 }
 .user .bubble {
   background: linear-gradient(135deg, rgba(255,107,129,0.9), rgba(225,29,72,0.95));
@@ -179,24 +179,74 @@ header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; bord
   box-shadow: 0 8px 24px rgba(225,29,72,0.35), inset 0 1px 0 rgba(255,255,255,0.35);
 }
 
-.copy-btn {
-  position: absolute; top: 8px; right: 8px; opacity: 0.8; border: 1px solid var(--line);
-  background: rgba(0, 0, 0, 0.4); color: var(--text); padding: 6px; border-radius: 8px;
-  cursor: pointer; transition: all .2s; z-index: 5;
-  display: flex; align-items: center; justify-content: center;
-}
-.copy-btn:hover, .copy-btn:active { opacity: 1; background: rgba(0, 0, 0, 0.7); }
-.copy-btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.bubble.typing { white-space: normal; padding: 10px 16px; line-height: 1; display: inline-flex; align-items: center; }
+.bubble.typing .typing-dots { padding: 0; display: flex; }
 
-.composer {
-  display: flex; align-items: flex-end; gap: 10px; padding: 10px 12px; border-radius: 26px;
-  border: 1px solid var(--line);
+.copy-btn {
+  border: 0; background: transparent; color: var(--muted);
+  padding: 2px 6px; border-radius: 6px; cursor: pointer; transition: all .2s;
+  display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-family: inherit;
 }
-.composer:focus-within {
-  background: rgba(255,255,255,0.12);
-  border-color: rgba(255,107,129,0.6);
-  box-shadow: 0 0 0 4px rgba(225,29,72,0.22);
+.copy-btn:hover { color: var(--text); background: rgba(255,255,255,0.12); }
+.copy-btn svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Code Block Responsive & Tight Spacing (ปรับแก้ไขระยะห่างเรียบร้อยแล้ว) */
+.code-block-wrapper {
+  margin: 6px 0; border-radius: 12px; overflow: hidden;
+  background: rgba(12, 3, 6, 0.85); border: 1px solid var(--line);
+  font-family: 'Google Sans Code', monospace; white-space: normal;
+  width: 100%; max-width: 100%; box-sizing: border-box;
 }
+.code-block-wrapper:first-child { margin-top: 4px; }
+.code-block-wrapper:last-child { margin-bottom: 4px; }
+
+.code-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 12px; background: rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); font-size: 12px; color: var(--muted);
+}
+.code-lang { font-weight: 600; text-transform: lowercase; color: var(--coral); }
+.copy-code-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(255, 255, 255, 0.12); border: 1px solid var(--line);
+  color: var(--text); padding: 4px 8px; border-radius: 6px; cursor: pointer;
+  font-size: 11px; font-family: 'Google Sans', 'Prompt', sans-serif; transition: all 0.2s;
+}
+.copy-code-btn:hover { background: rgba(255, 255, 255, 0.25); }
+.copy-code-btn.copied { background: #10b981; border-color: #10b981; color: #fff; }
+.code-block-wrapper pre {
+  margin: 0; padding: 12px; overflow-x: auto; font-size: 13px; line-height: 1.5; color: #ffd6dc;
+  max-width: 100%; box-sizing: border-box; -webkit-overflow-scrolling: touch;
+}
+.code-block-wrapper code { font-family: 'Google Sans Code', Google Sans, Monaco, monospace; white-space: pre; display: block; }
+.inline-code {
+  background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 2px 6px; border-radius: 6px; font-family: 'Google Sans Code', monospace;
+  font-size: 0.9em; color: var(--coral);
+}
+
+/* Loading Animations */
+.typing-dots {
+  display: inline-flex; align-items: center; gap: 5px; padding: 4px 2px;
+}
+.typing-dots span {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--coral);
+  animation: dotBounce 1.4s infinite ease-in-out both;
+}
+.typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+.typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+@keyframes dotBounce {
+  0%, 80%, 100% { transform: scale(0.3); opacity: 0.3; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+.chat-loading {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  color: var(--muted); font-size: 14px; margin: auto; padding: 20px 0;
+}
+
+.composer { display: flex; align-items: flex-end; gap: 10px; padding: 10px 12px; border-radius: 26px; border: 1px solid var(--line); }
+.composer:focus-within { background: rgba(255,255,255,0.12); border-color: rgba(255,107,129,0.6); box-shadow: 0 0 0 4px rgba(225,29,72,0.22); }
 
 textarea {
   flex: 1; resize: none; border: 0; outline: 0; background: transparent; color: var(--text);
@@ -208,17 +258,20 @@ textarea::placeholder { color: var(--muted); }
   width: 44px; height: 44px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; flex: none;
   display: grid; place-items: center; color: #fff;
   background: linear-gradient(135deg, var(--coral), var(--crimson));
-  box-shadow: 0 8px 20px rgba(225,29,72,0.4);
+  box-shadow: 0 8px 20px rgba(225,29,72,0.4); transition: opacity 0.2s;
 }
 .send:disabled { opacity: .35; cursor: default; }
 .send svg { width: 20px; height: 20px; fill: #fff; }
 
-.setup { padding: 16px; border-radius: 20px; display: none; gap: 12px; flex-direction: column; font-size: 13px; color: var(--muted); }
+.setup {
+  padding: 16px; border-radius: 20px; display: none; gap: 12px; flex-direction: column; font-size: 13px; color: var(--muted);
+  border: 1px solid var(--coral); box-shadow: 0 8px 30px rgba(225,29,72,0.2);
+}
 .setup.show { display: flex; }
 .setup-row { display: flex; gap: 8px; }
 .setup input {
   flex: 1; min-width: 0; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--line);
-  background: rgba(0,0,0,0.25); color: var(--text); font: inherit; font-size: 13px; outline: 0;
+  background: rgba(0,0,0,0.4); color: var(--text); font: inherit; font-size: 13px; outline: 0;
 }
 .setup button {
   padding: 0 16px; border-radius: 12px; border: 0; cursor: pointer; font: inherit; color: #fff;
@@ -226,10 +279,12 @@ textarea::placeholder { color: var(--muted); }
 }
 
 @media (max-width: 768px) {
+  .msg { max-width: 92%; }
+  .code-block-wrapper pre { font-size: 12px; padding: 10px; }
   .sidebar {
     position: fixed; top: 0; left: 0; bottom: 0;
     width: 280px; height: 100%;
-    background: rgba(24, 4, 10, 0.8) !important;
+    background: rgba(24, 4, 10, 0.85) !important;
     -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px);
     border-radius: 0; border-right: 1px solid var(--line);
     transform: translateX(-100%); z-index: 100;
@@ -272,7 +327,7 @@ textarea::placeholder { color: var(--muted); }
         <div class="status"><span class="dot" id="dot"></span><span id="statusText">กำลังเชื่อมต่อ…</span></div>
       </div>
       <div class="sp"></div>
-      <button class="icon-btn" id="settingsBtn" title="ตั้งค่า" aria-label="ตั้งค่า">
+      <button class="icon-btn" id="settingsBtn" title="ตั้งค่า Webhook" aria-label="ตั้งค่า">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       </button>
       <button class="icon-btn" id="newBtn" title="แชทใหม่" aria-label="แชทใหม่">
@@ -281,19 +336,19 @@ textarea::placeholder { color: var(--muted); }
     </header>
 
     <section class="setup glass" id="setup">
-      <span style="font-weight:600; color:var(--text);">ตั้งค่าระบบ & เชื่อมต่อหลายอุปกรณ์</span>
-      <span>1. Chat API URL หรือ Webhook ID (Botpress)</span>
+      <span style="font-weight:600; color:var(--text);">ตั้งค่าการเชื่อมต่อ (Botpress Webhook)</span>
+      <span>1. Webhook URL หรือ Webhook ID จาก Botpress</span>
       <div class="setup-row">
-        <input id="hookInput" placeholder="https://chat.botpress.cloud/xxxxxxxx" autocomplete="off">
+        <input id="hookInput" placeholder="https://chat.botpress.cloud/xxxx-xxxx หรือ xxxx-xxxx" autocomplete="off">
       </div>
 
-      <span>2. User Key (คัดลอกรหัสนี้ไปใส่เครื่องอื่น เพื่อให้ประวัติแชทเชื่อมกัน)</span>
+      <span>2. User Key (สำหรับซิงค์ประวัติข้ามเครื่อง)</span>
       <div class="setup-row">
-        <input id="userKeyInput" placeholder="User Key ปัจจุบัน..." autocomplete="off">
+        <input id="userKeyInput" placeholder="สร้างให้อัตโนมัติเมื่อเชื่อมต่อ..." autocomplete="off">
         <button id="copyUserKeyBtn" type="button">คัดลอก</button>
       </div>
 
-      <button id="hookSave" type="button" style="padding:10px; margin-top:4px;">บันทึกและซิงค์ข้อมูล</button>
+      <button id="hookSave" type="button" style="padding:10px; margin-top:4px;">บันทึกและเชื่อมต่อใหม่</button>
     </section>
 
     <section class="glass" id="chat" aria-live="polite">
@@ -305,7 +360,7 @@ textarea::placeholder { color: var(--muted); }
 
     <form class="composer glass" id="form">
       <textarea id="input" rows="1" placeholder="พิมพ์ข้อความ…" aria-label="ข้อความ"></textarea>
-      <button class="send" id="send" type="submit" aria-label="ส่ง" disabled>
+      <button class="send" id="send" type="submit" aria-label="ส่ง">
         <svg viewBox="0 0 24 24"><path d="M3.4 20.4l17.5-7.6a.9.9 0 0 0 0-1.6L3.4 3.6a.9.9 0 0 0-1.3.9L3.5 10l9 2-9 2-1.4 5.5a.9.9 0 0 0 1.3.9z"/></svg>
       </button>
     </form>
@@ -335,6 +390,7 @@ const store = {
 const chat=$('chat'), input=$('input'), sendBtn=$('send');
 let base="", userId=null, userKey=null, convId=null, busy=false;
 let pollInterval = null;
+let loadToken = 0, loadingHistory = false;
 const seen=new Set();
 
 function resolveBase(){
@@ -343,17 +399,71 @@ function resolveBase(){
   return h.startsWith('http') ? h : 'https://chat.botpress.cloud/'+h;
 }
 
-function setStatus(t,s){ $('statusText').textContent=t; $('dot').className='dot '+(s||''); }
-
-async function api(path,{method='GET',body,auth=true}={}){
-  const headers={'Content-Type':'application/json'};
-  if(auth&&userKey) headers['x-user-key']=userKey;
-  const r=await fetch(base+path,{method,headers,body:body?JSON.stringify(body):undefined});
-  if(!r.ok) throw new Error('HTTP '+r.status);
-  return r.json();
+function setStatus(t,s){ 
+  $('statusText').textContent=t; 
+  $('dot').className='dot '+(s||''); 
 }
 
-function getLocalMessages(id){ return store.get('bp_msgs_' + id) || []; }
+function isUserMessage(msg) {
+  if (!msg) return false;
+  if (msg.who === 'user') return true;
+  if (msg.userId && userId && String(msg.userId) === String(userId)) return true;
+  return false;
+}
+
+async function api(path, { method='GET', body, auth=true, timeout=8000 }={}){
+  if(!base) throw new Error("No Base URL");
+  const headers={'Content-Type':'application/json'};
+  if(auth && userKey) headers['x-user-key']=userKey;
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeout);
+
+  try {
+    const r = await fetch(base + path, {
+      method,
+      headers,
+      body: body ? JSON.stringify(body) : undefined,
+      signal: controller.signal
+    });
+    clearTimeout(timer);
+    if(!r.ok) {
+      const err = new Error('HTTP ' + r.status);
+      err.status = r.status;
+      throw err;
+    }
+    return await r.json();
+  } catch(e) {
+    clearTimeout(timer);
+    throw e;
+  }
+}
+
+function getLocalMessages(id){
+  const raw = store.get('bp_msgs_' + id) || [];
+  const ids = new Set();
+  return raw.filter(m => {
+    if(!m || !m.id) return true;
+    if(ids.has(m.id)) return false;
+    ids.add(m.id);
+    return true;
+  });
+}
+
+// แทนที่ข้อความชั่วคราว (tempId) ด้วย id จริงจากเซิร์ฟเวอร์ ไม่ให้เก็บซ้ำสองชุด
+function replaceLocalMessageId(id, oldId, msgObj){
+  const msgs = getLocalMessages(id);
+  const realIdx = msgs.findIndex(m => m.id === msgObj.id);
+  const oldIdx = msgs.findIndex(m => m.id === oldId);
+  if(realIdx !== -1){
+    if(oldIdx !== -1) msgs.splice(oldIdx, 1);
+  } else if(oldIdx !== -1){
+    msgs[oldIdx] = msgObj;
+  } else {
+    msgs.push(msgObj);
+  }
+  store.set('bp_msgs_' + id, msgs);
+}
 
 function saveLocalMessage(id, msgObj){
   let msgs = getLocalMessages(id);
@@ -363,15 +473,125 @@ function saveLocalMessage(id, msgObj){
   }
 }
 
-function getSavedHistory(){ return store.get('bp_conversations') || []; }
+function getSavedHistory(){ 
+  const list = store.get('bp_conversations') || [];
+  const ids = new Set();
+  return list.filter(item => {
+    if(!item || !item.id || ids.has(item.id)) return false;
+    ids.add(item.id);
+    const msgs = store.get('bp_msgs_' + item.id) || [];
+    return msgs.length > 0;
+  });
+}
 
 function saveConversationToHistory(id, title){
-  let list = getSavedHistory();
-  if(!list.some(item => item.id === id)){
-    list.unshift({ id, title: title || 'การสนทนาใหม่', createdAt: new Date().toISOString() });
+  if (!id) return;
+  let list = store.get('bp_conversations') || [];
+  
+  let displayTitle = title;
+  if (!displayTitle || displayTitle === 'การสนทนาใหม่') {
+    const msgs = getLocalMessages(id);
+    const firstUserMsg = msgs.find(m => isUserMessage(m) || m.who === 'user');
+    if (firstUserMsg && firstUserMsg.payload && firstUserMsg.payload.text) {
+      displayTitle = firstUserMsg.payload.text.slice(0, 30);
+    } else if (msgs.length > 0 && msgs[0].payload && msgs[0].payload.text) {
+      displayTitle = msgs[0].payload.text.slice(0, 30);
+    } else {
+      displayTitle = 'การสนทนา';
+    }
+  }
+
+  let existing = list.find(item => item.id === id);
+  if (existing) {
+    if ((!existing.title || existing.title === 'การสนทนาใหม่') && displayTitle !== 'การสนทนาใหม่') {
+      existing.title = displayTitle;
+      store.set('bp_conversations', list);
+      renderHistoryList();
+    }
+  } else {
+    list.unshift({ id, title: displayTitle, createdAt: new Date().toISOString() });
     store.set('bp_conversations', list);
     renderHistoryList();
   }
+}
+
+async function deleteConversation(id, event) {
+  if (event) event.stopPropagation();
+
+  let list = store.get('bp_conversations') || [];
+  list = list.filter(x => x.id !== id);
+  store.set('bp_conversations', list);
+  store.del('bp_msgs_' + id);
+
+  try {
+    await api('/conversations/' + id, { method: 'DELETE', timeout: 3000 });
+  } catch(e) {}
+
+  if (convId === id) {
+    const remaining = getSavedHistory();
+    if (remaining.length > 0) {
+      await switchChat(remaining[0].id);
+    } else {
+      await startNewChat();
+    }
+  } else {
+    renderHistoryList();
+  }
+}
+
+async function syncServerConversations(){
+  if(!userKey) return;
+  try {
+    const res = await api('/conversations', { timeout: 5000 });
+    const serverConvs = res.conversations || [];
+    const additions = [];
+    const titleFixes = {};
+
+    for (const sc of serverConvs.slice(0, 15)) {
+      if (sc.id === convId) continue; // แชทปัจจุบันจัดการโดย loadHistory/send อยู่แล้ว
+      let localMsgs = getLocalMessages(sc.id);
+
+      if (localMsgs.length === 0) {
+        try {
+          const msgRes = await api('/conversations/' + sc.id + '/messages', { timeout: 3000 });
+          if (msgRes.messages && msgRes.messages.length > 0) {
+            const formattedMsgs = msgRes.messages.sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
+            formattedMsgs.forEach(m => {
+              const who = isUserMessage(m) ? 'user' : 'bot';
+              saveLocalMessage(sc.id, { id: m.id, payload: m.payload, who, createdAt: m.createdAt });
+            });
+            localMsgs = getLocalMessages(sc.id);
+          }
+        } catch(e){}
+      }
+
+      if (localMsgs.length === 0) continue;
+
+      const firstUserMsg = localMsgs.find(m => isUserMessage(m) || m.who === 'user');
+      const autoTitle = firstUserMsg?.payload?.text?.slice(0, 30) || localMsgs[0]?.payload?.text?.slice(0, 30) || 'การสนทนา';
+      additions.push({ id: sc.id, title: autoTitle, createdAt: sc.createdAt });
+      titleFixes[sc.id] = autoTitle;
+    }
+
+    // อ่านรายการล่าสุดหลังจบ await ทั้งหมด เพื่อไม่ทับ/ซ้ำกับสิ่งที่เพิ่มระหว่างรอ
+    const localList = store.get('bp_conversations') || [];
+    let updated = false;
+    additions.forEach(a => {
+      const existing = localList.find(c => c.id === a.id);
+      if (!existing) {
+        localList.unshift(a);
+        updated = true;
+      } else if (!existing.title || existing.title === 'การสนทนาใหม่') {
+        existing.title = titleFixes[a.id];
+        updated = true;
+      }
+    });
+
+    if (updated) {
+      store.set('bp_conversations', localList);
+      renderHistoryList();
+    }
+  } catch(e) {}
 }
 
 function renderHistoryList(){
@@ -395,13 +615,7 @@ function renderHistoryList(){
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
     `;
-    div.querySelector('.del-btn').onclick = (e) => {
-      e.stopPropagation();
-      let newArr = getSavedHistory().filter(x => x.id !== item.id);
-      store.set('bp_conversations', newArr);
-      store.del('bp_msgs_' + item.id);
-      if(convId === item.id) startNewChat(); else renderHistoryList();
-    };
+    div.querySelector('.del-btn').onclick = (e) => deleteConversation(item.id, e);
     container.appendChild(div);
   });
 }
@@ -412,6 +626,32 @@ function closeMobileSidebar(){
 
 function openMobileSidebar(){
   $('sidebar').classList.add('open');$('sidebarOverlay').classList.add('active');
+}
+
+function showBotLoading() {
+  removeBotLoading();
+  const row = document.createElement('div');
+  row.className = 'msg bot';
+  row.id = 'botLoadingIndicator';
+  row.innerHTML = '<div class="bubble typing"><div class="typing-dots"><span></span><span></span><span></span></div></div>';
+  chat.appendChild(row);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function removeBotLoading() {
+  const el = document.getElementById('botLoadingIndicator');
+  if (el) el.remove();
+}
+
+function showChatHistoryLoading() {
+  chat.innerHTML = `
+    <div class="chat-loading">
+      <div class="typing-dots">
+        <span></span><span></span><span></span>
+      </div>
+      <span>กำลังโหลดประวัติการสนทนา...</span>
+    </div>
+  `;
 }
 
 async function switchChat(id){
@@ -436,7 +676,6 @@ function bindEvents(){
   input.addEventListener('input', () => {
     input.style.height = 'auto';
     input.style.height = Math.min(input.scrollHeight, 140) + 'px';
-    // แก้ไข: ปลดล็อกปุ่มส่งทันทีที่มีข้อความ ไม่ขึ้นกับ convId
     sendBtn.disabled = busy || !input.value.trim();
   });
 
@@ -471,7 +710,7 @@ function bindEvents(){
     const h = $('hookInput').value.trim();
     const k = $('userKeyInput').value.trim();
     if(h) store.set('bp_hook', h);
-    if(k) store.set('bp_userKey', k);
+    if(k) store.set('bp_userKey', k); else store.del('bp_userKey');
     store.del('bp_convId');
     store.del('bp_conversations');
     location.reload();
@@ -482,10 +721,10 @@ async function init(){
   closeMobileSidebar();
   base = resolveBase();
   $('hookInput').value = store.get('bp_hook') || '';
-  
+
   if(!base){
     $('setup').classList.add('show');
-    setStatus('กรุณากรอก Webhook ID','err');
+    setStatus('กรุณากรอก Webhook URL','err');
     return;
   }
 
@@ -495,15 +734,22 @@ async function init(){
     convId = store.get('bp_convId');
 
     if(!userKey){
-      // แก้ไข: ส่ง { auth: false } อยู่ภายใน options object
       const u = await api('/users', { method:'POST', body:{}, auth: false });
-      userKey = u.key; userId = u.user.id;
+      userKey = u.key; 
+      userId = u.user ? u.user.id : u.id;
       store.set('bp_userKey', userKey);
       store.set('bp_userId', userId);
     }
     
+    if(userKey && !userId){
+      try {
+        const me = await api('/users/me', { timeout: 4000 });
+        userId = (me.user && me.user.id) || me.id || null;
+        if(userId) store.set('bp_userId', userId);
+      } catch(e){}
+    }
+
     $('userKeyInput').value = userKey || '';
-    renderHistoryList();
 
     if(!convId){
       await createNewConversation();
@@ -511,32 +757,44 @@ async function init(){
       await loadHistory();
     }
     
-    setStatus('ออนไลน์ (Realtime)','on');
+    setStatus('ออนไลน์','on');
     sendBtn.disabled = !input.value.trim();
+    
+    renderHistoryList();
     startRealtimeSync();
+    syncServerConversations();
 
   } catch(e) {
-    setStatus('เชื่อมต่อไม่ได้ ตรวจสอบ Webhook ID','err');
+    if(e.status === 401 || e.status === 404){
+      store.del('bp_userKey');
+      store.del('bp_convId');
+    }
+    setStatus('เชื่อมต่อไม่ได้ ตรวจสอบ Webhook','err');
+    $('setup').classList.add('show');
   }
 }
 
 function startRealtimeSync() {
   if (pollInterval) clearInterval(pollInterval);
   pollInterval = setInterval(async () => {
-    if (document.hidden || !convId || !userKey || busy) return;
+    if (document.hidden || !convId || !userKey || busy || loadingHistory) return;
+    const cid = convId;
     try {
-      const d = await api('/conversations/' + convId + '/messages');
+      const d = await api('/conversations/' + cid + '/messages', { timeout: 4000 });
+      // ทิ้งผลลัพธ์ถ้าระหว่างรอมีการส่งข้อความ / สลับแชท / โหลดประวัติ (กันเรนเดอร์ซ้ำ)
+      if (busy || loadingHistory || cid !== convId) return;
       const list = (d.messages || []).sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
       list.forEach(m => {
         if (!seen.has(m.id)) {
           seen.add(m.id);
-          const who = m.userId === userId ? 'user' : 'bot';
-          render(m.payload, who, m.createdAt);
-          saveLocalMessage(convId, { id: m.id, payload: m.payload, who, createdAt: m.createdAt });
+          const who = isUserMessage(m) ? 'user' : 'bot';
+          render(m.payload, who, m.createdAt, who === 'bot');
+          saveLocalMessage(cid, { id: m.id, payload: m.payload, who, createdAt: m.createdAt });
+          saveConversationToHistory(cid);
         }
       });
     } catch(e){}
-  }, 2500);
+  }, 3000);
 }
 
 async function createNewConversation(){
@@ -546,133 +804,261 @@ async function createNewConversation(){
     store.set('bp_convId', convId);
     seen.clear();
     chat.innerHTML = '<div class="empty" id="empty"><h2>สวัสดี มีอะไรให้ช่วยไหม</h2><p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับผู้ช่วย AI ได้เลย</p></div>';
-  } catch(e){}
+  } catch(e){
+    throw e;
+  }
 }
 
 async function loadHistory(){
   if(!convId) return;
-  const localMsgs = getLocalMessages(convId);
-  if(localMsgs.length > 0){
-    $('empty')?.remove();
-    localMsgs.forEach(m => {
-      seen.add(m.id);
-      render(m.payload, m.who, m.createdAt);
-    });
-  }
+
+  const cid = convId;
+  const token = ++loadToken;
+  loadingHistory = true;
+  showChatHistoryLoading();
+
   try {
-    const d = await api('/conversations/' + convId + '/messages');
-    const list = (d.messages || []).sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
-    list.forEach(m => {
-      if(!seen.has(m.id)){
-        seen.add(m.id);
-        const who = m.userId === userId ? 'user' : 'bot';
-        render(m.payload, who, m.createdAt);
-        saveLocalMessage(convId, { id: m.id, payload: m.payload, who, createdAt: m.createdAt });
+    try {
+      const d = await api('/conversations/' + cid + '/messages');
+      if(token !== loadToken || cid !== convId) return; // มีการโหลด/สลับแชทใหม่กว่าแล้ว
+      const list = (d.messages || []).sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
+
+      chat.innerHTML = '';
+      seen.clear();
+
+      if(list.length > 0) {
+        $('empty')?.remove();
+        const updatedLocalList = [];
+        list.forEach(m => {
+          if(seen.has(m.id)) return; // กัน id ซ้ำ
+          seen.add(m.id);
+          const who = isUserMessage(m) ? 'user' : 'bot';
+          render(m.payload, who, m.createdAt, false);
+          updatedLocalList.push({ id: m.id, payload: m.payload, who, createdAt: m.createdAt });
+        });
+        store.set('bp_msgs_' + cid, updatedLocalList);
+        saveConversationToHistory(cid);
+        return;
       }
-    });
-  } catch(e){}
+    } catch(e){
+      if(token !== loadToken || cid !== convId) return;
+    }
+
+    const localMsgs = getLocalMessages(cid);
+    if(localMsgs.length > 0){
+      $('empty')?.remove();
+      chat.innerHTML = '';
+      seen.clear();
+      localMsgs.forEach(m => {
+        if(seen.has(m.id)) return;
+        seen.add(m.id);
+        render(m.payload, m.who, m.createdAt, false);
+      });
+    } else {
+      chat.innerHTML = '<div class="empty" id="empty"><h2>สวัสดี มีอะไรให้ช่วยไหม</h2><p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับผู้ช่วย AI ได้เลย</p></div>';
+    }
+  } finally {
+    if(token === loadToken) loadingHistory = false;
+  }
 }
 
 function esc(s){ return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
-function md(s){
-  return esc(s)
-    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-    .replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');
+
+function parseMarkdown(text) {
+  if (!text) return '';
+  const codeBlocks = [];
+  let str = text.replace(/```(\w*)\r?\n?([\s\S]*?)```/g, (match, lang, code) => {
+    const placeholder = `___CODEBLOCK_${codeBlocks.length}___`;
+    codeBlocks.push({ lang: lang.trim() || 'code', code: code.trim() });
+    return placeholder;
+  });
+
+  str = esc(str);
+  str = str.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
+  str = str.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  str = str.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+
+  // ตัด \n ที่ติดอยู่ก่อนและหลัง placeholder ออก เพื่อป้องกันบรรทัดว่างเกินจำจำเป็นใน white-space: pre-wrap
+  str = str.replace(/\s*(___CODEBLOCK_\d+___)\s*/g, '$1');
+
+  codeBlocks.forEach((cb, i) => {
+    const placeholder = `___CODEBLOCK_${i}___`;
+    const codeEscaped = esc(cb.code);
+    const html = '<div class="code-block-wrapper">'
+      + '<div class="code-header"><span class="code-lang">' + cb.lang + '</span>'
+      + '<button class="copy-code-btn" type="button" onclick="copyCodeBlock(this)">'
+      + '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'
+      + '<span>คัดลอกโค้ด</span></button></div>'
+      + '<pre><code class="code-content">' + codeEscaped + '</code></pre></div>';
+    str = str.replace(placeholder, () => html);
+  });
+
+  return str;
 }
+
+window.copyCodeBlock = function(btn) {
+  const wrapper = btn.closest('.code-block-wrapper');
+  const codeText = wrapper.querySelector('.code-content')?.textContent || '';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(codeText).then(() => {
+      const span = btn.querySelector('span');
+      const origText = span.textContent;
+      span.textContent = 'คัดลอกแล้ว!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        span.textContent = origText;
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+};
 
 function formatTime(iso){
   if(!iso) return '';
   return new Date(iso).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
-function render(p, who, timeIso){
+function appendCopyMsgBtn(container, fullText) {
+  if (!fullText) return;
+  const copyBtn = document.createElement('button');
+  copyBtn.className = 'copy-btn';
+  copyBtn.type = 'button';
+  copyBtn.title = 'คัดลอกข้อความทั้งหมด';
+  copyBtn.innerHTML = `<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>คัดลอก</span>`;
+  copyBtn.onclick = (e) => {
+    e.stopPropagation();
+    navigator.clipboard?.writeText(fullText);
+    const span = copyBtn.querySelector('span');
+    if (span) span.textContent = 'คัดลอกแล้ว!';
+    copyBtn.style.color = '#7dffb0';
+    setTimeout(() => {
+      if (span) span.textContent = 'คัดลอก';
+      copyBtn.style.color = '';
+    }, 1500);
+  };
+  container.appendChild(copyBtn);
+}
+
+function render(p, who, timeIso, animate = false){
   $('empty')?.remove();
   const row = document.createElement('div'); row.className = 'msg ' + who;
   const b = document.createElement('div'); b.className = 'bubble';
   
-  if(p.type === 'text'){ 
-    b.innerHTML = md(p.text || ''); 
-  } else {
-    b.textContent = p.text || '[ข้อความไม่รองรับ]';
-  }
-
-  // เพิ่มปุ่มคัดลอกข้อความย่อยในกล่องแชท
-  if (p.text) {
-    const copyBtn = document.createElement('button');
-    copyBtn.className = 'copy-btn';
-    copyBtn.title = 'คัดลอกข้อความ';
-    copyBtn.innerHTML = `<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
-    copyBtn.onclick = (e) => {
-      e.stopPropagation();
-      navigator.clipboard?.writeText(p.text);
-      copyBtn.style.color = '#7dffb0';
-      setTimeout(() => copyBtn.style.color = '', 1500);
-    };
-    b.appendChild(copyBtn);
-  }
-
   row.appendChild(b);
+
   const meta = document.createElement('div');
   meta.className = 'msg-meta';
-  meta.textContent = formatTime(timeIso || new Date());
-  row.appendChild(meta);
+  
+  const timeSpan = document.createElement('span');
+  timeSpan.textContent = formatTime(timeIso || new Date());
+  meta.appendChild(timeSpan);
 
-  chat.appendChild(row); 
-  chat.scrollTop = chat.scrollHeight;
+  row.appendChild(meta);
+  chat.appendChild(row);
+
+  if (who === 'bot' && animate && p.type === 'text' && p.text) {
+    let fullText = p.text;
+    let i = 0;
+    let speed = 15;
+    let step = Math.max(1, Math.floor(fullText.length / 120));
+
+    let timer = setInterval(() => {
+      i += step;
+      if (i >= fullText.length) {
+        i = fullText.length;
+        clearInterval(timer);
+        if (p.text) appendCopyMsgBtn(meta, fullText);
+      }
+      b.innerHTML = parseMarkdown(fullText.slice(0, i));
+      chat.scrollTop = chat.scrollHeight;
+    }, speed);
+
+  } else {
+    if(p.type === 'text'){ 
+      b.innerHTML = parseMarkdown(p.text || ''); 
+    } else {
+      b.textContent = p.text || '[ข้อความไม่รองรับ]';
+    }
+    if (p.text) appendCopyMsgBtn(meta, p.text);
+    chat.scrollTop = chat.scrollHeight;
+  }
 }
 
 async function send(text){
   if(busy || !text.trim()) return;
+  busy = true; sendBtn.disabled = true; // ล็อกก่อน await ใดๆ กันกดส่งซ้ำ
 
-  // หากยังไม่มีห้องแชท ให้พยายามสร้างอัตโนมัติก่อนส่ง
   if(!convId){
-    await createNewConversation();
-    if(!convId){
-      alert('ไม่สามารถเชื่อมต่อได้ กรุณาตรวจสอบ Webhook ID ในหน้าตั้งค่า');
+    try {
+      await createNewConversation();
+    } catch(e) {
+      busy = false; sendBtn.disabled = !input.value.trim();
+      alert('ไม่สามารถเชื่อมต่อได้ กรุณาตรวจสอบ Webhook URL ในตั้งค่า');
+      $('setup').classList.add('show');
       return;
     }
   }
 
-  saveConversationToHistory(convId, text.slice(0, 30));
+  const cid = convId;
+  const tempId = 'usr_' + Date.now();
+  const userMsgObj = { id: tempId, payload: { type: 'text', text }, who: 'user', createdAt: new Date().toISOString() };
+  
+  seen.add(tempId);
+  render(userMsgObj.payload, 'user', userMsgObj.createdAt, false);
+  saveLocalMessage(cid, userMsgObj);
+  saveConversationToHistory(cid, text.slice(0, 30));
 
-  busy = true; sendBtn.disabled = true;
-  const userMsgObj = { id: 'usr_' + Date.now(), payload: { type: 'text', text }, who: 'user', createdAt: new Date().toISOString() };
-  render(userMsgObj.payload, 'user', userMsgObj.createdAt);
-  saveLocalMessage(convId, userMsgObj);
+  showBotLoading();
 
   try {
-    const r = await api('/messages', { method:'POST', body:{ conversationId:convId, payload:{ type:'text', text } } });
-    seen.add(r.message.id);
-    await waitReply();
+    const r = await api('/messages', { method:'POST', body:{ conversationId:cid, payload:{ type:'text', text } } });
+    if (r && r.message) {
+      if (cid === convId) seen.add(r.message.id);
+      replaceLocalMessageId(cid, tempId, { id: r.message.id, payload: { type:'text', text }, who: 'user', createdAt: r.message.createdAt || userMsgObj.createdAt });
+    }
+    await waitReply(cid);
   } catch(e){
-    render({ type:'text', text:'ส่งข้อความไม่สำเร็จ กรุณาลองใหม่' }, 'bot');
+    removeBotLoading();
+    render({ type:'text', text:'ส่งข้อความไม่สำเร็จ กรุณาตรวจสอบการเชื่อมต่อ' }, 'bot', new Date(), false);
   }
   busy = false; sendBtn.disabled = !input.value.trim();
 }
 
-async function waitReply(){
-  for(let i = 0; i < 30; i++){
+async function waitReply(cid){
+  const known = new Set(getLocalMessages(cid).map(m => m.id));
+  for(let i = 0; i < 20; i++){
     await new Promise(r => setTimeout(r, 1000));
     try {
-      const d = await api('/conversations/' + convId + '/messages');
-      const fresh = (d.messages || []).filter(m => !seen.has(m.id) && m.userId !== userId);
+      const d = await api('/conversations/' + cid + '/messages');
+      const active = (cid === convId);
+      const fresh = (d.messages || []).filter(m => !isUserMessage(m) && !(active ? seen.has(m.id) : known.has(m.id)));
       if(fresh.length){
-        fresh.forEach(m => { 
-          seen.add(m.id); 
-          render(m.payload, 'bot', m.createdAt); 
-          saveLocalMessage(convId, { id: m.id, payload: m.payload, who: 'bot', createdAt: m.createdAt });
+        removeBotLoading();
+        fresh.sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt)).forEach(m => {
+          // ถ้าผู้ใช้สลับแชทระหว่างรอ ให้เก็บลงที่เก็บของแชทเดิมเท่านั้น ไม่เรนเดอร์ลงแชทที่เปิดอยู่
+          if (cid === convId) {
+            seen.add(m.id);
+            render(m.payload, 'bot', m.createdAt, true);
+          }
+          saveLocalMessage(cid, { id: m.id, payload: m.payload, who: 'bot', createdAt: m.createdAt });
         });
+        saveConversationToHistory(cid);
         return;
       }
     } catch(e){}
   }
+  removeBotLoading();
 }
 
 async function startNewChat(){
   store.del('bp_convId');
-  await createNewConversation();
-  renderHistoryList();
-  closeMobileSidebar();
+  try {
+    await createNewConversation();
+    renderHistoryList();
+    closeMobileSidebar();
+  } catch(e) {
+    alert('ไม่สามารถสร้างแชทใหม่ได้ กรุณาตรวจสอบการตั้งค่า');
+  }
 }
 
 bindEvents();
