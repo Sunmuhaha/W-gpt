@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght,MONO@0,300..800,1;1,300..800,1&display=swap" rel="stylesheet">
+<link rel="icon" type="image/x-icon" href="https://i.ibb.co/7trsmDy7/20260603-184927-0000.png">
 <style>
 :root {
   --wine: #120307;
@@ -451,7 +452,7 @@ body.f5 .code-block-wrapper{background:#12040a}
       <button class="icon-btn" id="toggleSidebar" aria-label="เมนูประวัติ">
         <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
-      <div class="avatar"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 5.4L19 9l-5.2 1.6L12 16l-1.8-5.4L5 9l5.2-1.6L12 2zm7 11l.9 2.6 2.6.9-2.6.9L19 20l-.9-2.6-2.6-.9 2.6-.9L19 13z"/></svg></div>
+      <div class="avatar"><img src="https://i.ibb.co/7trsmDy7/20260603-184927-0000.png" alt="WormGPT" width="100%" style="border-radius:14px;"></div>
       <div>
         <div class="title">WormGPT</div>
         <div class="status"><span class="dot" id="dot"></span><span id="statusText">กำลังเชื่อมต่อ…</span></div>
@@ -505,8 +506,8 @@ body.f5 .code-block-wrapper{background:#12040a}
     <div class="chat-wrap">
     <section class="glass" id="chat" aria-live="polite">
       <div class="empty" id="empty">
-        <h2>สวัสดี มีอะไรให้ช่วยไหม</h2>
-        <p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับผู้ช่วย AI ได้เลย</p>
+        <h2>สวัสดี วันนี้ทำลายอะไรดี</h2>
+        <p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับ WormGPT ได้เลย</p>
       </div>
     </section>
     <button class="to-bottom" id="toBottom" type="button" aria-label="เลื่อนลงล่างสุด"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
@@ -1002,7 +1003,7 @@ async function createNewConversation(){
     store.set('bp_convId', convId);
     stopTypers(); autoStick = true;
     seen.clear();
-    chat.innerHTML = '<div class="empty" id="empty"><h2>สวัสดี มีอะไรให้ช่วยไหม</h2><p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับผู้ช่วย AI ได้เลย</p></div>';
+    chat.innerHTML = '<div class="empty" id="empty"><h2>สวัสดี วันนี้ทำลายอะไรดี</h2><p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับ WormGPT ได้เลย</p></div>';
   } catch(e){
     throw e;
   }
@@ -1282,7 +1283,7 @@ async function startNewChat(){
 }
 
 /* ===== v3 core: fast-mode, scroll, settings UI ===== */
-const EMPTY_HTML = '<div class="empty" id="empty"><h2>สวัสดี มีอะไรให้ช่วยไหม</h2><p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับผู้ช่วย AI ได้เลย</p></div>';
+const EMPTY_HTML = '<div class="empty" id="empty"><h2>สวัสดี วันนี้ทำลายอะไรดี</h2><p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับ WormGPT ได้เลย</p></div>';
 let autoStick = true, bulk = false;
 const typers = new Set();
 function stopTypers(){ typers.forEach(clearInterval); typers.clear(); }
