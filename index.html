@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -7,8 +8,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Google+Sans:wght@400;500;600&family=Prompt:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght,MONO@0,300..800,1;1,300..800,1&display=swap" rel="stylesheet">
 <link rel="icon" type="image/x-icon" href="https://i.ibb.co/7trsmDy7/20260603-184927-0000.png">
 <style>
@@ -26,7 +25,6 @@
   --muted: rgba(255, 230, 234, 0.65);
   --sidebar-w: 260px;
 }
-
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -40,7 +38,6 @@
   width: 0 !important;
   height: 0 !important;
 }
-
 html, body {
   height: 100%;
   width: 100%;
@@ -49,12 +46,10 @@ html, body {
   color: var(--text);
   background: radial-gradient(120% 90% at 20% 0%, #4a0a18 0%, var(--wine) 60%) fixed;
 }
-
 .orb { position: fixed; border-radius: 50%; filter: blur(80px); opacity: .65; pointer-events: none; z-index: 0; }
 .o1 { width: 450px; height: 450px; background: var(--crimson); top: -120px; left: -100px; }
 .o2 { width: 400px; height: 400px; background: var(--ruby); bottom: -110px; right: -80px; }
 .o3 { width: 250px; height: 250px; background: var(--coral); top: 45%; left: 50%; opacity: .25; }
-
 .layout {
   position: relative;
   z-index: 1;
@@ -65,7 +60,6 @@ html, body {
   gap: 14px;
   padding: max(14px, env(safe-area-inset-top)) 14px max(14px, env(safe-area-inset-bottom));
 }
-
 .glass {
   background: var(--glass);
   border: 1px solid var(--line);
@@ -83,7 +77,6 @@ html, body {
   z-index: 90;
 }
 .sidebar-overlay.active { display: block; }
-
 .sidebar {
   width: var(--sidebar-w);
   display: flex;
@@ -95,12 +88,10 @@ html, body {
   transition: transform 0.25s ease;
   z-index: 100;
 }
-
 .sidebar-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .sidebar-action-group { display: flex; align-items: center; gap: 6px; }
 .sidebar-title { font-size: 15px; font-weight: 600; color: var(--text); }
 .history-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
-
 .history-item {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
   padding: 10px 12px; border-radius: 14px; background: rgba(255,255,255,0.03);
@@ -116,11 +107,8 @@ html, body {
 }
 .history-item:hover .del-btn { display: block; }
 .history-item .del-btn:hover { color: #ff4d4d; background: rgba(255,255,255,0.15); }
-
 #closeSidebarBtn { display: none; }
-
 .app { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px; height: 100%; }
-
 header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-radius: 22px; z-index: 10; }
 .avatar {
   width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; flex: none;
@@ -134,7 +122,6 @@ header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; bord
 .dot.on { background: #7dffb0; box-shadow: 0 0 10px #7dffb0; }
 .dot.err { background: #ff4d4d; box-shadow: 0 0 10px #ff4d4d; }
 .sp { flex: 1; }
-
 .icon-btn {
   width: 38px; height: 38px; border-radius: 12px; border: 1px solid var(--line); background: var(--glass);
   color: var(--text); cursor: pointer; display: grid; place-items: center; transition: all .2s;
@@ -143,30 +130,24 @@ header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; bord
 .icon-btn:hover { background: var(--glass-strong); }
 .icon-btn:active { transform: scale(.95); }
 .icon-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-
 #toggleSidebar { display: none; }
-
 #chat {
   flex: 1; min-height: 0; border-radius: 26px;
   padding: 20px 16px;
   overflow-y: auto; overflow-x: hidden;
   display: flex; flex-direction: column; gap: 16px; scroll-behavior: smooth;
 }
-
 .empty { margin: auto; text-align: center; max-width: 360px; color: var(--muted); line-height: 1.6; }
 .empty h2 { color: var(--text); font-weight: 600; font-size: 22px; margin-bottom: 8px; }
-
 .msg { display: flex; flex-direction: column; max-width: 85%; gap: 4px; }
 .msg.user { align-self: flex-end; align-items: flex-end; }
 .msg.bot { align-self: flex-start; align-items: flex-start; }
-
 .msg-meta {
   font-size: 11px; color: var(--muted); padding: 2px 4px;
   display: flex; align-items: center; gap: 8px;
 }
 .msg.bot .msg-meta { justify-content: flex-start; }
 .msg.user .msg-meta { justify-content: flex-end; }
-
 .bubble {
   position: relative; padding: 12px 16px; border-radius: 20px; line-height: 1.6;
   font-size: 14.5px; word-break: break-word; white-space: pre-wrap; max-width: 100%;
@@ -180,10 +161,8 @@ header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; bord
   border: 1px solid rgba(255,255,255,0.3); border-bottom-right-radius: 6px;
   box-shadow: 0 8px 24px rgba(225,29,72,0.35), inset 0 1px 0 rgba(255,255,255,0.35);
 }
-
 .bubble.typing { white-space: normal; padding: 10px 16px; line-height: 1; display: inline-flex; align-items: center; }
 .bubble.typing .typing-dots { padding: 0; display: flex; }
-
 .copy-btn {
   border: 0; background: transparent; color: var(--muted);
   padding: 2px 6px; border-radius: 6px; cursor: pointer; transition: all .2s;
@@ -192,7 +171,40 @@ header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; bord
 .copy-btn:hover { color: var(--text); background: rgba(255,255,255,0.12); }
 .copy-btn svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-/* Code Block Responsive & Tight Spacing (ปรับแก้ไขระยะห่างเรียบร้อยแล้ว) */
+.bubble h1, .bubble h2, .bubble h3, .bubble h4,
+.md-h1, .md-h2, .md-h3, .md-h4 {
+  font-weight: 600;
+  line-height: 1.35;
+  margin-top: 0.6em;
+  margin-bottom: 0.3em;
+  word-break: break-word;
+}
+.bubble h1:first-child, .bubble h2:first-child, .bubble h3:first-child, .bubble h4:first-child,
+.md-h1:first-child, .md-h2:first-child, .md-h3:first-child, .md-h4:first-child {
+  margin-top: 0;
+}
+.bubble h1, .md-h1 {
+  font-size: 1.32em;
+  color: var(--rose);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 4px;
+}
+.bubble h2, .md-h2 {
+  font-size: 1.2em;
+  color: var(--coral);
+}
+.bubble h3, .md-h3 {
+  font-size: 1.1em;
+  color: var(--coral);
+  font-weight: 600;
+}
+.bubble h4, .md-h4 {
+  font-size: 1.0em;
+  color: var(--rose);
+  opacity: 0.95;
+}
+
+/* Code Block Responsive & Tight Spacing */
 .code-block-wrapper {
   margin: 6px 0; border-radius: 12px; overflow: hidden;
   background: rgba(12, 3, 6, 0.85); border: 1px solid var(--line);
@@ -201,7 +213,6 @@ header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; bord
 }
 .code-block-wrapper:first-child { margin-top: 4px; }
 .code-block-wrapper:last-child { margin-bottom: 4px; }
-
 .code-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 6px 12px; background: rgba(255, 255, 255, 0.08);
@@ -227,10 +238,7 @@ header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; bord
   font-size: 0.9em; color: var(--coral);
 }
 
-/* Loading Animations */
-.typing-dots {
-  display: inline-flex; align-items: center; gap: 5px; padding: 4px 2px;
-}
+.typing-dots { display: inline-flex; align-items: center; gap: 5px; padding: 4px 2px; }
 .typing-dots span {
   width: 7px; height: 7px; border-radius: 50%; background: var(--coral);
   animation: dotBounce 1.4s infinite ease-in-out both;
@@ -241,21 +249,17 @@ header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; bord
   0%, 80%, 100% { transform: scale(0.3); opacity: 0.3; }
   40% { transform: scale(1); opacity: 1; }
 }
-
 .chat-loading {
   display: flex; align-items: center; justify-content: center; gap: 10px;
   color: var(--muted); font-size: 14px; margin: auto; padding: 20px 0;
 }
-
 .composer { display: flex; align-items: flex-end; gap: 10px; padding: 10px 12px; border-radius: 26px; border: 1px solid var(--line); }
 .composer:focus-within { background: rgba(255,255,255,0.12); border-color: rgba(255,107,129,0.6); box-shadow: 0 0 0 4px rgba(225,29,72,0.22); }
-
 textarea {
   flex: 1; resize: none; border: 0; outline: 0; background: transparent; color: var(--text);
   font: inherit; font-size: 15px; line-height: 1.5; padding: 8px 10px; max-height: 140px;
 }
 textarea::placeholder { color: var(--muted); }
-
 .send {
   width: 44px; height: 44px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; flex: none;
   display: grid; place-items: center; color: #fff;
@@ -264,7 +268,6 @@ textarea::placeholder { color: var(--muted); }
 }
 .send:disabled { opacity: .35; cursor: default; }
 .send svg { width: 20px; height: 20px; fill: #fff; }
-
 .setup {
   padding: 16px; border-radius: 20px; display: none; gap: 12px; flex-direction: column; font-size: 13px; color: var(--muted);
   border: 1px solid var(--coral); box-shadow: 0 8px 30px rgba(225,29,72,0.2);
@@ -279,7 +282,6 @@ textarea::placeholder { color: var(--muted); }
   padding: 0 16px; border-radius: 12px; border: 0; cursor: pointer; font: inherit; color: #fff;
   background: linear-gradient(135deg, var(--coral), var(--crimson)); font-weight: 500; flex: none;
 }
-
 @media (max-width: 768px) {
   .msg { max-width: 92%; }
   .code-block-wrapper pre { font-size: 12px; padding: 10px; }
@@ -296,142 +298,18 @@ textarea::placeholder { color: var(--muted); }
   #toggleSidebar, #closeSidebarBtn { display: grid; }
 }
 
-/* ===== v3: animation / fast-mode / mobile ===== */
-:root{--fs:14.5px;--fsm:1}
-html,body{height:100dvh}
-body{-webkit-tap-highlight-color:transparent}
-button{touch-action:manipulation}
-button:focus-visible,textarea:focus-visible,input:focus-visible{outline:0 solid var(--coral);outline-offset:2px}
-.layout{height:100dvh}
-#chat{scroll-behavior:auto;overscroll-behavior:contain}
-.history-list{overscroll-behavior:contain}
-.bubble{font-size:calc(var(--fs)*var(--fsm))}
-.code-block-wrapper pre{font-size:calc(13px*var(--fsm))}
-.chat-wrap{flex:1;min-height:0;position:relative;display:flex;flex-direction:column}
-.notice{align-self:center;font-size:12px;color:var(--muted);background:var(--glass);border:1px solid var(--line);padding:4px 12px;border-radius:99px}
-.hint{display:none;font-size:11px;color:var(--muted);text-align:center;margin-top:-6px}
-@media (hover:hover) and (pointer:fine){.hint{display:block}}
-@media (hover:none){.history-item .del-btn{display:block;opacity:.7}}
-.history-item .del-btn.armed{display:inline-flex!important;align-items:center;gap:4px;line-height:1;font-size:11px;color:#fff;background:var(--crimson);opacity:1;padding:5px 9px}
-.history-item .del-btn.armed::after{content:'ลบ?'}
-
-@keyframes msgIn{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
-@keyframes fade{from{opacity:0}to{opacity:1}}
-@keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,28px)}}
-@keyframes twinkle{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.14) rotate(14deg)}}
-@keyframes ping{0%{box-shadow:0 0 0 0 rgba(125,255,176,.6)}100%{box-shadow:0 0 0 9px rgba(125,255,176,0)}}
-@keyframes itemIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
-@keyframes itemOut{to{opacity:0;transform:translateX(-16px) scale(.96)}}
-@keyframes fly{0%{transform:none}45%{transform:translate(16px,-16px);opacity:0}55%{transform:translate(-16px,16px);opacity:0}100%{transform:none;opacity:1}}
-@keyframes modalIn{from{opacity:0;transform:translate(-50%,-46%) scale(.97)}to{opacity:1;transform:translate(-50%,-50%)}}
-@keyframes sheetIn{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
-@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-@keyframes blink{50%{opacity:.25}}
-.msg{animation:msgIn .38s cubic-bezier(.2,.85,.25,1) both}
-.msg.user{transform-origin:100% 100%}.msg.bot{transform-origin:0 100%}
-.msg.still{animation:none}
-.o1{animation:drift 16s ease-in-out infinite}
-.o2{animation:drift 20s ease-in-out infinite reverse}
-.o3{animation:drift 24s ease-in-out infinite}
-.avatar svg{animation:twinkle 4s ease-in-out infinite}
-.dot.on{animation:ping 2.2s ease-out infinite}
-.empty{animation:rise .6s both}
-.history-item.enter{animation:itemIn .32s both;animation-delay:calc(var(--i,0)*45ms)}
-.history-item.leaving{animation:itemOut .22s forwards;pointer-events:none}
-.sidebar-overlay.active{animation:fade .25s}
-.send{transition:transform .15s,opacity .2s,box-shadow .2s}
-.send:not(:disabled):hover{transform:translateY(-2px)}
-.send:not(:disabled):active{transform:scale(.9)}
-.send.fly svg{animation:fly .5s ease}
-.copy-code-btn:active,.copy-btn:active{transform:scale(.94)}
-
-.to-bottom{position:absolute;right:14px;bottom:14px;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:rgba(40,8,16,.85);color:var(--text);display:grid;place-items:center;cursor:pointer;opacity:0;transform:translateY(12px) scale(.8);pointer-events:none;transition:opacity .25s,transform .25s;z-index:5}
-.to-bottom.show{opacity:1;transform:none;pointer-events:auto}
-.to-bottom svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-
-/* settings = modal (desktop) / bottom sheet (mobile) */
-.setup-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:115}
-.setup-backdrop.show{display:block;animation:fade .25s}
-.setup{position:fixed;z-index:120;left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,460px);max-height:86dvh;overflow-y:auto;overscroll-behavior:contain;background:rgba(36,6,14,.92)}
-.setup.show{animation:modalIn .3s cubic-bezier(.2,.85,.25,1) both}
-.setup-head{display:flex;align-items:center;justify-content:space-between}
-.setup-title{font-size:17px;font-weight:600;color:var(--text)}
-.setup-group{display:flex;flex-direction:column;gap:10px;padding-top:14px;border-top:1px solid var(--line)}
-.setup-label{color:var(--text);font-weight:600}
-.switch-row{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--text);cursor:pointer;min-height:36px}
-.switch{position:relative;width:48px;height:28px;flex:none}
-.switch input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;z-index:2}
-.switch i{position:absolute;inset:0;border-radius:99px;background:rgba(255,255,255,.2);transition:background .25s}
-.switch i::after{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .25s}
-.switch input:checked+i{background:linear-gradient(135deg,var(--coral),var(--crimson))}
-.switch input:checked+i::after{transform:translateX(20px)}
-.range-wrap{transition:opacity .2s}.range-wrap.off{opacity:.4}
-#fastLevel{width:100%;height:34px;accent-color:var(--coral)}
-.range-scale{display:flex;justify-content:space-between;font-size:11px}
-.fast-desc{font-size:12.5px;line-height:1.55;min-height:3.1em}
-.seg{display:flex;gap:8px}
-.seg button{flex:1;padding:11px 0;border-radius:12px;border:1px solid var(--line);background:var(--glass);color:var(--text);font-family:inherit;cursor:pointer;transition:background .2s}
-.seg button.on{background:linear-gradient(135deg,var(--coral),var(--crimson));border-color:transparent}
-
-/* fast mode: classes f1..f5 are cumulative */
-body.f1 .orb{animation:none;filter:blur(55px)}
-body.f1 .avatar svg,body.f1 .dot.on,body.f1 .empty{animation:none}
-body.f1 .msg{animation-duration:.2s}
-body.f2 .glass,body.f2 .to-bottom{-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none;background:rgba(52,10,22,.78)}
-body.f2 .setup{background:rgba(36,6,14,.97)}
-body.f2 .orb{filter:blur(35px);opacity:.5}
-body.f3 .orb{display:none}
-body.f3{background:linear-gradient(160deg,#3a0813 0%,#120307 70%) fixed}
-body.f3 *{transition:none!important}
-body.f3 .msg{animation:none}
-body.f4 *,body.f4 *::before,body.f4 *::after{animation:none!important;transition:none!important;box-shadow:none!important;text-shadow:none!important;scroll-behavior:auto!important}
-body.f4 .typing-dots span{animation:blink 1s infinite!important}
-body.f4 .typing-dots span:nth-child(2){animation-delay:.2s!important}
-body.f4 .typing-dots span:nth-child(3){animation-delay:.4s!important}
-body.f4 .bot .bubble{background:rgba(255,255,255,.14)}
-body.f4 .user .bubble{background:var(--crimson)}
-body.f4 .msg{content-visibility:auto;contain-intrinsic-size:auto 90px}
-body.f5{background:#1a0509}
-body.f5 .glass,body.f5 .sidebar{background:#2a0c14!important}
-body.f5 .send,body.f5 .avatar{background:var(--crimson)}
-body.f5 .code-block-wrapper{background:#12040a}
-
-/* mobile / small screens */
-@media (max-width:768px){
-  :root{--fs:15.5px}
-  .layout{padding:max(8px,env(safe-area-inset-top)) 8px max(8px,env(safe-area-inset-bottom))}
-  .app{gap:8px}
-  header{padding:8px 10px;border-radius:18px;gap:10px}
-  .avatar{width:38px;height:38px;border-radius:12px}
-  .icon-btn{width:42px;height:42px;border-radius:13px}
-  #chat{padding:14px 10px;border-radius:20px;gap:14px}
-  .msg{max-width:94%}
-  .composer{padding:8px 8px 8px 12px;border-radius:22px;gap:8px}
-  textarea{font-size:16px}
-  .send{width:46px;height:46px}
-  .copy-btn{padding:6px 8px;font-size:12px}
-  .code-header{padding:6px 10px}
-  .copy-code-btn{padding:6px 10px;font-size:12px}
-  .code-block-wrapper pre{font-size:calc(12.5px*var(--fsm));padding:10px}
-  .history-item{padding:13px 14px;font-size:14px}
-  .history-item .del-btn{padding:8px}
-  .setup{left:0;right:0;top:auto;bottom:0;transform:none;width:100%;max-height:88dvh;border-radius:24px 24px 0 0;padding-bottom:max(16px,env(safe-area-inset-bottom))}
-  .setup.show{animation-name:sheetIn}
-  .setup .setup-row input{font-size:16px}
-}
-@media (max-height:480px){
-  .layout{padding-top:6px;padding-bottom:6px}
-  header{padding:6px 12px}
-  #chat{padding:10px}
-}
+:root{--fs:14.5px;--fsm:1}html,body{height:100dvh}body{-webkit-tap-highlight-color:transparent}button{touch-action:manipulation}button:focus-visible,textarea:focus-visible,input:focus-visible{outline:0 solid var(--coral);outline-offset:2px}.layout{height:100dvh}#chat{scroll-behavior:auto;overscroll-behavior:contain}.history-list{overscroll-behavior:contain}.bubble{font-size:calc(var(--fs)*var(--fsm))}.code-block-wrapper pre{font-size:calc(13px*var(--fsm))}.chat-wrap{flex:1;min-height:0;position:relative;display:flex;flex-direction:column}.notice{align-self:center;font-size:12px;color:var(--muted);background:var(--glass);border:1px solid var(--line);padding:4px 12px;border-radius:99px}.hint{display:none;font-size:11px;color:var(--muted);text-align:center;margin-top:-6px}@media (hover:hover) and (pointer:fine){.hint{display:block}}@media (hover:none){.history-item .del-btn{display:block;opacity:.7}}.history-item .del-btn.armed{display:inline-flex!important;align-items:center;gap:4px;line-height:1;font-size:11px;color:#fff;background:var(--crimson);opacity:1;padding:5px 9px}.history-item .del-btn.armed::after{content:'ลบ?'}@keyframes msgIn{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}@keyframes fade{from{opacity:0}to{opacity:1}}@keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,28px)}}@keyframes twinkle{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.14) rotate(14deg)}}@keyframes ping{0%{box-shadow:0 0 0 0 rgba(125,255,176,.6)}100%{box-shadow:0 0 0 9px rgba(125,255,176,0)}}@keyframes itemIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}@keyframes itemOut{to{opacity:0;transform:translateX(-16px) scale(.96)}}@keyframes fly{0%{transform:none}45%{transform:translate(16px,-16px);opacity:0}55%{transform:translate(-16px,16px);opacity:0}100%{transform:none;opacity:1}}@keyframes modalIn{from{opacity:0;transform:translate(-50%,-46%) scale(.97)}to{opacity:1;transform:translate(-50%,-50%)}}@keyframes sheetIn{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}@keyframes blink{50%{opacity:.25}}.msg{animation:msgIn .38s cubic-bezier(.2,.85,.25,1) both}.msg.user{transform-origin:100% 100%}.msg.bot{transform-origin:0 100%}.msg.still{animation:none}.o1{animation:drift 16s ease-in-out infinite}.o2{animation:drift 20s ease-in-out infinite reverse}.o3{animation:drift 24s ease-in-out infinite}.avatar svg{animation:twinkle 4s ease-in-out infinite}.dot.on{animation:ping 2.2s ease-out infinite}.empty{animation:rise .6s both}.history-item.enter{animation:itemIn .32s both;animation-delay:calc(var(--i,0)*45ms)}.history-item.leaving{animation:itemOut .22s forwards;pointer-events:none}.sidebar-overlay.active{animation:fade .25s}.send{transition:transform .15s,opacity .2s,box-shadow .2s}.send:not(:disabled):hover{transform:translateY(-2px)}.send:not(:disabled):active{transform:scale(.9)}.send.fly svg{animation:fly .5s ease}.copy-code-btn:active,.copy-btn:active{transform:scale(.94)}.to-bottom{position:absolute;right:14px;bottom:14px;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:rgba(40,8,16,.85);color:var(--text);display:grid;place-items:center;cursor:pointer;opacity:0;transform:translateY(12px) scale(.8);pointer-events:none;transition:opacity .25s,transform .25s;z-index:5}.to-bottom.show{opacity:1;transform:none;pointer-events:auto}.to-bottom svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.setup-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:115}.setup-backdrop.show{display:block;animation:fade .25s}.setup{position:fixed;z-index:120;left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,460px);max-height:86dvh;overflow-y:auto;overscroll-behavior:contain;background:rgba(36,6,14,.92)}.setup.show{animation:modalIn .3s cubic-bezier(.2,.85,.25,1) both}.setup-head{display:flex;align-items:center;justify-content:space-between}.setup-title{font-size:17px;font-weight:600;color:var(--text)}.setup-group{display:flex;flex-direction:column;gap:10px;padding-top:14px;border-top:1px solid var(--line)}.setup-label{color:var(--text);font-weight:600}.switch-row{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--text);cursor:pointer;min-height:36px}.switch{position:relative;width:48px;height:28px;flex:none}.switch input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;z-index:2}.switch i{position:absolute;inset:0;border-radius:99px;background:rgba(255,255,255,.2);transition:background .25s}.switch i::after{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .25s}.switch input:checked+i{background:linear-gradient(135deg,var(--coral),var(--crimson))}.switch input:checked+i::after{transform:translateX(20px)}.range-wrap{transition:opacity .2s}.range-wrap.off{opacity:.4}#fastLevel{width:100%;height:34px;accent-color:var(--coral)}.range-scale{display:flex;justify-content:space-between;font-size:11px}.fast-desc{font-size:12.5px;line-height:1.55;min-height:3.1em}.seg{display:flex;gap:8px}.seg button{flex:1;padding:11px 0;border-radius:12px;border:1px solid var(--line);background:var(--glass);color:var(--text);font-family:inherit;cursor:pointer;transition:background .2s}.seg button.on{background:linear-gradient(135deg,var(--coral),var(--crimson));border-color:transparent}
+body.f1 .orb{animation:none;filter:blur(55px)}body.f1 .avatar svg,body.f1 .dot.on,body.f1 .empty{animation:none}body.f1 .msg{animation-duration:.2s}body.f2 .glass,body.f2 .to-bottom{-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none;background:rgba(52,10,22,.78)}body.f2 .setup{background:rgba(36,6,14,.97)}body.f2 .orb{filter:blur(35px);opacity:.5}body.f3 .orb{display:none}body.f3{background:linear-gradient(160deg,#3a0813 0%,#120307 70%) fixed}body.f3 *{transition:none!important}body.f3 .msg{animation:none}body.f4 *,body.f4 *::before,body.f4 *::after{animation:none!important;transition:none!important;box-shadow:none!important;text-shadow:none!important;scroll-behavior:auto!important}body.f4 .typing-dots span{animation:blink 1s infinite!important}body.f4 .typing-dots span:nth-child(2){animation-delay:.2s!important}body.f4 .typing-dots span:nth-child(3){animation-delay:.4s!important}body.f4 .bot .bubble{background:rgba(255,255,255,.14)}body.f4 .user .bubble{background:var(--crimson)}body.f4 .msg{content-visibility:auto;contain-intrinsic-size:auto 90px}body.f5{background:#1a0509}body.f5 .glass,body.f5 .sidebar{background:#2a0c14!important}body.f5 .send,body.f5 .avatar{background:var(--crimson)}body.f5 .code-block-wrapper{background:#12040a}
+@media (max-width:768px){:root{--fs:15.5px}.layout{padding:max(8px,env(safe-area-inset-top)) 8px max(8px,env(safe-area-inset-bottom))}.app{gap:8px}header{padding:8px 10px;border-radius:18px;gap:10px}.avatar{width:38px;height:38px;border-radius:12px}.icon-btn{width:42px;height:42px;border-radius:13px}#chat{padding:14px 10px;border-radius:20px;gap:14px}.msg{max-width:94%}.composer{padding:8px 8px 8px 12px;border-radius:22px;gap:8px}textarea{font-size:16px}.send{width:46px;height:46px}.copy-btn{padding:6px 8px;font-size:12px}.code-header{padding:6px 10px}.copy-code-btn{padding:6px 10px;font-size:12px}.code-block-wrapper pre{font-size:calc(12.5px*var(--fsm));padding:10px}.history-item{padding:13px 14px;font-size:14px}.history-item .del-btn{padding:8px}.setup{left:0;right:0;top:auto;bottom:0;transform:none;width:100%;max-height:88dvh;border-radius:24px 24px 0 0;padding-bottom:max(16px,env(safe-area-inset-bottom))}.setup.show{animation-name:sheetIn}.setup .setup-row input{font-size:16px}}@media (max-height:480px){.layout{padding-top:6px;padding-bottom:6px}header{padding:6px 12px}#chat{padding:10px}}
 </style>
 </head>
 <body>
-<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
-
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+<div class="orb o3"></div>
 <div class="layout">
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
   <aside class="sidebar glass" id="sidebar">
     <div class="sidebar-header">
       <span class="sidebar-title">ประวัติการสนทนา</span>
@@ -446,7 +324,6 @@ body.f5 .code-block-wrapper{background:#12040a}
     </div>
     <div class="history-list" id="historyList"></div>
   </aside>
-
   <main class="app">
     <header class="glass">
       <button class="icon-btn" id="toggleSidebar" aria-label="เมนูประวัติ">
@@ -465,14 +342,12 @@ body.f5 .code-block-wrapper{background:#12040a}
         <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
       </button>
     </header>
-
     <div class="setup-backdrop" id="setupBackdrop"></div>
     <section class="setup glass" id="setup" role="dialog" aria-label="ตั้งค่า">
       <div class="setup-head">
         <span class="setup-title">ตั้งค่า</span>
         <button class="icon-btn" id="setupClose" type="button" aria-label="ปิด"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
       </div>
-
       <div class="setup-group">
         <span class="setup-label">User Key (ซิงค์ประวัติข้ามเครื่อง)</span>
         <span>วางคีย์เดียวกันในทุกเครื่องเพื่อใช้ประวัติแชทร่วมกัน</span>
@@ -482,7 +357,6 @@ body.f5 .code-block-wrapper{background:#12040a}
         </div>
         <button id="hookSave" type="button" style="padding:12px;">บันทึก User Key และเชื่อมต่อใหม่</button>
       </div>
-
       <div class="setup-group">
         <span class="setup-label">โหมดเร็ว (สำหรับเครื่องสเปกต่ำ)</span>
         <label class="switch-row"><span>เปิดใช้งาน · <b id="fastLabel">ปิดอยู่</b></span><span class="switch"><input type="checkbox" id="fastToggle"><i></i></span></label>
@@ -492,7 +366,6 @@ body.f5 .code-block-wrapper{background:#12040a}
         </div>
         <div class="fast-desc" id="fastDesc"></div>
       </div>
-
       <div class="setup-group">
         <span class="setup-label">ขนาดตัวอักษร</span>
         <div class="seg" id="fsGroup">
@@ -502,17 +375,15 @@ body.f5 .code-block-wrapper{background:#12040a}
         </div>
       </div>
     </section>
-
     <div class="chat-wrap">
-    <section class="glass" id="chat" aria-live="polite">
-      <div class="empty" id="empty">
-        <h2>สวัสดี วันนี้ทำลายอะไรดี</h2>
-        <p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับ WormGPT ได้เลย</p>
-      </div>
-    </section>
-    <button class="to-bottom" id="toBottom" type="button" aria-label="เลื่อนลงล่างสุด"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+      <section class="glass" id="chat" aria-live="polite">
+        <div class="empty" id="empty">
+          <h2>สวัสดี วันนี้ทำลายอะไรดี</h2>
+          <p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับ WormGPT ได้เลย</p>
+        </div>
+      </section>
+      <button class="to-bottom" id="toBottom" type="button" aria-label="เลื่อนลงล่างสุด"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
     </div>
-
     <form class="composer glass" id="form">
       <textarea id="input" rows="1" placeholder="พิมพ์ข้อความ…" aria-label="ข้อความ"></textarea>
       <button class="send" id="send" type="submit" aria-label="ส่ง">
@@ -524,10 +395,8 @@ body.f5 .code-block-wrapper{background:#12040a}
 </div>
 
 <script>
-// ใส่ Webhook URL หรือ Webhook ID ของ Botpress ตรงนี้ (ใช้ร่วมกันทุกเครื่อง)
 const WEBHOOK = "https://chat.botpress.cloud/b06203f7-7853-4bab-82ad-997e12f8b6e9";
 const $ = id => document.getElementById(id);
-
 const store = {
   get(k){
     try {
@@ -555,12 +424,10 @@ function resolveBase(){
   if(!h) return "";
   return h.startsWith('http') ? h : 'https://chat.botpress.cloud/'+h;
 }
-
-function setStatus(t,s){ 
-  $('statusText').textContent=t; 
-  $('dot').className='dot '+(s||''); 
+function setStatus(t,s){
+  $('statusText').textContent=t;
+  $('dot').className='dot '+(s||'');
 }
-
 function isUserMessage(msg) {
   if (!msg) return false;
   if (msg.who === 'user') return true;
@@ -572,10 +439,8 @@ async function api(path, { method='GET', body, auth=true, timeout=8000 }={}){
   if(!base) throw new Error("No Base URL");
   const headers={'Content-Type':'application/json'};
   if(auth && userKey) headers['x-user-key']=userKey;
-
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeout);
-
   try {
     const r = await fetch(base + path, {
       method,
@@ -607,7 +472,6 @@ function getLocalMessages(id){
   });
 }
 
-// แทนที่ข้อความชั่วคราว (tempId) ด้วย id จริงจากเซิร์ฟเวอร์ ไม่ให้เก็บซ้ำสองชุด
 function replaceLocalMessageId(id, oldId, msgObj){
   const msgs = getLocalMessages(id);
   const realIdx = msgs.findIndex(m => m.id === msgObj.id);
@@ -630,7 +494,7 @@ function saveLocalMessage(id, msgObj){
   }
 }
 
-function getSavedHistory(){ 
+function getSavedHistory(){
   const list = store.get('bp_conversations') || [];
   const ids = new Set();
   return list.filter(item => {
@@ -644,7 +508,6 @@ function getSavedHistory(){
 function saveConversationToHistory(id, title){
   if (!id) return;
   let list = store.get('bp_conversations') || [];
-  
   let displayTitle = title;
   if (!displayTitle || displayTitle === 'การสนทนาใหม่') {
     const msgs = getLocalMessages(id);
@@ -657,7 +520,6 @@ function saveConversationToHistory(id, title){
       displayTitle = 'การสนทนา';
     }
   }
-
   let existing = list.find(item => item.id === id);
   if (existing) {
     if ((!existing.title || existing.title === 'การสนทนาใหม่') && displayTitle !== 'การสนทนาใหม่') {
@@ -674,16 +536,13 @@ function saveConversationToHistory(id, title){
 
 async function deleteConversation(id, event) {
   if (event) event.stopPropagation();
-
   let list = store.get('bp_conversations') || [];
   list = list.filter(x => x.id !== id);
   store.set('bp_conversations', list);
   store.del('bp_msgs_' + id);
-
   try {
     await api('/conversations/' + id, { method: 'DELETE', timeout: 3000 });
   } catch(e) {}
-
   if (convId === id) {
     const remaining = getSavedHistory();
     if (remaining.length > 0) {
@@ -705,11 +564,9 @@ async function syncServerConversations(){
     const serverConvs = res.conversations || [];
     const serverIds = new Set(serverConvs.map(c => c.id));
     const additions = [], titleFixes = {};
-
     for (const sc of serverConvs.slice(0, 15)) {
-      if (sc.id === convId) continue; // แชทปัจจุบันจัดการโดย loadHistory/send อยู่แล้ว
+      if (sc.id === convId) continue;
       let localMsgs = getLocalMessages(sc.id);
-
       if (localMsgs.length === 0) {
         try {
           const msgRes = await api('/conversations/' + sc.id + '/messages', { timeout: 4000 });
@@ -723,14 +580,11 @@ async function syncServerConversations(){
         } catch(e){}
       }
       if (localMsgs.length === 0) continue;
-
       const firstUserMsg = localMsgs.find(m => isUserMessage(m) || m.who === 'user');
       const autoTitle = firstUserMsg?.payload?.text?.slice(0, 30) || localMsgs[0]?.payload?.text?.slice(0, 30) || 'การสนทนา';
       additions.push({ id: sc.id, title: autoTitle, createdAt: sc.createdAt });
       titleFixes[sc.id] = autoTitle;
     }
-
-    // แชทที่ถูกลบจากเครื่องอื่น: ยืนยันด้วย 404 ก่อนค่อยลบออกจากเครื่องนี้ (รายการเซิร์ฟเวอร์อาจแบ่งหน้า)
     const gone = [];
     let checks = 0;
     for (const c of (store.get('bp_conversations') || [])) {
@@ -739,8 +593,6 @@ async function syncServerConversations(){
       try { await api('/conversations/' + c.id, { timeout: 3000 }); }
       catch(e){ if (e.status === 404) gone.push(c.id); }
     }
-
-    // อ่านรายการล่าสุดหลังจบ await ทั้งหมด เพื่อไม่ทับ/ซ้ำกับสิ่งที่เพิ่มระหว่างรอ
     const localList = (store.get('bp_conversations') || []).filter(c => !gone.includes(c.id));
     gone.forEach(id => store.del('bp_msgs_' + id));
     let updated = gone.length > 0;
@@ -749,7 +601,6 @@ async function syncServerConversations(){
       if (!existing) { localList.unshift(a); updated = true; }
       else if (!existing.title || existing.title === 'การสนทนาใหม่') { existing.title = titleFixes[a.id]; updated = true; }
     });
-
     if (updated) {
       localList.sort((a,b) => (Date.parse(b.createdAt) || 0) - (Date.parse(a.createdAt) || 0));
       store.set('bp_conversations', localList);
@@ -763,12 +614,10 @@ function renderHistoryList(animate){
   const container = $('historyList');
   if(!container) return;
   container.innerHTML = '';
-
   if(list.length === 0){
     container.innerHTML = '<div style="color:var(--muted);font-size:12px;text-align:center;padding:10px;">ไม่มีประวัติการแชท</div>';
     return;
   }
-
   const stagger = animate && lvl() < 3;
   list.forEach((item, idx) => {
     const div = document.createElement('div');
@@ -785,7 +634,7 @@ function renderHistoryList(animate){
     let tm = null;
     del.onclick = (e) => {
       e.stopPropagation();
-      if(!del.classList.contains('armed')){ // แตะครั้งแรก = ขอยืนยัน (ไม่ใช้ confirm() เพราะบาง WebView บล็อก)
+      if(!del.classList.contains('armed')){
         del.classList.add('armed');
         tm = setTimeout(() => del.classList.remove('armed'), 3000);
         return;
@@ -798,14 +647,8 @@ function renderHistoryList(animate){
   });
 }
 
-function closeMobileSidebar(){
-  $('sidebar').classList.remove('open');$('sidebarOverlay').classList.remove('active');
-}
-
-function openMobileSidebar(){
-  $('sidebar').classList.add('open');$('sidebarOverlay').classList.add('active');
-  renderHistoryList(true);
-}
+function closeMobileSidebar(){ $('sidebar').classList.remove('open'); $('sidebarOverlay').classList.remove('active'); }
+function openMobileSidebar(){ $('sidebar').classList.add('open'); $('sidebarOverlay').classList.add('active'); renderHistoryList(true); }
 
 function showBotLoading() {
   removeBotLoading();
@@ -816,12 +659,10 @@ function showBotLoading() {
   chat.appendChild(row);
   autoStick = true; scrollBottom();
 }
-
 function removeBotLoading() {
   const el = document.getElementById('botLoadingIndicator');
   if (el) el.remove();
 }
-
 function showChatHistoryLoading() {
   chat.innerHTML = `
     <div class="chat-loading">
@@ -844,251 +685,6 @@ async function switchChat(id){
   closeMobileSidebar();
 }
 
-function bindEvents(){
-  $('form').addEventListener('submit', e => {
-    e.preventDefault();
-    const t = input.value.trim();
-    if(!t) return;
-    input.value = ''; input.style.height = 'auto';
-    sendBtn.classList.remove('fly');
-    if(lvl() < 4){ void sendBtn.offsetWidth; sendBtn.classList.add('fly'); }
-    send(t);
-  });
-
-  input.addEventListener('input', () => {
-    input.style.height = 'auto';
-    input.style.height = Math.min(input.scrollHeight, 140) + 'px';
-    sendBtn.disabled = busy || !input.value.trim();
-  });
-
-  input.addEventListener('keydown', e => {
-    if(e.key === 'Enter' && (e.ctrlKey || e.metaKey) && !e.isComposing){
-      e.preventDefault();
-      $('form').requestSubmit();
-    }
-  });
-
-  $('newBtn').onclick = startNewChat;
-  $('newChatSidebarBtn').onclick = startNewChat;
-  $('toggleSidebar').onclick = openMobileSidebar;
-  $('closeSidebarBtn').onclick = closeMobileSidebar;
-  $('sidebarOverlay').onclick = closeMobileSidebar;
-
-  $('settingsBtn').onclick = (e) => {
-    e.preventDefault();
-    setSetup(!$('setup').classList.contains('show'));
-  };
-
-  $('copyUserKeyBtn').onclick = () => {
-    const k = $('userKeyInput').value.trim();
-    if(k){
-      copyText(k);
-      $('copyUserKeyBtn').textContent = "คัดลอกแล้ว!";
-      setTimeout(() => $('copyUserKeyBtn').textContent = "คัดลอก", 2000);
-    }
-  };
-
-  $('hookSave').onclick = () => {
-    const k = $('userKeyInput').value.trim();
-    const oldKey = String(store.get('bp_userKey') || '');
-    if(k) store.set('bp_userKey', k); else store.del('bp_userKey');
-    if(k !== oldKey){
-      // เปลี่ยนตัวตน: ล้าง userId และแคชข้อความเดิม ไม่ให้ปนกับบัญชีอื่น
-      store.del('bp_userId');
-      try { for(let i = localStorage.length - 1; i >= 0; i--){ const key = localStorage.key(i); if(key && key.startsWith('bp_msgs_')) localStorage.removeItem(key); } } catch(e){}
-    }
-    store.del('bp_convId');
-    store.del('bp_conversations');
-    location.reload();
-  };
-}
-
-async function init(){
-  closeMobileSidebar();
-  base = resolveBase();
-
-  if(!base){
-    setStatus('ยังไม่ได้ใส่ WEBHOOK ในโค้ด','err');
-    chat.innerHTML = '<div class="empty" id="empty"><h2>ยังไม่ได้ตั้งค่า Webhook</h2><p>เปิดไฟล์นี้ด้วยโปรแกรมแก้ไขข้อความ แล้วใส่ Webhook URL ในบรรทัด <b>const WEBHOOK = "…"</b></p></div>';
-    return;
-  }
-
-  try {
-    userKey = store.get('bp_userKey');
-    userId = store.get('bp_userId');
-    convId = store.get('bp_convId');
-
-    if(!userKey){
-      const u = await api('/users', { method:'POST', body:{}, auth: false });
-      userKey = u.key; 
-      userId = u.user ? u.user.id : u.id;
-      store.set('bp_userKey', userKey);
-      store.set('bp_userId', userId);
-    }
-    
-    if(userKey && !userId){
-      try {
-        const me = await api('/users/me', { timeout: 4000 });
-        userId = (me.user && me.user.id) || me.id || null;
-        if(userId) store.set('bp_userId', userId);
-      } catch(e){}
-    }
-
-    $('userKeyInput').value = userKey || '';
-
-    if(!convId){
-      await createNewConversation();
-    } else {
-      await loadHistory();
-    }
-    
-    setStatus('ออนไลน์','on');
-    sendBtn.disabled = !input.value.trim();
-    
-    renderHistoryList();
-    startRealtimeSync();
-    syncServerConversations();
-
-  } catch(e) {
-    if(e.status === 401 || e.status === 404){
-      store.del('bp_userKey');
-      store.del('bp_convId');
-    }
-    setStatus('เชื่อมต่อไม่ได้ ตรวจสอบ WEBHOOK ในโค้ด','err');
-    setSetup(true);
-  }
-}
-
-async function handleConversationGone(cid){
-  store.set('bp_conversations', (store.get('bp_conversations') || []).filter(x => x.id !== cid));
-  store.del('bp_msgs_' + cid);
-  if (convId !== cid) { renderHistoryList(); return; }
-  const rest = getSavedHistory();
-  if (rest.length) await switchChat(rest[0].id); else await startNewChat();
-}
-
-async function pollOnce(){
-  if (document.hidden || !convId || !userKey || busy || loadingHistory || polling) return;
-  const cid = convId;
-  polling = true;
-  try {
-    const d = await api('/conversations/' + cid + '/messages', { timeout: 4000 });
-    // ทิ้งผลลัพธ์ถ้าระหว่างรอมีการส่งข้อความ / สลับแชท / โหลดประวัติ (กันเรนเดอร์ซ้ำ)
-    if (busy || loadingHistory || cid !== convId) return;
-    const list = (d.messages || []).sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
-    list.forEach(m => {
-      if (!seen.has(m.id)) {
-        seen.add(m.id);
-        const who = isUserMessage(m) ? 'user' : 'bot';
-        render(m.payload, who, m.createdAt, who === 'bot');
-        saveLocalMessage(cid, { id: m.id, payload: m.payload, who, createdAt: m.createdAt });
-        saveConversationToHistory(cid);
-      }
-    });
-  } catch(e){
-    if (e.status === 404 && cid === convId) handleConversationGone(cid); // แชทถูกลบจากเครื่องอื่น
-  } finally { polling = false; }
-}
-
-function startRealtimeSync() {
-  clearInterval(pollInterval); clearInterval(syncTimer);
-  pollInterval = setInterval(pollOnce, pollMs());
-  syncTimer = setInterval(() => { if (!document.hidden) syncServerConversations(); }, lvl() >= 3 ? 60000 : 30000);
-}
-
-async function createNewConversation(){
-  try {
-    const c = await api('/conversations', { method:'POST', body:{} });
-    convId = c.conversation.id; 
-    store.set('bp_convId', convId);
-    stopTypers(); autoStick = true;
-    seen.clear();
-    chat.innerHTML = '<div class="empty" id="empty"><h2>สวัสดี วันนี้ทำลายอะไรดี</h2><p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับ WormGPT ได้เลย</p></div>';
-  } catch(e){
-    throw e;
-  }
-}
-
-async function fetchAllMessages(cid, maxPages = 10){
-  let all = [], token = null;
-  const used = new Set();
-  for (let page = 0; page < maxPages; page++){
-    const q = token ? '?nextToken=' + encodeURIComponent(token) : '';
-    let d;
-    try { d = await api('/conversations/' + cid + '/messages' + q, { timeout: 10000 }); }
-    catch(e){ if (page === 0) throw e; break; } // หน้าถัดไปพลาด: ใช้เท่าที่ได้
-    all = all.concat(d.messages || []);
-    token = d.meta && d.meta.nextToken;
-    if (!token || used.has(token)) break;
-    used.add(token);
-  }
-  return all;
-}
-
-function paintHistory(list){
-  stopTypers();
-  chat.innerHTML = '';
-  seen.clear();
-  if (!list.length) { chat.innerHTML = EMPTY_HTML; return; }
-  const limit = renderLimit();
-  const start = Math.max(0, list.length - limit);
-  bulk = true; autoStick = true;
-  if (start > 0) {
-    const n = document.createElement('div');
-    n.className = 'notice';
-    n.textContent = 'โหมดเร็ว: แสดงเฉพาะ ' + limit + ' ข้อความล่าสุด';
-    chat.appendChild(n);
-  }
-  list.forEach((m, i) => {
-    if (seen.has(m.id)) return;
-    seen.add(m.id);
-    if (i >= start) render(m.payload, m.who, m.createdAt, false);
-  });
-  bulk = false;
-  scrollBottom();
-}
-
-async function loadHistory(){
-  if(!convId) return;
-
-  const cid = convId;
-  const token = ++loadToken;
-  loadingHistory = true;
-  stopTypers();
-  showChatHistoryLoading();
-
-  try {
-    let serverList = null, gone = false;
-    try {
-      const raw = await fetchAllMessages(cid);
-      if (token !== loadToken || cid !== convId) return; // มีการโหลด/สลับแชทใหม่กว่าแล้ว
-      serverList = raw.sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt))
-        .map(m => ({ id: m.id, payload: m.payload, who: isUserMessage(m) ? 'user' : 'bot', createdAt: m.createdAt }));
-    } catch(e){
-      if (token !== loadToken || cid !== convId) return;
-      if (e.status === 404) gone = true;
-    }
-
-    if (gone) { loadingHistory = false; await handleConversationGone(cid); return; }
-
-    if (serverList && serverList.length) {
-      // เซิร์ฟเวอร์คือความจริง แต่เก็บข้อความเก่าในเครื่องที่เก่ากว่าหน้าที่ดึงมาไว้ (กันประวัติยาวหาย)
-      const ids = new Set(serverList.map(m => m.id));
-      const firstT = new Date(serverList[0].createdAt).getTime();
-      const older = getLocalMessages(cid).filter(m => !String(m.id).startsWith('usr_') && !ids.has(m.id) && new Date(m.createdAt).getTime() < firstT);
-      const list = older.concat(serverList);
-      store.set('bp_msgs_' + cid, list);
-      paintHistory(list);
-      saveConversationToHistory(cid);
-      return;
-    }
-
-    paintHistory(getLocalMessages(cid)); // เซิร์ฟเวอร์ว่าง/ติดต่อไม่ได้ → ใช้ข้อมูลในเครื่อง
-  } finally {
-    if (token === loadToken) loadingHistory = false;
-  }
-}
-
 function esc(s){ return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
 function parseMarkdown(text) {
@@ -1099,15 +695,20 @@ function parseMarkdown(text) {
     codeBlocks.push({ lang: lang.trim() || 'code', code: code.trim() });
     return placeholder;
   });
-
   str = esc(str);
+
+  // Parsing Markdown Headers (# - ####)
+  str = str.replace(/^####[ \t]+(.+)$/gm, '<h4 class="md-h4">$1</h4>');
+  str = str.replace(/^###[ \t]+(.+)$/gm, '<h3 class="md-h3">$1</h3>');
+  str = str.replace(/^##[ \t]+(.+)$/gm, '<h2 class="md-h2">$1</h2>');
+  str = str.replace(/^#[ \t]+(.+)$/gm, '<h1 class="md-h1">$1</h1>');
+
   str = str.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
   str = str.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   str = str.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
-
-  // ตัด \n ที่ติดอยู่ก่อนและหลัง placeholder ออก เพื่อป้องกันบรรทัดว่างเกินจำจำเป็นใน white-space: pre-wrap
+  
+  // ตัด \n ที่ติดอยู่ก่อนและหลัง placeholder ออก เพื่อป้องกันบรรทัดว่างเกินจำเป็น
   str = str.replace(/\s*(___CODEBLOCK_\d+___)\s*/g, '$1');
-
   codeBlocks.forEach((cb, i) => {
     const placeholder = `___CODEBLOCK_${i}___`;
     const codeEscaped = esc(cb.code);
@@ -1119,7 +720,6 @@ function parseMarkdown(text) {
       + '<pre><code class="code-content">' + codeEscaped + '</code></pre></div>';
     str = str.replace(placeholder, () => html);
   });
-
   return str;
 }
 
@@ -1166,7 +766,6 @@ function render(p, who, timeIso, animate = false){
   row.className = 'msg ' + who + ((bulk || lvl() >= 3) ? ' still' : '');
   const b = document.createElement('div'); b.className = 'bubble';
   row.appendChild(b);
-
   const meta = document.createElement('div');
   meta.className = 'msg-meta';
   const timeSpan = document.createElement('span');
@@ -1174,10 +773,8 @@ function render(p, who, timeIso, animate = false){
   meta.appendChild(timeSpan);
   row.appendChild(meta);
   chat.appendChild(row);
-
-  const lim = renderLimit(); // เครื่องสเปกต่ำ: จำกัดจำนวน DOM
+  const lim = renderLimit();
   if (lim !== Infinity && !bulk) { while (chat.childElementCount > lim + 1) chat.removeChild(chat.firstElementChild); }
-
   const L = lvl();
   if (who === 'bot' && animate && L < 3 && p.type === 'text' && p.text) {
     const full = p.text;
@@ -1188,7 +785,6 @@ function render(p, who, timeIso, animate = false){
       const done = i >= full.length;
       if (done) i = full.length;
       const part = full.slice(0, i);
-      // ปิดโค้ดบล็อกที่ยังพิมพ์ไม่จบ เพื่อไม่ให้เลย์เอาต์กระโดด
       b.innerHTML = parseMarkdown((part.match(/```/g) || []).length % 2 ? part + '\n```' : part);
       if (autoStick) scrollBottom();
       if (done) { clearInterval(timer); typers.delete(timer); appendCopyMsgBtn(meta, full); }
@@ -1207,30 +803,25 @@ function render(p, who, timeIso, animate = false){
 
 async function send(text){
   if(busy || !text.trim()) return;
-  busy = true; sendBtn.disabled = true; // ล็อกก่อน await ใดๆ กันกดส่งซ้ำ
-
+  busy = true; sendBtn.disabled = true;
   if(!convId){
     try {
       await createNewConversation();
     } catch(e) {
       busy = false; sendBtn.disabled = !input.value.trim();
-      alert('ไม่สามารถเชื่อมต่อได้ กรุณาตรวจสอบ WEBHOOK ในโค้ด');
+      setStatus('ไม่สามารถเชื่อมต่อได้ ตรวจสอบ WEBHOOK ในโค้ด','err');
       setSetup(true);
       return;
     }
   }
-
   const cid = convId;
   const tempId = 'usr_' + Date.now();
   const userMsgObj = { id: tempId, payload: { type: 'text', text }, who: 'user', createdAt: new Date().toISOString() };
-  
   seen.add(tempId);
   render(userMsgObj.payload, 'user', userMsgObj.createdAt, false);
   saveLocalMessage(cid, userMsgObj);
   saveConversationToHistory(cid, text.slice(0, 30));
-
   showBotLoading();
-
   try {
     const r = await api('/messages', { method:'POST', body:{ conversationId:cid, payload:{ type:'text', text } } });
     if (r && r.message) {
@@ -1256,7 +847,6 @@ async function waitReply(cid){
       if(fresh.length){
         removeBotLoading();
         fresh.sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt)).forEach(m => {
-          // ถ้าผู้ใช้สลับแชทระหว่างรอ ให้เก็บลงที่เก็บของแชทเดิมเท่านั้น ไม่เรนเดอร์ลงแชทที่เปิดอยู่
           if (cid === convId) {
             seen.add(m.id);
             render(m.payload, 'bot', m.createdAt, true);
@@ -1278,11 +868,232 @@ async function startNewChat(){
     renderHistoryList();
     closeMobileSidebar();
   } catch(e) {
-    alert('ไม่สามารถสร้างแชทใหม่ได้ กรุณาตรวจสอบการตั้งค่า');
+    setStatus('สร้างแชทใหม่ไม่สำเร็จ ตรวจสอบการตั้งค่า', 'err');
   }
 }
 
-/* ===== v3 core: fast-mode, scroll, settings UI ===== */
+function bindEvents(){
+  $('form').addEventListener('submit', e => {
+    e.preventDefault();
+    const t = input.value.trim();
+    if(!t) return;
+    input.value = ''; input.style.height = 'auto';
+    sendBtn.classList.remove('fly');
+    if(lvl() < 4){ void sendBtn.offsetWidth; sendBtn.classList.add('fly'); }
+    send(t);
+  });
+  input.addEventListener('input', () => {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 140) + 'px';
+    sendBtn.disabled = busy || !input.value.trim();
+  });
+  input.addEventListener('keydown', e => {
+    if(e.key === 'Enter' && (e.ctrlKey || e.metaKey) && !e.isComposing){
+      e.preventDefault();
+      $('form').requestSubmit();
+    }
+  });
+  $('newBtn').onclick = startNewChat;
+  $('newChatSidebarBtn').onclick = startNewChat;
+  $('toggleSidebar').onclick = openMobileSidebar;
+  $('closeSidebarBtn').onclick = closeMobileSidebar;
+  $('sidebarOverlay').onclick = closeMobileSidebar;
+  $('settingsBtn').onclick = (e) => {
+    e.preventDefault();
+    setSetup(!$('setup').classList.contains('show'));
+  };
+  $('copyUserKeyBtn').onclick = () => {
+    const k = $('userKeyInput').value.trim();
+    if(k){
+      copyText(k);
+      $('copyUserKeyBtn').textContent = "คัดลอกแล้ว!";
+      setTimeout(() => $('copyUserKeyBtn').textContent = "คัดลอก", 2000);
+    }
+  };
+  $('hookSave').onclick = () => {
+    const k = $('userKeyInput').value.trim();
+    const oldKey = String(store.get('bp_userKey') || '');
+    if(k) store.set('bp_userKey', k); else store.del('bp_userKey');
+    if(k !== oldKey){
+      store.del('bp_userId');
+      try { for(let i = localStorage.length - 1; i >= 0; i--){ const key = localStorage.key(i); if(key && key.startsWith('bp_msgs_')) localStorage.removeItem(key); } } catch(e){}
+    }
+    store.del('bp_convId');
+    store.del('bp_conversations');
+    location.reload();
+  };
+}
+
+async function init(){
+  closeMobileSidebar();
+  base = resolveBase();
+  if(!base){
+    setStatus('ยังไม่ได้ใส่ WEBHOOK ในโค้ด','err');
+    chat.innerHTML = '<div class="empty" id="empty"><h2>ยังไม่ได้ตั้งค่า Webhook</h2><p>เปิดไฟล์นี้ด้วยโปรแกรมแก้ไขข้อความ แล้วใส่ Webhook URL ในบรรทัด <b>const WEBHOOK = "…"</b></p></div>';
+    return;
+  }
+  try {
+    userKey = store.get('bp_userKey');
+    userId = store.get('bp_userId');
+    convId = store.get('bp_convId');
+    if(!userKey){
+      const u = await api('/users', { method:'POST', body:{}, auth: false });
+      userKey = u.key;
+      userId = u.user ? u.user.id : u.id;
+      store.set('bp_userKey', userKey);
+      store.set('bp_userId', userId);
+    }
+    if(userKey && !userId){
+      try {
+        const me = await api('/users/me', { timeout: 4000 });
+        userId = (me.user && me.user.id) || me.id || null;
+        if(userId) store.set('bp_userId', userId);
+      } catch(e){}
+    }
+    $('userKeyInput').value = userKey || '';
+    if(!convId){
+      await createNewConversation();
+    } else {
+      await loadHistory();
+    }
+    setStatus('ออนไลน์','on');
+    sendBtn.disabled = !input.value.trim();
+    renderHistoryList();
+    startRealtimeSync();
+    syncServerConversations();
+  } catch(e) {
+    if(e.status === 401 || e.status === 404){
+      store.del('bp_userKey');
+      store.del('bp_convId');
+    }
+    setStatus('เชื่อมต่อไม่ได้ ตรวจสอบ WEBHOOK ในโค้ด','err');
+    setSetup(true);
+  }
+}
+
+async function handleConversationGone(cid){
+  store.set('bp_conversations', (store.get('bp_conversations') || []).filter(x => x.id !== cid));
+  store.del('bp_msgs_' + cid);
+  if (convId !== cid) { renderHistoryList(); return; }
+  const rest = getSavedHistory();
+  if (rest.length) await switchChat(rest[0].id); else await startNewChat();
+}
+
+async function pollOnce(){
+  if (document.hidden || !convId || !userKey || busy || loadingHistory || polling) return;
+  const cid = convId;
+  polling = true;
+  try {
+    const d = await api('/conversations/' + cid + '/messages', { timeout: 4000 });
+    if (busy || loadingHistory || cid !== convId) return;
+    const list = (d.messages || []).sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
+    list.forEach(m => {
+      if (!seen.has(m.id)) {
+        seen.add(m.id);
+        const who = isUserMessage(m) ? 'user' : 'bot';
+        render(m.payload, who, m.createdAt, who === 'bot');
+        saveLocalMessage(cid, { id: m.id, payload: m.payload, who, createdAt: m.createdAt });
+        saveConversationToHistory(cid);
+      }
+    });
+  } catch(e){
+    if (e.status === 404 && cid === convId) handleConversationGone(cid);
+  } finally { polling = false; }
+}
+
+function startRealtimeSync() {
+  clearInterval(pollInterval); clearInterval(syncTimer);
+  pollInterval = setInterval(pollOnce, pollMs());
+  syncTimer = setInterval(() => { if (!document.hidden) syncServerConversations(); }, lvl() >= 3 ? 60000 : 30000);
+}
+
+async function createNewConversation(){
+  try {
+    const c = await api('/conversations', { method:'POST', body:{} });
+    convId = c.conversation.id;
+    store.set('bp_convId', convId);
+    stopTypers(); autoStick = true;
+    seen.clear();
+    chat.innerHTML = '<div class="empty" id="empty"><h2>สวัสดี วันนี้ทำลายอะไรดี</h2><p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับ WormGPT ได้เลย</p></div>';
+  } catch(e){
+    throw e;
+  }
+}
+
+async function fetchAllMessages(cid, maxPages = 10){
+  let all = [], token = null;
+  const used = new Set();
+  for (let page = 0; page < maxPages; page++){
+    const q = token ? '?nextToken=' + encodeURIComponent(token) : '';
+    let d;
+    try { d = await api('/conversations/' + cid + '/messages' + q, { timeout: 10000 }); }
+    catch(e){ if (page === 0) throw e; break; }
+    all = all.concat(d.messages || []);
+    token = d.meta && d.meta.nextToken;
+    if (!token || used.has(token)) break;
+    used.add(token);
+  }
+  return all;
+}
+
+function paintHistory(list){
+  stopTypers();
+  chat.innerHTML = '';
+  seen.clear();
+  if (!list.length) { chat.innerHTML = EMPTY_HTML; return; }
+  const limit = renderLimit();
+  const start = Math.max(0, list.length - limit);
+  bulk = true; autoStick = true;
+  if (start > 0) {
+    const n = document.createElement('div');
+    n.className = 'notice';
+    n.textContent = 'โหมดเร็ว: แสดงเฉพาะ ' + limit + ' ข้อความล่าสุด';
+    chat.appendChild(n);
+  }
+  list.forEach((m, i) => {
+    if (seen.has(m.id)) return;
+    seen.add(m.id);
+    if (i >= start) render(m.payload, m.who, m.createdAt, false);
+  });
+  bulk = false;
+  scrollBottom();
+}
+
+async function loadHistory(){
+  if(!convId) return;
+  const cid = convId;
+  const token = ++loadToken;
+  loadingHistory = true;
+  stopTypers();
+  showChatHistoryLoading();
+  try {
+    let serverList = null, gone = false;
+    try {
+      const raw = await fetchAllMessages(cid);
+      if (token !== loadToken || cid !== convId) return;
+      serverList = raw.sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt))
+        .map(m => ({ id: m.id, payload: m.payload, who: isUserMessage(m) ? 'user' : 'bot', createdAt: m.createdAt }));
+    } catch(e){
+      if (token !== loadToken || cid !== convId) return;
+      if (e.status === 404) gone = true;
+    }
+    if (gone) { loadingHistory = false; await handleConversationGone(cid); return; }
+    if (serverList && serverList.length) {
+      const ids = new Set(serverList.map(m => m.id));
+      const firstT = new Date(serverList[0].createdAt).getTime();
+      const older = getLocalMessages(cid).filter(m => !String(m.id).startsWith('usr_') && !ids.has(m.id) && new Date(m.createdAt).getTime() < firstT);
+      const list = older.concat(serverList);
+      store.set('bp_msgs_' + cid, list);
+      paintHistory(list);
+      saveConversationToHistory(cid);
+      return;
+    }
+    paintHistory(getLocalMessages(cid));
+  } finally {
+    if (token === loadToken) loadingHistory = false;
+  }
+}
+
 const EMPTY_HTML = '<div class="empty" id="empty"><h2>สวัสดี วันนี้ทำลายอะไรดี</h2><p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับ WormGPT ได้เลย</p></div>';
 let autoStick = true, bulk = false;
 const typers = new Set();
@@ -1291,7 +1102,7 @@ function scrollBottom(){ chat.scrollTop = chat.scrollHeight; }
 
 window.copyText = async function(t){
   try { if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(t); return true; } } catch(e){}
-  try { // สำรอง: ใช้ได้ใน WebView / ไฟล์ในเครื่อง (file://)
+  try {
     const ta = document.createElement('textarea');
     ta.value = t; ta.setAttribute('readonly', '');
     ta.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0';
@@ -1328,6 +1139,7 @@ function applyPerf(){
   $('fastDesc').textContent = perf.on ? FAST_INFO[perf.level] : 'เปิดเพื่อลดภาระเครื่อง แล้วเลือกระดับ 1 (น้อย) ถึง 5 (มาก)';
   if (pollInterval) startRealtimeSync();
 }
+
 const FS = { s: .92, m: 1, l: 1.18 };
 function applyFS(k){
   if (!FS[k]) k = 'm';
@@ -1335,10 +1147,12 @@ function applyFS(k){
   document.querySelectorAll('#fsGroup button').forEach(b => b.classList.toggle('on', b.dataset.fs === k));
   store.set('bp_fs', k);
 }
+
 function setSetup(show){
   $('setup').classList.toggle('show', show);
   $('setupBackdrop').classList.toggle('show', show);
 }
+
 function initSettingsUI(){
   loadPerf();
   $('fastToggle').onchange = e => { perf.on = e.target.checked; savePerf(); applyPerf(); };
@@ -1355,7 +1169,7 @@ function initSettingsUI(){
   $('toBottom').onclick = () => { autoStick = true; chat.scrollTo({ top: chat.scrollHeight, behavior: lvl() >= 4 ? 'auto' : 'smooth' }); };
   if (window.visualViewport) visualViewport.addEventListener('resize', () => { if (autoStick) scrollBottom(); });
   input.placeholder = (window.matchMedia && matchMedia('(hover: none)').matches) ? 'พิมพ์ข้อความ…' : 'พิมพ์ข้อความ… (Ctrl+Enter เพื่อส่ง)';
-  // กลับมาที่แท็บ/กลับมาออนไลน์ → ซิงค์ทันที
+  
   const resync = () => { if (!document.hidden && convId && userKey) { pollOnce(); syncServerConversations(); } };
   document.addEventListener('visibilitychange', resync);
   window.addEventListener('online', resync);
@@ -1369,3 +1183,4 @@ init();
 </script>
 </body>
 </html>
+```
