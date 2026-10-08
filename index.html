@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>WormGPT</title>
+<title>AI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Google+Sans:wght@400;500;600&family=Prompt:wght@400;500;600&display=swap" rel="stylesheet">
@@ -453,7 +453,7 @@ body.f5 .code-block-wrapper{background:#12040a}
       </button>
       <div class="avatar"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 5.4L19 9l-5.2 1.6L12 16l-1.8-5.4L5 9l5.2-1.6L12 2zm7 11l.9 2.6 2.6.9-2.6.9L19 20l-.9-2.6-2.6-.9 2.6-.9L19 13z"/></svg></div>
       <div>
-        <div class="title">WormGPT</div>
+        <div class="title">AI</div>
         <div class="status"><span class="dot" id="dot"></span><span id="statusText">กำลังเชื่อมต่อ…</span></div>
       </div>
       <div class="sp"></div>
@@ -473,17 +473,13 @@ body.f5 .code-block-wrapper{background:#12040a}
       </div>
 
       <div class="setup-group">
-        <span class="setup-label">การเชื่อมต่อ (Botpress Webhook)</span>
-        <span>1. Webhook URL หรือ Webhook ID จาก Botpress</span>
-        <div class="setup-row">
-          <input id="hookInput" placeholder="https://chat.botpress.cloud/xxxx-xxxx หรือ xxxx-xxxx" autocomplete="off">
-        </div>
-        <span>2. User Key (ใช้ซิงค์ประวัติข้ามเครื่อง: วางคีย์เดียวกันในทุกเครื่อง)</span>
+        <span class="setup-label">User Key (ซิงค์ประวัติข้ามเครื่อง)</span>
+        <span>วางคีย์เดียวกันในทุกเครื่องเพื่อใช้ประวัติแชทร่วมกัน (Webhook ตั้งไว้ในโค้ดแล้ว)</span>
         <div class="setup-row">
           <input id="userKeyInput" placeholder="สร้างให้อัตโนมัติเมื่อเชื่อมต่อ..." autocomplete="off">
           <button id="copyUserKeyBtn" type="button">คัดลอก</button>
         </div>
-        <button id="hookSave" type="button" style="padding:12px;">บันทึกและเชื่อมต่อใหม่</button>
+        <button id="hookSave" type="button" style="padding:12px;">บันทึก User Key และเชื่อมต่อใหม่</button>
       </div>
 
       <div class="setup-group">
@@ -527,7 +523,8 @@ body.f5 .code-block-wrapper{background:#12040a}
 </div>
 
 <script>
-const WEBHOOK = "";
+// ใส่ Webhook URL หรือ Webhook ID ของ Botpress ตรงนี้ (ใช้ร่วมกันทุกเครื่อง)
+const WEBHOOK = "https://chat.botpress.cloud/b06203f7-7853-4bab-82ad-997e12f8b6e9";
 const $ = id => document.getElementById(id);
 
 const store = {
@@ -553,7 +550,7 @@ let loadToken = 0, loadingHistory = false;
 const seen=new Set();
 
 function resolveBase(){
-  let h=(store.get('bp_hook')||WEBHOOK||"").toString().trim().replace(/\/+$/,'');
+  let h=(WEBHOOK||"").toString().trim().replace(/\/+$/,'');
   if(!h) return "";
   return h.startsWith('http') ? h : 'https://chat.botpress.cloud/'+h;
 }
@@ -891,13 +888,11 @@ function bindEvents(){
   };
 
   $('hookSave').onclick = () => {
-    const h = $('hookInput').value.trim();
     const k = $('userKeyInput').value.trim();
-    const oldKey = String(store.get('bp_userKey') || ''), oldHook = String(store.get('bp_hook') || '');
-    if(h) store.set('bp_hook', h);
+    const oldKey = String(store.get('bp_userKey') || '');
     if(k) store.set('bp_userKey', k); else store.del('bp_userKey');
-    if(k !== oldKey || (h && h !== oldHook)){
-      // เปลี่ยนตัวตน/บอท: ล้าง userId และแคชข้อความเดิม ไม่ให้ปนกับบัญชีอื่น
+    if(k !== oldKey){
+      // เปลี่ยนตัวตน: ล้าง userId และแคชข้อความเดิม ไม่ให้ปนกับบัญชีอื่น
       store.del('bp_userId');
       try { for(let i = localStorage.length - 1; i >= 0; i--){ const key = localStorage.key(i); if(key && key.startsWith('bp_msgs_')) localStorage.removeItem(key); } } catch(e){}
     }
@@ -910,11 +905,10 @@ function bindEvents(){
 async function init(){
   closeMobileSidebar();
   base = resolveBase();
-  $('hookInput').value = store.get('bp_hook') || '';
 
   if(!base){
-    setSetup(true);
-    setStatus('กรุณากรอก Webhook URL','err');
+    setStatus('ยังไม่ได้ใส่ WEBHOOK ในโค้ด','err');
+    chat.innerHTML = '<div class="empty" id="empty"><h2>ยังไม่ได้ตั้งค่า Webhook</h2><p>เปิดไฟล์นี้ด้วยโปรแกรมแก้ไขข้อความ แล้วใส่ Webhook URL ในบรรทัด <b>const WEBHOOK = "…"</b></p></div>';
     return;
   }
 
@@ -959,7 +953,7 @@ async function init(){
       store.del('bp_userKey');
       store.del('bp_convId');
     }
-    setStatus('เชื่อมต่อไม่ได้ ตรวจสอบ Webhook','err');
+    setStatus('เชื่อมต่อไม่ได้ ตรวจสอบ WEBHOOK ในโค้ด','err');
     setSetup(true);
   }
 }
@@ -1219,7 +1213,7 @@ async function send(text){
       await createNewConversation();
     } catch(e) {
       busy = false; sendBtn.disabled = !input.value.trim();
-      alert('ไม่สามารถเชื่อมต่อได้ กรุณาตรวจสอบ Webhook URL ในตั้งค่า');
+      alert('ไม่สามารถเชื่อมต่อได้ กรุณาตรวจสอบ WEBHOOK ในโค้ด');
       setSetup(true);
       return;
     }
