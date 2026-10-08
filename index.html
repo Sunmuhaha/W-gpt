@@ -377,7 +377,7 @@ body.f1 .orb{animation:none;filter:blur(55px)}body.f1 .avatar svg,body.f1 .dot.o
     <div class="chat-wrap">
       <section class="glass" id="chat" aria-live="polite">
         <div class="empty" id="empty">
-          <h2>สวัสดี วันนี้ทำลายอะไรดี</h2>
+          <h2>วันนี้ทำลายอะไรดี?</h2>
           <p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับ WormGPT ได้เลย</p>
         </div>
       </section>
@@ -1016,7 +1016,7 @@ async function createNewConversation(){
     store.set('bp_convId', convId);
     stopTypers(); autoStick = true;
     seen.clear();
-    chat.innerHTML = '<div class="empty" id="empty"><h2>สวัสดี วันนี้ทำลายอะไรดี</h2><p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับ WormGPT ได้เลย</p></div>';
+    chat.innerHTML = '<div class="empty" id="empty"><h2>วันนี้ทำลายอะไรดี?</h2><p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับ WormGPT ได้เลย</p></div>';
   } catch(e){
     throw e;
   }
@@ -1096,7 +1096,7 @@ async function loadHistory(){
   }
 }
 
-const EMPTY_HTML = '<div class="empty" id="empty"><h2>สวัสดี วันนี้ทำลายอะไรดี</h2><p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับ WormGPT ได้เลย</p></div>';
+const EMPTY_HTML = '<div class="empty" id="empty"><h2>วันนี้ทำลายอะไรดี?</h2><p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับ WormGPT ได้เลย</p></div>';
 let autoStick = true, bulk = false;
 const typers = new Set();
 function stopTypers(){ typers.forEach(clearInterval); typers.clear(); }
