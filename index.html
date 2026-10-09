@@ -1772,9 +1772,9 @@ init();
    - เป็นสคริปต์อิสระ (IIFE) ไม่ชนกับตัวแปรเดิมของหน้าแชท ($, store, chat, input ฯลฯ)
    - สร้าง HTML + CSS เองทั้งหมด ไม่ต้องแก้ HTML เดิม
    วิธีใช้: วางไฟล์นี้ + ไฟล์เพลง/รูปปก ไว้โฟลเดอร์เดียวกับหน้าแชท
-            แล้วเพิ่มบรรทัดนี้ก่อน </body> :  <script src="music-player.js">
+            แล้วเพิ่มบรรทัดนี้ก่อน 
    (หรือจะคัดลอกโค้ดนี้ไปต่อท้ายสคริปต์เดิมก็ได้)
-   ===================================================================== */
+  ===================================================================== */
 (function () {
   'use strict';
   if (window.__mpLoaded) return;
@@ -1782,12 +1782,14 @@ init();
 
   /* ---------- ตั้งค่ารายการเพลง (ชื่อไฟล์อยู่โฟลเดอร์เดียวกับหน้าแชท) ---------- */
   const PLAYLIST = [
-    { file: 'KunJai.mp4', title: 'ขึ้นใจ', artist: 'Mirr', cover: 'https://yt3.googleusercontent.com/kUA7_9JUpV0IwTh7zhDe7mM9o1PvUWLui1gw3A45JknRRdwFeVElJQEBHd41PQuYdkcREOAFxyNVQSTx=w544-h544-l90-rj' },
+    { file: 'KunJai.mp4', title: 'ขึ้นใจ (3am call)', artist: 'Mirr (feat. BLVCKHEART)', cover: 'https://yt3.googleusercontent.com/kUA7_9JUpV0IwTh7zhDe7mM9o1PvUWLui1gw3A45JknRRdwFeVElJQEBHd41PQuYdkcREOAFxyNVQSTx=w544-h544-l90-rj' },
     { file: 'SURIYA MQT - BU.m4a', title: 'BU', artist: 'SURIYA MQT X P6ICK', cover: 'https://i.scdn.co/image/ab67616d0000aa54b397057eefe809f360993648' },
     { file: 'P6ICK - 1 OF 1.m4a', title: '1 OF 1', artist: 'P6ICK X SURIYA MQT', cover: 'https://i.scdn.co/image/ab67616d00001e029dbce78cb31f5ef5ebfd4250' },
     { file: 'PROXIE - BoyDCry.m4a', title: "ขี้แง (Boys Don't Cry)", artist: 'PROXIE', cover: 'https://i.scdn.co/image/ab67616d0000aa54eb508df0affe01b473e70300' },
     { file: 'BILLKIN - กีดกัน.m4a', title: 'กีดกัน (Skyline)', artist: 'BILLKIN', cover: 'https://image.joox.com/JOOXcover/0/65aca96a8698a4dc/300' },
     { file: 'POLYCAT - peaun.m4a', title: 'เพื่อน', artist: 'โพลีแคท', cover: 'https://yt3.googleusercontent.com/U7IDnZjKTdiZ1U4D--x0LotQo8xQDP0ZDLKwyk--hRtVTQNEQv7VFPV8bBM4N9-46SWiIgboqxUSHqWd=w544-h544-l90-rj' },
+    { file: 'KRK - KeaRongHai.m4a', title: 'แค่ร้องไห้', artist: 'KRK (feat. N/A, AISXXN)', cover: 'https://yt3.googleusercontent.com/WPZ4CYgb3ZGt0RxdscLF5dd_OeJnR_FGoYpMlk9ymxnok-86a0xJO-E2ynZmbTiIV73mv_aS-0i5socm=w544-h544-l90-rj' },
+    { file: 'BLVCKHEART - เมื่อไหร่จะมี (มีใจให้กัน).m4a', title: 'เมื่อไรจะมี (มีใจให้กัน)', artist: 'BLVCKHEART', cover: 'https://yt3.googleusercontent.com/VzTNj_ut7UteH7Zx3ykv94IRyGDuSbvwEBCfEUjAd038jMDy3J-CGpoLISmZrMnepJ_dCvLtRWQTzzU=w544-h544-l90-rj' },
   ];
   const DEFAULT_VOLUME = 0.8;
   const DEFAULT_TOP = 76;      // ระยะจากขอบบนตอนเปิดครั้งแรก (px) กันไปทับช่องพิมพ์ด้านล่าง
