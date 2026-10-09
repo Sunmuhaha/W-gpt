@@ -13,7 +13,7 @@
 
   /* ---------- ตั้งค่ารายการเพลง (ชื่อไฟล์อยู่โฟลเดอร์เดียวกับหน้าแชท) ---------- */
   const PLAYLIST = [
-    { file: 'song1.mp3', title: 'ชื่อเพลง 1', artist: 'ศิลปิน 1', cover: 'cover1.jpg' }
+    { file: 'Kunjai.webm', title: 'ขึ้นใจ', artist: 'Mirr', cover: 'cover1.jpg' }
   ];
   const DEFAULT_VOLUME = 0.8;
   const DEFAULT_TOP = 76;      // ระยะจากขอบบนตอนเปิดครั้งแรก (px) กันไปทับช่องพิมพ์ด้านล่าง
