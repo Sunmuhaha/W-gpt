@@ -11,12 +11,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Google+Sans:wght@400;500;600&family=Prompt:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght,MONO@0,300..800,1;1,300..800,1&display=swap" rel="stylesheet">
- <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wdth,wght@94,100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@100..700&display=swap" rel="stylesheet">
 <style>
 :root {
   --wine: #120307;
@@ -491,7 +487,7 @@ body.f5 .code-block-wrapper{background:#12040a}
  display: block;
 }
 @keyframes spinn {
-  from {
+ from {
     transform: rotate(0deg);
     }
   to {
@@ -1789,7 +1785,9 @@ init();
     { file: 'KunJai.mp4', title: 'ขึ้นใจ', artist: 'Mirr', cover: 'https://yt3.googleusercontent.com/kUA7_9JUpV0IwTh7zhDe7mM9o1PvUWLui1gw3A45JknRRdwFeVElJQEBHd41PQuYdkcREOAFxyNVQSTx=w544-h544-l90-rj' },
     { file: 'SURIYA MQT - BU.m4a', title: 'BU', artist: 'SURIYA MQT X P6ICK', cover: 'https://i.scdn.co/image/ab67616d0000aa54b397057eefe809f360993648' },
     { file: 'P6ICK - 1 OF 1.m4a', title: '1 OF 1', artist: 'P6ICK X SURIYA MQT', cover: 'https://i.scdn.co/image/ab67616d00001e029dbce78cb31f5ef5ebfd4250' },
-    { file: 'PROXIE - BoyDCry.m4a', title: "ขี้แง (Boys Don't Cry)", artist: 'PROXIE', cover: 'https://i.scdn.co/image/ab67616d0000aa54eb508df0affe01b473e70300' }
+    { file: 'PROXIE - BoyDCry.m4a', title: "ขี้แง (Boys Don't Cry)", artist: 'PROXIE', cover: 'https://i.scdn.co/image/ab67616d0000aa54eb508df0affe01b473e70300' },
+    { file: 'BILLKIN - กีดกัน.m4a', title: 'กีดกัน (Skyline)', artist: 'BILLKIN', cover: 'https://image.joox.com/JOOXcover/0/65aca96a8698a4dc/300' },
+    { file: 'POLYCAT - peaun.m4a', title: 'เพื่อน', artist: 'โพลีแคท', cover: 'https://yt3.googleusercontent.com/U7IDnZjKTdiZ1U4D--x0LotQo8xQDP0ZDLKwyk--hRtVTQNEQv7VFPV8bBM4N9-46SWiIgboqxUSHqWd=w544-h544-l90-rj' },
   ];
   const DEFAULT_VOLUME = 0.8;
   const DEFAULT_TOP = 76;      // ระยะจากขอบบนตอนเปิดครั้งแรก (px) กันไปทับช่องพิมพ์ด้านล่าง
@@ -1814,7 +1812,7 @@ init();
 
   #mpPlayer .mp-btn{border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.14);color:#fff;
     cursor:pointer;display:grid;place-items:center;border-radius:50%;padding:0;flex-shrink:0;
-    font-family:Noto Sans Thai;transition:transform 0.15s,background 0.15s}
+    font-family:Anuphan;transition:transform 0.15s,background 0.15s}
   #mpPlayer .mp-btn:hover{background:rgba(255,255,255,.28)}
   #mpPlayer .mp-btn:active{transform:scale(.92)}
   #mpPlayer .mp-btn svg{width:55%;height:55%;fill:currentColor;display:block}
@@ -1827,6 +1825,7 @@ init();
   #mpPlayer .mp-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
     opacity:0;transition:opacity .35s ease;max-width:none;border-radius:0;margin:0}
   #mpPlayer .mp-cover img.mp-show{opacity:1}
+   #mpPlayer .mp-toggle svg{width:85%;height:85%}
 
   #mpPlayer .mp-mini{display:flex;align-items:center;gap:10px;padding:10px 12px;animation:mpFade 0.25s}
   #mpPlayer .mp-mini .mp-cover{width:48px;height:48px;border-radius:50%;
@@ -1834,13 +1833,13 @@ init();
   #mpPlayer.mp-playing .mp-mini .mp-cover{animation-play-state:running}
   #mpPlayer .mp-mini .mp-info{flex:1;min-width:0}
   #mpPlayer .mp-mini .mp-btn{width:34px;height:34px}
-  #mpPlayer .mp-title{font-family:Noto Sans Thai;font-weight:550;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-top:3px;}
+  #mpPlayer .mp-title{font-family:Anuphan;font-weight:550;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-top:3px;}
   #mpPlayer .mp-artist{font-size:12px;opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   #mpPlayer .mp-mini .mp-title{font-size:14px}
 
   #mpPlayer .mp-full{padding:12px 16px 18px;animation:mpFade 0.25s}
   #mpPlayer .mp-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-  #mpPlayer .mp-grip{letter-spacing:2px;opacity:.6;font-size:13px}
+  #mpPlayer .mp-grip{letter-spacing:1px;opacity:.6;font-size:13px}
   #mpPlayer .mp-top .mp-btn{width:30px;height:30px}
   #mpPlayer .mp-full .mp-cover{width:100%;aspect-ratio:1/1;border-radius:18px;margin-bottom:14px;
     box-shadow:0 10px 26px rgba(90,0,15,.45)}
