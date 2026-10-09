@@ -2049,6 +2049,23 @@ init();
     else { want.x = innerWidth - root.offsetWidth - DEFAULT_RIGHT; want.y = DEFAULT_TOP; }
     apply();
     load(0);
+       /* ---------- Auto play ---------- */
+    const AUTOPLAY = true;   // ตั้งเป็น false ถ้าไม่ต้องการเล่นอัตโนมัติ
+    if (AUTOPLAY) {
+      const evs = ['click', 'keydown', 'touchend'];
+      const onGesture = e => {
+        // ถ้าผู้ใช้กดปุ่ม/แถบในเครื่องเล่นเอง ให้ปุ่มจัดการ ไม่ต้องสั่งเล่นซ้ำ
+        if (e.target && e.target.closest && e.target.closest('#mpPlayer button, #mpPlayer input')) return;
+        play();
+      };
+      const cleanup = () => evs.forEach(ev => document.removeEventListener(ev, onGesture, true));
+
+      audio.addEventListener('play', cleanup, { once: true });
+      audio.play().catch(() => {
+        // เบราว์เซอร์บล็อก → รอให้ผู้ใช้แตะ/คลิก/กดแป้นครั้งแรกที่ไหนก็ได้ในหน้า แล้วเริ่มเล่นทันที
+        evs.forEach(ev => document.addEventListener(ev, onGesture, true));
+      });
+    }
 
     // ให้สั่งจากสคริปต์อื่นได้ เช่น MusicPlayer.pause()
     window.MusicPlayer = { play, pause: () => audio.pause(), toggle, next: () => next(), prev, audio };
