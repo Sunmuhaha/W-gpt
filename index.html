@@ -1824,8 +1824,9 @@ init();
   #mpPlayer .mp-cover{position:relative;overflow:hidden;flex-shrink:0;display:grid;place-items:center;
     background:linear-gradient(135deg,#ff4d6a,#8c0a22);border:1px solid rgba(255,255,255,.3)}
   #mpPlayer .mp-cover svg{width:45%;height:45%;fill:rgba(255,255,255,.7)}
-  #mpPlayer .mp-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;
-    max-width:none;border-radius:0;margin:0}
+  #mpPlayer .mp-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+    opacity:0;transition:opacity .35s ease;max-width:none;border-radius:0;margin:0}
+  #mpPlayer .mp-cover img.mp-show{opacity:1}
 
   #mpPlayer .mp-mini{display:flex;align-items:center;gap:10px;padding:10px 12px;animation:mpFade 0.25s}
   #mpPlayer .mp-mini .mp-cover{width:48px;height:48px;border-radius:50%;
@@ -1900,9 +1901,10 @@ init();
       <button type="button" class="mp-btn mp-play" aria-label="เล่น/หยุด">${PLAYPAUSE}</button>
       <button type="button" class="mp-btn mp-next" aria-label="ถัดไป"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6zm10-12v12h2V6z"/></svg></button>
     </div>
-    <div class="mp-volrow">
-      <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/></svg>
+        <div class="mp-volrow">
+      <svg viewBox="0 0 24 24"><path d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z"/></svg>
       <input type="range" class="mp-vol" min="0" max="1" step="0.01" value="0.8" aria-label="ระดับเสียง">
+      <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
     </div>
   </div>`;
 
@@ -1944,6 +1946,22 @@ init();
 
     const fmt = s => isFinite(s) ? Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0') : '0:00';
     const fill = el => el.style.setProperty('--v', ((el.value - el.min) / (el.max - el.min) * 100) + '%');
+    
+        let coverTok = 0;
+    function setCover(url) {
+      const tok = ++coverTok;
+      qa('.mp-cover img').forEach(img => img.classList.remove('mp-show'));   // เฟดรูปเก่าออก
+      if (!url) return;
+      const pre = new Image();
+      pre.onload = () => setTimeout(() => {
+        if (tok !== coverTok) return;                                         // ข้ามถ้าเปลี่ยนเพลงไปแล้ว
+        qa('.mp-cover img').forEach(img => {
+          img.src = pre.src;
+          requestAnimationFrame(() => img.classList.add('mp-show'));          // เฟดรูปใหม่เข้า
+        });
+      }, 250);
+      pre.src = encodeURI(url);
+    }
 
     function load(i) {
       idx = (i + PLAYLIST.length) % PLAYLIST.length;
@@ -1951,14 +1969,7 @@ init();
       audio.src = encodeURI(t.file);
       qa('.mp-title').forEach(e => e.textContent = t.title || '-');
       qa('.mp-artist').forEach(e => e.textContent = t.artist || '-');
-      qa('.mp-cover img').forEach(img => {
-        img.style.display = 'none';
-        if (t.cover) {
-          img.onload = () => { img.style.display = 'block'; };
-          img.onerror = () => { img.style.display = 'none'; };
-          img.src = encodeURI(t.cover);
-        } else img.removeAttribute('src');
-      });
+      setCover(t.cover); 
       seek.value = 0; fill(seek);
       q('.mp-cur').textContent = '0:00'; q('.mp-dur').textContent = '0:00';
       if ('mediaSession' in navigator && window.MediaMetadata) {
