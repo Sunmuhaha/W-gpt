@@ -7,8 +7,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Google+Sans:wght@400;500;600&family=Prompt:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght,MONO@0,300..800,1;1,300..800,1&display=swap" rel="stylesheet">
 <link rel="icon" type="image/x-icon" href="https://i.ibb.co/7trsmDy7/20260603-184927-0000.png">
+<meta property="og:description" content="WormGPT">
 <style>
 :root {
   --wine: #120307;
@@ -24,6 +27,7 @@
   --muted: rgba(255, 230, 234, 0.65);
   --sidebar-w: 260px;
 }
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -37,6 +41,7 @@
   width: 0 !important;
   height: 0 !important;
 }
+
 html, body {
   height: 100%;
   width: 100%;
@@ -45,10 +50,12 @@ html, body {
   color: var(--text);
   background: radial-gradient(120% 90% at 20% 0%, #4a0a18 0%, var(--wine) 60%) fixed;
 }
+
 .orb { position: fixed; border-radius: 50%; filter: blur(80px); opacity: .65; pointer-events: none; z-index: 0; }
 .o1 { width: 450px; height: 450px; background: var(--crimson); top: -120px; left: -100px; }
 .o2 { width: 400px; height: 400px; background: var(--ruby); bottom: -110px; right: -80px; }
 .o3 { width: 250px; height: 250px; background: var(--coral); top: 45%; left: 50%; opacity: .25; }
+
 .layout {
   position: relative;
   z-index: 1;
@@ -59,6 +66,7 @@ html, body {
   gap: 14px;
   padding: max(14px, env(safe-area-inset-top)) 14px max(14px, env(safe-area-inset-bottom));
 }
+
 .glass {
   background: var(--glass);
   border: 1px solid var(--line);
@@ -76,6 +84,7 @@ html, body {
   z-index: 90;
 }
 .sidebar-overlay.active { display: block; }
+
 .sidebar {
   width: var(--sidebar-w);
   display: flex;
@@ -87,10 +96,12 @@ html, body {
   transition: transform 0.25s ease;
   z-index: 100;
 }
+
 .sidebar-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .sidebar-action-group { display: flex; align-items: center; gap: 6px; }
 .sidebar-title { font-size: 15px; font-weight: 600; color: var(--text); }
 .history-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+
 .history-item {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
   padding: 10px 12px; border-radius: 14px; background: rgba(255,255,255,0.03);
@@ -106,8 +117,11 @@ html, body {
 }
 .history-item:hover .del-btn { display: block; }
 .history-item .del-btn:hover { color: #ff4d4d; background: rgba(255,255,255,0.15); }
+
 #closeSidebarBtn { display: none; }
+
 .app { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px; height: 100%; }
+
 header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-radius: 22px; z-index: 10; }
 .avatar {
   width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; flex: none;
@@ -121,6 +135,7 @@ header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; bord
 .dot.on { background: #7dffb0; box-shadow: 0 0 10px #7dffb0; }
 .dot.err { background: #ff4d4d; box-shadow: 0 0 10px #ff4d4d; }
 .sp { flex: 1; }
+
 .icon-btn {
   width: 38px; height: 38px; border-radius: 12px; border: 1px solid var(--line); background: var(--glass);
   color: var(--text); cursor: pointer; display: grid; place-items: center; transition: all .2s;
@@ -129,26 +144,32 @@ header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; bord
 .icon-btn:hover { background: var(--glass-strong); }
 .icon-btn:active { transform: scale(.95); }
 .icon-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
 #toggleSidebar { display: none; }
+
 #chat {
   flex: 1; min-height: 0; border-radius: 26px;
   padding: 20px 16px;
   overflow-y: auto; overflow-x: hidden;
   display: flex; flex-direction: column; gap: 16px; scroll-behavior: smooth;
 }
+
 .empty { margin: auto; text-align: center; max-width: 360px; color: var(--muted); line-height: 1.6; }
 .empty h2 { color: var(--text); font-weight: 600; font-size: 22px; margin-bottom: 8px; }
-.msg { display: flex; flex-direction: column; max-width: 85%; gap: 1px; }
+
+.msg { display: flex; flex-direction: column; max-width: 85%; gap: 4px; }
 .msg.user { align-self: flex-end; align-items: flex-end; }
 .msg.bot { align-self: flex-start; align-items: flex-start; }
+
 .msg-meta {
-  font-size: 11px; color: var(--muted); padding: 0 4px;
+  font-size: 11px; color: var(--muted); padding: 2px 4px;
   display: flex; align-items: center; gap: 8px;
 }
 .msg.bot .msg-meta { justify-content: flex-start; }
 .msg.user .msg-meta { justify-content: flex-end; }
+
 .bubble {
-  position: relative; padding: 10px 14px; border-radius: 20px; line-height: 1.6;
+  position: relative; padding: 12px 16px; border-radius: 20px; line-height: 1.6;
   font-size: 14.5px; word-break: break-word; white-space: pre-wrap; max-width: 100%;
 }
 .bot .bubble {
@@ -160,8 +181,10 @@ header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; bord
   border: 1px solid rgba(255,255,255,0.3); border-bottom-right-radius: 6px;
   box-shadow: 0 8px 24px rgba(225,29,72,0.35), inset 0 1px 0 rgba(255,255,255,0.35);
 }
+
 .bubble.typing { white-space: normal; padding: 10px 16px; line-height: 1; display: inline-flex; align-items: center; }
 .bubble.typing .typing-dots { padding: 0; display: flex; }
+
 .copy-btn {
   border: 0; background: transparent; color: var(--muted);
   padding: 2px 6px; border-radius: 6px; cursor: pointer; transition: all .2s;
@@ -170,40 +193,7 @@ header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; bord
 .copy-btn:hover { color: var(--text); background: rgba(255,255,255,0.12); }
 .copy-btn svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-.bubble h1, .bubble h2, .bubble h3, .bubble h4,
-.md-h1, .md-h2, .md-h3, .md-h4 {
-  font-weight: 600;
-  line-height: 1.15;
-  margin-top: -9px;
-  margin-bottom: -17px;
-  word-break: break-word;
-}
-.bubble h1:first-child, .bubble h2:first-child, .bubble h3:first-child, .bubble h4:first-child,
-.md-h1:first-child, .md-h2:first-child, .md-h3:first-child, .md-h4:first-child {
-  margin-top: 0;
-}
-.bubble h1, .md-h1 {
-  font-size: 1.32em;
-  color: var(--rose);
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 2px;
-}
-.bubble h2, .md-h2 {
-  font-size: 1.2em;
-  color: var(--coral);
-}
-.bubble h3, .md-h3 {
-  font-size: 1.1em;
-  color: var(--coral);
-  font-weight: 600;
-}
-.bubble h4, .md-h4 {
-  font-size: 1.0em;
-  color: var(--rose);
-  opacity: 0.95;
-}
-
-/* Code Block Responsive & Tight Spacing */
+/* Code Block Responsive & Tight Spacing (ปรับแก้ไขระยะห่างเรียบร้อยแล้ว) */
 .code-block-wrapper {
   margin: 6px 0; border-radius: 12px; overflow: hidden;
   background: rgba(12, 3, 6, 0.85); border: 1px solid var(--line);
@@ -212,6 +202,7 @@ header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; bord
 }
 .code-block-wrapper:first-child { margin-top: 4px; }
 .code-block-wrapper:last-child { margin-bottom: 4px; }
+
 .code-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 6px 12px; background: rgba(255, 255, 255, 0.08);
@@ -237,7 +228,10 @@ header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; bord
   font-size: 0.9em; color: var(--coral);
 }
 
-.typing-dots { display: inline-flex; align-items: center; gap: 5px; padding: 4px 2px; }
+/* Loading Animations */
+.typing-dots {
+  display: inline-flex; align-items: center; gap: 5px; padding: 4px 2px;
+}
 .typing-dots span {
   width: 7px; height: 7px; border-radius: 50%; background: var(--coral);
   animation: dotBounce 1.4s infinite ease-in-out both;
@@ -248,17 +242,21 @@ header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; bord
   0%, 80%, 100% { transform: scale(0.3); opacity: 0.3; }
   40% { transform: scale(1); opacity: 1; }
 }
+
 .chat-loading {
   display: flex; align-items: center; justify-content: center; gap: 10px;
   color: var(--muted); font-size: 14px; margin: auto; padding: 20px 0;
 }
+
 .composer { display: flex; align-items: flex-end; gap: 10px; padding: 10px 12px; border-radius: 26px; border: 1px solid var(--line); }
 .composer:focus-within { background: rgba(255,255,255,0.12); border-color: rgba(255,107,129,0.6); box-shadow: 0 0 0 4px rgba(225,29,72,0.22); }
+
 textarea {
   flex: 1; resize: none; border: 0; outline: 0; background: transparent; color: var(--text);
   font: inherit; font-size: 15px; line-height: 1.5; padding: 8px 10px; max-height: 140px;
 }
 textarea::placeholder { color: var(--muted); }
+
 .send {
   width: 44px; height: 44px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; flex: none;
   display: grid; place-items: center; color: #fff;
@@ -267,6 +265,7 @@ textarea::placeholder { color: var(--muted); }
 }
 .send:disabled { opacity: .35; cursor: default; }
 .send svg { width: 20px; height: 20px; fill: #fff; }
+
 .setup {
   padding: 16px; border-radius: 20px; display: none; gap: 12px; flex-direction: column; font-size: 13px; color: var(--muted);
   border: 1px solid var(--coral); box-shadow: 0 8px 30px rgba(225,29,72,0.2);
@@ -281,6 +280,7 @@ textarea::placeholder { color: var(--muted); }
   padding: 0 16px; border-radius: 12px; border: 0; cursor: pointer; font: inherit; color: #fff;
   background: linear-gradient(135deg, var(--coral), var(--crimson)); font-weight: 500; flex: none;
 }
+
 @media (max-width: 768px) {
   .msg { max-width: 92%; }
   .code-block-wrapper pre { font-size: 12px; padding: 10px; }
@@ -297,18 +297,206 @@ textarea::placeholder { color: var(--muted); }
   #toggleSidebar, #closeSidebarBtn { display: grid; }
 }
 
-:root{--fs:14.5px;--fsm:1}html,body{height:100dvh}body{-webkit-tap-highlight-color:transparent}button{touch-action:manipulation}button:focus-visible,textarea:focus-visible,input:focus-visible{outline:0 solid var(--coral);outline-offset:2px}.layout{height:100dvh}#chat{scroll-behavior:auto;overscroll-behavior:contain}.history-list{overscroll-behavior:contain}.bubble{font-size:calc(var(--fs)*var(--fsm))}.code-block-wrapper pre{font-size:calc(13px*var(--fsm))}.chat-wrap{flex:1;min-height:0;position:relative;display:flex;flex-direction:column}.notice{align-self:center;font-size:12px;color:var(--muted);background:var(--glass);border:1px solid var(--line);padding:4px 12px;border-radius:99px}.hint{display:none;font-size:11px;color:var(--muted);text-align:center;margin-top:-6px}@media (hover:hover) and (pointer:fine){.hint{display:block}}@media (hover:none){.history-item .del-btn{display:block;opacity:.7}}.history-item .del-btn.armed{display:inline-flex!important;align-items:center;gap:4px;line-height:1;font-size:11px;color:#fff;background:var(--crimson);opacity:1;padding:5px 9px}.history-item .del-btn.armed::after{content:'ลบ?'}@keyframes msgIn{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}@keyframes fade{from{opacity:0}to{opacity:1}}@keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,28px)}}@keyframes twinkle{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.14) rotate(14deg)}}@keyframes ping{0%{box-shadow:0 0 0 0 rgba(125,255,176,.6)}100%{box-shadow:0 0 0 9px rgba(125,255,176,0)}}@keyframes itemIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}@keyframes itemOut{to{opacity:0;transform:translateX(-16px) scale(.96)}}@keyframes fly{0%{transform:none}45%{transform:translate(16px,-16px);opacity:0}55%{transform:translate(-16px,16px);opacity:0}100%{transform:none;opacity:1}}@keyframes modalIn{from{opacity:0;transform:translate(-50%,-46%) scale(.97)}to{opacity:1;transform:translate(-50%,-50%)}}@keyframes sheetIn{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}@keyframes blink{50%{opacity:.25}}.msg{animation:msgIn .38s cubic-bezier(.2,.85,.25,1) both}.msg.user{transform-origin:100% 100%}.msg.bot{transform-origin:0 100%}.msg.still{animation:none}.o1{animation:drift 16s ease-in-out infinite}.o2{animation:drift 20s ease-in-out infinite reverse}.o3{animation:drift 24s ease-in-out infinite}.avatar svg{animation:twinkle 4s ease-in-out infinite}.dot.on{animation:ping 2.2s ease-out infinite}.empty{animation:rise .6s both}.history-item.enter{animation:itemIn .32s both;animation-delay:calc(var(--i,0)*45ms)}.history-item.leaving{animation:itemOut .22s forwards;pointer-events:none}.sidebar-overlay.active{animation:fade .25s}.send{transition:transform .15s,opacity .2s,box-shadow .2s}.send:not(:disabled):hover{transform:translateY(-2px)}.send:not(:disabled):active{transform:scale(.9)}.send.fly svg{animation:fly .5s ease}.copy-code-btn:active,.copy-btn:active{transform:scale(.94)}.to-bottom{position:absolute;right:14px;bottom:14px;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:rgba(40,8,16,.85);color:var(--text);display:grid;place-items:center;cursor:pointer;opacity:0;transform:translateY(12px) scale(.8);pointer-events:none;transition:opacity .25s,transform .25s;z-index:5}.to-bottom.show{opacity:1;transform:none;pointer-events:auto}.to-bottom svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.setup-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:115}.setup-backdrop.show{display:block;animation:fade .25s}.setup{position:fixed;z-index:120;left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,460px);max-height:86dvh;overflow-y:auto;overscroll-behavior:contain;background:rgba(36,6,14,.92)}.setup.show{animation:modalIn .3s cubic-bezier(.2,.85,.25,1) both}.setup-head{display:flex;align-items:center;justify-content:space-between}.setup-title{font-size:17px;font-weight:600;color:var(--text)}.setup-group{display:flex;flex-direction:column;gap:10px;padding-top:14px;border-top:1px solid var(--line)}.setup-label{color:var(--text);font-weight:600}.switch-row{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--text);cursor:pointer;min-height:36px}.switch{position:relative;width:48px;height:28px;flex:none}.switch input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;z-index:2}.switch i{position:absolute;inset:0;border-radius:99px;background:rgba(255,255,255,.2);transition:background .25s}.switch i::after{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .25s}.switch input:checked+i{background:linear-gradient(135deg,var(--coral),var(--crimson))}.switch input:checked+i::after{transform:translateX(20px)}.range-wrap{transition:opacity .2s}.range-wrap.off{opacity:.4}#fastLevel{width:100%;height:34px;accent-color:var(--coral)}.range-scale{display:flex;justify-content:space-between;font-size:11px}.fast-desc{font-size:12.5px;line-height:1.55;min-height:3.1em}.seg{display:flex;gap:8px}.seg button{flex:1;padding:11px 0;border-radius:12px;border:1px solid var(--line);background:var(--glass);color:var(--text);font-family:inherit;cursor:pointer;transition:background .2s}.seg button.on{background:linear-gradient(135deg,var(--coral),var(--crimson));border-color:transparent}
-body.f1 .orb{animation:none;filter:blur(55px)}body.f1 .avatar svg,body.f1 .dot.on,body.f1 .empty{animation:none}body.f1 .msg{animation-duration:.2s}body.f2 .glass,body.f2 .to-bottom{-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none;background:rgba(52,10,22,.78)}body.f2 .setup{background:rgba(36,6,14,.97)}body.f2 .orb{filter:blur(35px);opacity:.5}body.f3 .orb{display:none}body.f3{background:linear-gradient(160deg,#3a0813 0%,#120307 70%) fixed}body.f3 *{transition:none!important}body.f3 .msg{animation:none}body.f4 *,body.f4 *::before,body.f4 *::after{animation:none!important;transition:none!important;box-shadow:none!important;text-shadow:none!important;scroll-behavior:auto!important}body.f4 .typing-dots span{animation:blink 1s infinite!important}body.f4 .typing-dots span:nth-child(2){animation-delay:.2s!important}body.f4 .typing-dots span:nth-child(3){animation-delay:.4s!important}body.f4 .bot .bubble{background:rgba(255,255,255,.14)}body.f4 .user .bubble{background:var(--crimson)}body.f4 .msg{content-visibility:auto;contain-intrinsic-size:auto 90px}body.f5{background:#1a0509}body.f5 .glass,body.f5 .sidebar{background:#2a0c14!important}body.f5 .send,body.f5 .avatar{background:var(--crimson)}body.f5 .code-block-wrapper{background:#12040a}
-@media (max-width:768px){:root{--fs:15.5px}.layout{padding:max(8px,env(safe-area-inset-top)) 8px max(8px,env(safe-area-inset-bottom))}.app{gap:8px}header{padding:8px 10px;border-radius:18px;gap:10px}.avatar{width:38px;height:38px;border-radius:12px}.icon-btn{width:42px;height:42px;border-radius:13px}#chat{padding:14px 10px;border-radius:20px;gap:14px}.msg{max-width:94%}.composer{padding:8px 8px 8px 12px;border-radius:22px;gap:8px}textarea{font-size:16px}.send{width:46px;height:46px}.copy-btn{padding:6px 8px;font-size:12px}.code-header{padding:6px 10px}.copy-code-btn{padding:6px 10px;font-size:12px}.code-block-wrapper pre{font-size:calc(12.5px*var(--fsm));padding:10px}.history-item{padding:13px 14px;font-size:14px}.history-item .del-btn{padding:8px}.setup{left:0;right:0;top:auto;bottom:0;transform:none;width:100%;max-height:88dvh;border-radius:24px 24px 0 0;padding-bottom:max(16px,env(safe-area-inset-bottom))}.setup.show{animation-name:sheetIn}.setup .setup-row input{font-size:16px}}@media (max-height:480px){.layout{padding-top:6px;padding-bottom:6px}header{padding:6px 12px}#chat{padding:10px}}
+/* ===== v3: animation / fast-mode / mobile ===== */
+:root{--fs:14.5px;--fsm:1}
+html,body{height:100dvh}
+body{-webkit-tap-highlight-color:transparent}
+button{touch-action:manipulation}
+button:focus-visible,textarea:focus-visible,input:focus-visible{outline:0 solid var(--coral);outline-offset:2px}
+.layout{height:100dvh}
+#chat{scroll-behavior:auto;overscroll-behavior:contain}
+.history-list{overscroll-behavior:contain}
+.bubble{font-size:calc(var(--fs)*var(--fsm))}
+.code-block-wrapper pre{font-size:calc(13px*var(--fsm))}
+.chat-wrap{flex:1;min-height:0;position:relative;display:flex;flex-direction:column}
+.notice{align-self:center;font-size:12px;color:var(--muted);background:var(--glass);border:1px solid var(--line);padding:4px 12px;border-radius:99px}
+.hint{display:none;font-size:11px;color:var(--muted);text-align:center;margin-top:-6px}
+@media (hover:hover) and (pointer:fine){.hint{display:block}}
+@media (hover:none){.history-item .del-btn{display:block;opacity:.7}}
+.history-item .del-btn.armed{display:inline-flex!important;align-items:center;gap:4px;line-height:1;font-size:11px;color:#fff;background:var(--crimson);opacity:1;padding:5px 9px}
+.history-item .del-btn.armed::after{content:'ลบ?'}
+
+@keyframes msgIn{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,28px)}}
+@keyframes twinkle{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.14) rotate(14deg)}}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(125,255,176,.6)}100%{box-shadow:0 0 0 9px rgba(125,255,176,0)}}
+@keyframes itemIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
+@keyframes itemOut{to{opacity:0;transform:translateX(-16px) scale(.96)}}
+@keyframes fly{0%{transform:none}45%{transform:translate(16px,-16px);opacity:0}55%{transform:translate(-16px,16px);opacity:0}100%{transform:none;opacity:1}}
+@keyframes modalIn{from{opacity:0;transform:translate(-50%,-46%) scale(.97)}to{opacity:1;transform:translate(-50%,-50%)}}
+@keyframes sheetIn{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes blink{50%{opacity:.25}}
+.msg{animation:msgIn .38s cubic-bezier(.2,.85,.25,1) both}
+.msg.user{transform-origin:100% 100%}.msg.bot{transform-origin:0 100%}
+.msg.still{animation:none}
+.o1{animation:drift 16s ease-in-out infinite}
+.o2{animation:drift 20s ease-in-out infinite reverse}
+.o3{animation:drift 24s ease-in-out infinite}
+.avatar svg{animation:twinkle 4s ease-in-out infinite}
+.dot.on{animation:ping 2.2s ease-out infinite}
+.empty{animation:rise .6s both}
+.history-item.enter{animation:itemIn .32s both;animation-delay:calc(var(--i,0)*45ms)}
+.history-item.leaving{animation:itemOut .22s forwards;pointer-events:none}
+.sidebar-overlay.active{animation:fade .25s}
+.send{transition:transform .15s,opacity .2s,box-shadow .2s}
+.send:not(:disabled):hover{transform:translateY(-2px)}
+.send:not(:disabled):active{transform:scale(.9)}
+.send.fly svg{animation:fly .5s ease}
+.copy-code-btn:active,.copy-btn:active{transform:scale(.94)}
+
+.to-bottom{position:absolute;right:14px;bottom:14px;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:rgba(40,8,16,.85);color:var(--text);display:grid;place-items:center;cursor:pointer;opacity:0;transform:translateY(12px) scale(.8);pointer-events:none;transition:opacity .25s,transform .25s;z-index:5}
+.to-bottom.show{opacity:1;transform:none;pointer-events:auto}
+.to-bottom svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+/* settings = modal (desktop) / bottom sheet (mobile) */
+.setup-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:115}
+.setup-backdrop.show{display:block;animation:fade .25s}
+.setup{position:fixed;z-index:120;left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,460px);max-height:86dvh;overflow-y:auto;overscroll-behavior:contain;background:rgba(36,6,14,.92)}
+.setup.show{animation:modalIn .3s cubic-bezier(.2,.85,.25,1) both}
+.setup-head{display:flex;align-items:center;justify-content:space-between}
+.setup-title{font-size:17px;font-weight:600;color:var(--text)}
+.setup-group{display:flex;flex-direction:column;gap:10px;padding-top:14px;border-top:1px solid var(--line)}
+.setup-label{color:var(--text);font-weight:600}
+.switch-row{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--text);cursor:pointer;min-height:36px}
+.switch{position:relative;width:48px;height:28px;flex:none}
+.switch input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;z-index:2}
+.switch i{position:absolute;inset:0;border-radius:99px;background:rgba(255,255,255,.2);transition:background .25s}
+.switch i::after{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .25s}
+.switch input:checked+i{background:linear-gradient(135deg,var(--coral),var(--crimson))}
+.switch input:checked+i::after{transform:translateX(20px)}
+.range-wrap{transition:opacity .2s}.range-wrap.off{opacity:.4}
+#fastLevel{width:100%;height:34px;accent-color:var(--coral)}
+.range-scale{display:flex;justify-content:space-between;font-size:11px}
+.fast-desc{font-size:12.5px;line-height:1.55;min-height:3.1em}
+.seg{display:flex;gap:8px}
+.seg button{flex:1;padding:11px 0;border-radius:12px;border:1px solid var(--line);background:var(--glass);color:var(--text);font-family:inherit;cursor:pointer;transition:background .2s}
+.seg button.on{background:linear-gradient(135deg,var(--coral),var(--crimson));border-color:transparent}
+
+/* fast mode: classes f1..f5 are cumulative */
+body.f1 .orb{animation:none;filter:blur(55px)}
+body.f1 .avatar svg,body.f1 .dot.on,body.f1 .empty{animation:none}
+body.f1 .msg{animation-duration:.2s}
+body.f2 .glass,body.f2 .to-bottom{-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none;background:rgba(52,10,22,.78)}
+body.f2 .setup{background:rgba(36,6,14,.97)}
+body.f2 .orb{filter:blur(35px);opacity:.5}
+body.f3 .orb{display:none}
+body.f3{background:linear-gradient(160deg,#3a0813 0%,#120307 70%) fixed}
+body.f3 *{transition:none!important}
+body.f3 .msg{animation:none}
+body.f4 *,body.f4 *::before,body.f4 *::after{animation:none!important;transition:none!important;box-shadow:none!important;text-shadow:none!important;scroll-behavior:auto!important}
+body.f4 .typing-dots span{animation:blink 1s infinite!important}
+body.f4 .typing-dots span:nth-child(2){animation-delay:.2s!important}
+body.f4 .typing-dots span:nth-child(3){animation-delay:.4s!important}
+body.f4 .bot .bubble{background:rgba(255,255,255,.14)}
+body.f4 .user .bubble{background:var(--crimson)}
+body.f4 .msg{content-visibility:auto;contain-intrinsic-size:auto 90px}
+body.f5{background:#1a0509}
+body.f5 .glass,body.f5 .sidebar{background:#2a0c14!important}
+body.f5 .send,body.f5 .avatar{background:var(--crimson)}
+body.f5 .code-block-wrapper{background:#12040a}
+
+/* mobile / small screens */
+@media (max-width:768px){
+  :root{--fs:15.5px}
+  .layout{padding:max(8px,env(safe-area-inset-top)) 8px max(8px,env(safe-area-inset-bottom))}
+  .app{gap:8px}
+  header{padding:8px 10px;border-radius:18px;gap:10px}
+  .avatar{width:38px;height:38px;border-radius:12px}
+  .icon-btn{width:42px;height:42px;border-radius:13px}
+  #chat{padding:14px 10px;border-radius:20px;gap:14px}
+  .msg{max-width:94%}
+  .composer{padding:8px 8px 8px 12px;border-radius:22px;gap:8px}
+  textarea{font-size:16px}
+  .send{width:46px;height:46px}
+  .copy-btn{padding:6px 8px;font-size:12px}
+  .code-header{padding:6px 10px}
+  .copy-code-btn{padding:6px 10px;font-size:12px}
+  .code-block-wrapper pre{font-size:calc(12.5px*var(--fsm));padding:10px}
+  .history-item{padding:13px 14px;font-size:14px}
+  .history-item .del-btn{padding:8px}
+  .setup{left:0;right:0;top:auto;bottom:0;transform:none;width:100%;max-height:88dvh;border-radius:24px 24px 0 0;padding-bottom:max(16px,env(safe-area-inset-bottom))}
+  .setup.show{animation-name:sheetIn}
+  .setup .setup-row input{font-size:16px}
+}
+@media (max-height:480px){
+  .layout{padding-top:6px;padding-bottom:6px}
+  header{padding:6px 12px}
+  #chat{padding:10px}
+}
+
+@keyframes loop {
+  0% {
+    transform: rotate(0deg); /* เริ่มต้นที่ 0 องศา */
+  }
+  100% {
+    transform: rotate(360deg); /* หมุนครบรอบที่ 360 องศา */
+  }
+}
+
+
+/* ===== v4: markdown / attachments ===== */
+.bubble.md{white-space:normal;overflow-wrap:anywhere;word-break:break-word}
+.bubble.md>*:first-child{margin-top:0!important}
+.bubble.md>*:last-child{margin-bottom:0!important}
+.bubble.media{padding:6px}
+.md p{margin:.55em 0}
+.md .md-h{margin:.95em 0 .4em;line-height:1.3;font-weight:600}
+.md h1.md-h{font-size:1.35em}.md h2.md-h{font-size:1.22em}.md h3.md-h{font-size:1.1em}.md h4.md-h,.md h5.md-h,.md h6.md-h{font-size:1em}
+.md ul,.md ol{margin:.5em 0;padding-left:1.45em}
+.md li{margin:.22em 0;padding-left:.1em}
+.md li>p{margin:.2em 0}
+.md li>ul,.md li>ol{margin:.2em 0}
+.md li.md-task-li{list-style:none;margin-left:-1.25em}
+.md li.md-task-li>p:first-of-type{display:inline;margin:0}
+.md-task{display:inline-block;width:1em;height:1em;border:1.5px solid var(--rose);border-radius:4px;margin-right:.5em;vertical-align:-.14em;position:relative}
+.md-task.on{background:var(--coral);border-color:var(--coral)}
+.md-task.on::after{content:'';position:absolute;left:.28em;top:.06em;width:.26em;height:.5em;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(40deg)}
+.md blockquote{margin:.65em 0;padding:.25em .9em;border-left:3px solid var(--coral);background:rgba(255,255,255,.07);border-radius:0 10px 10px 0}
+.md hr{border:0;border-top:1px solid var(--line);margin:.9em 0}
+.md a{color:#ffd0d8;text-decoration:underline;text-underline-offset:2px}
+.user .md a{color:#fff}
+.md del{opacity:.7}
+.md-table-wrap{overflow-x:auto;margin:.65em 0;border:1px solid var(--line);border-radius:10px;max-width:100%}
+.md table{border-collapse:collapse;font-size:.93em;min-width:100%}
+.md th,.md td{padding:7px 12px;border-bottom:1px solid rgba(255,255,255,.12);vertical-align:top;min-width:5em;text-align:left}
+.md th{background:rgba(255,255,255,.1);font-weight:600}
+.md tr:last-child td{border-bottom:0}
+.md-img,.att-img{display:block;max-width:100%;max-height:360px;border-radius:12px;object-fit:contain;cursor:zoom-in;background:rgba(0,0,0,.2)}
+.md p>.md-img{margin:.3em 0}
+.file-chip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;margin:2px 0;border-radius:12px;background:rgba(0,0,0,.25);color:var(--text)!important;text-decoration:none!important}
+.md audio,.md video{max-width:100%;border-radius:12px;display:block}
+.md .card-title{font-weight:600}
+.code-block-wrapper pre{max-height:420px;overflow:auto}
+
+.attach-btn{align-self:flex-end;flex:none}
+.attach-tray{display:none;gap:8px;overflow-x:auto;padding:8px 4px 2px}
+.attach-tray.has{display:flex}
+.att{position:relative;flex:none;border-radius:14px;border:1px solid var(--line);background:var(--glass-strong);animation:rise .25s both}
+.att.img{width:64px;height:64px}
+.att.img img{width:100%;height:100%;object-fit:cover;border-radius:13px;display:block}
+.att.file{display:flex;align-items:center;gap:8px;padding:8px 20px 8px 12px;max-width:230px}
+.att .nm{font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:150px}
+.att .sz{font-size:11px;color:var(--muted)}
+.att .x{position:absolute;top:-7px;right:-7px;width:24px;height:24px;border-radius:50%;border:0;background:var(--crimson);color:#fff;cursor:pointer;font-size:16px;line-height:1;display:grid;place-items:center;padding:0}
+.app.dragging .chat-wrap::after{content:'วางไฟล์ที่นี่เพื่อแนบ';position:absolute;inset:0;display:grid;place-items:center;background:rgba(225,29,72,.28);border:2px dashed var(--coral);border-radius:26px;font-size:18px;z-index:6;pointer-events:none}
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translate(-50%,12px);max-width:88vw;padding:10px 16px;border-radius:14px;background:rgba(36,6,14,.95);border:1px solid var(--line);color:var(--text);font-size:13.5px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:300;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.lightbox{position:fixed;inset:0;z-index:250;background:rgba(0,0,0,.88);display:grid;place-items:center;animation:fade .2s;cursor:zoom-out}
+.lightbox img{max-width:94vw;max-height:90dvh;border-radius:12px;object-fit:contain}
+@media (max-width:768px){
+  .attach-btn{width:42px;height:42px}
+  .att .x{width:28px;height:28px}
+}
 </style>
 </head>
 <body>
-<div class="orb o1"></div>
-<div class="orb o2"></div>
-<div class="orb o3"></div>
+<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+
 <div class="layout">
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
   <aside class="sidebar glass" id="sidebar">
     <div class="sidebar-header">
       <span class="sidebar-title">ประวัติการสนทนา</span>
@@ -323,12 +511,13 @@ body.f1 .orb{animation:none;filter:blur(55px)}body.f1 .avatar svg,body.f1 .dot.o
     </div>
     <div class="history-list" id="historyList"></div>
   </aside>
+
   <main class="app">
     <header class="glass">
       <button class="icon-btn" id="toggleSidebar" aria-label="เมนูประวัติ">
         <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
-      <div class="avatar"><img src="https://i.ibb.co/7trsmDy7/20260603-184927-0000.png" alt="WormGPT" width="100%" style="border-radius:12px;"></div>
+      <div class="avatar"><img src="https://i.ibb.co/dwLkVjBf/20261008-235915-0000.png" alt="WormGPT" width="100%" style="border-radius:12px;padding:3px;animation:loop 20s linear infinite;"></div>
       <div>
         <div class="title">WormGPT</div>
         <div class="status"><span class="dot" id="dot"></span><span id="statusText">กำลังเชื่อมต่อ…</span></div>
@@ -341,12 +530,14 @@ body.f1 .orb{animation:none;filter:blur(55px)}body.f1 .avatar svg,body.f1 .dot.o
         <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
       </button>
     </header>
+
     <div class="setup-backdrop" id="setupBackdrop"></div>
     <section class="setup glass" id="setup" role="dialog" aria-label="ตั้งค่า">
       <div class="setup-head">
         <span class="setup-title">ตั้งค่า</span>
         <button class="icon-btn" id="setupClose" type="button" aria-label="ปิด"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
       </div>
+
       <div class="setup-group">
         <span class="setup-label">User Key (ซิงค์ประวัติข้ามเครื่อง)</span>
         <span>วางคีย์เดียวกันในทุกเครื่องเพื่อใช้ประวัติแชทร่วมกัน</span>
@@ -356,6 +547,7 @@ body.f1 .orb{animation:none;filter:blur(55px)}body.f1 .avatar svg,body.f1 .dot.o
         </div>
         <button id="hookSave" type="button" style="padding:12px;">บันทึก User Key และเชื่อมต่อใหม่</button>
       </div>
+
       <div class="setup-group">
         <span class="setup-label">โหมดเร็ว (สำหรับเครื่องสเปกต่ำ)</span>
         <label class="switch-row"><span>เปิดใช้งาน · <b id="fastLabel">ปิดอยู่</b></span><span class="switch"><input type="checkbox" id="fastToggle"><i></i></span></label>
@@ -365,6 +557,7 @@ body.f1 .orb{animation:none;filter:blur(55px)}body.f1 .avatar svg,body.f1 .dot.o
         </div>
         <div class="fast-desc" id="fastDesc"></div>
       </div>
+
       <div class="setup-group">
         <span class="setup-label">ขนาดตัวอักษร</span>
         <div class="seg" id="fsGroup">
@@ -374,16 +567,21 @@ body.f1 .orb{animation:none;filter:blur(55px)}body.f1 .avatar svg,body.f1 .dot.o
         </div>
       </div>
     </section>
+
     <div class="chat-wrap">
-      <section class="glass" id="chat" aria-live="polite">
-        <div class="empty" id="empty">
-          <h2>วันนี้ทำลายอะไรดี?</h2>
-          <p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับ WormGPT ได้เลย</p>
-        </div>
-      </section>
-      <button class="to-bottom" id="toBottom" type="button" aria-label="เลื่อนลงล่างสุด"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+    <section class="glass" id="chat" aria-live="polite">
+      <div class="empty" id="empty">
+        <h2>วันนี้ทำลายอะไรดี?</h2>
+        <p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับ WormGPT ได้เลย</p>
+      </div>
+    </section>
+    <button class="to-bottom" id="toBottom" type="button" aria-label="เลื่อนลงล่างสุด"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
     </div>
+
+    <div class="attach-tray" id="attachTray" aria-label="ไฟล์ที่แนบ"></div>
     <form class="composer glass" id="form">
+      <button class="icon-btn attach-btn" id="attachBtn" type="button" aria-label="แนบไฟล์" title="แนบรูปภาพ / ข้อความ / ไฟล์โค้ด"><svg viewBox="0 0 24 24"><path d="M21.4 11.1l-9.2 9.2a5.5 5.5 0 0 1-7.8-7.8l9.2-9.2a3.7 3.7 0 0 1 5.2 5.2l-9.2 9.2a1.8 1.8 0 0 1-2.6-2.6l8.5-8.5"/></svg></button>
+      <input type="file" id="fileInput" multiple hidden accept="image/*,text/*,application/json,application/xml,.js,.mjs,.ts,.tsx,.jsx,.py,.java,.kt,.c,.h,.cpp,.cs,.go,.rs,.php,.rb,.sh,.sql,.html,.css,.scss,.json,.md,.txt,.csv,.xml,.yml,.yaml,.ini,.toml,.log,.swift,.dart,.lua,.bat,.vue,.svg">
       <textarea id="input" rows="1" placeholder="พิมพ์ข้อความ…" aria-label="ข้อความ"></textarea>
       <button class="send" id="send" type="submit" aria-label="ส่ง">
         <svg viewBox="0 0 24 24"><path d="M3.4 20.4l17.5-7.6a.9.9 0 0 0 0-1.6L3.4 3.6a.9.9 0 0 0-1.3.9L3.5 10l9 2-9 2-1.4 5.5a.9.9 0 0 0 1.3.9z"/></svg>
@@ -394,8 +592,10 @@ body.f1 .orb{animation:none;filter:blur(55px)}body.f1 .avatar svg,body.f1 .dot.o
 </div>
 
 <script>
+// ใส่ Webhook URL หรือ Webhook ID ของ Botpress ตรงนี้ (ใช้ร่วมกันทุกเครื่อง)
 const WEBHOOK = "https://chat.botpress.cloud/b06203f7-7853-4bab-82ad-997e12f8b6e9";
 const $ = id => document.getElementById(id);
+
 const store = {
   get(k){
     try {
@@ -423,10 +623,12 @@ function resolveBase(){
   if(!h) return "";
   return h.startsWith('http') ? h : 'https://chat.botpress.cloud/'+h;
 }
-function setStatus(t,s){
-  $('statusText').textContent=t;
-  $('dot').className='dot '+(s||'');
+
+function setStatus(t,s){ 
+  $('statusText').textContent=t; 
+  $('dot').className='dot '+(s||''); 
 }
+
 function isUserMessage(msg) {
   if (!msg) return false;
   if (msg.who === 'user') return true;
@@ -438,8 +640,10 @@ async function api(path, { method='GET', body, auth=true, timeout=8000 }={}){
   if(!base) throw new Error("No Base URL");
   const headers={'Content-Type':'application/json'};
   if(auth && userKey) headers['x-user-key']=userKey;
+
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeout);
+
   try {
     const r = await fetch(base + path, {
       method,
@@ -471,7 +675,9 @@ function getLocalMessages(id){
   });
 }
 
+// แทนที่ข้อความชั่วคราว (tempId) ด้วย id จริงจากเซิร์ฟเวอร์ ไม่ให้เก็บซ้ำสองชุด
 function replaceLocalMessageId(id, oldId, msgObj){
+  msgObj = slimMsg(msgObj);
   const msgs = getLocalMessages(id);
   const realIdx = msgs.findIndex(m => m.id === msgObj.id);
   const oldIdx = msgs.findIndex(m => m.id === oldId);
@@ -485,7 +691,15 @@ function replaceLocalMessageId(id, oldId, msgObj){
   store.set('bp_msgs_' + id, msgs);
 }
 
+function slimPayload(p){
+  if (p && p.type === 'image' && /^data:/.test(p.imageUrl || '')) return { type:'image', imageUrl:'', title: p.title || '' };
+  return p;
+}
+function slimMsg(m){ return Object.assign({}, m, { payload: slimPayload(m.payload) }); }
+function cleanTitle(t){ return String(t || '').replace(/[`*#>_~\[\]]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 30); }
+
 function saveLocalMessage(id, msgObj){
+  msgObj = slimMsg(msgObj);
   let msgs = getLocalMessages(id);
   if(!msgs.some(m => (m.id && m.id === msgObj.id))){
     msgs.push(msgObj);
@@ -493,7 +707,7 @@ function saveLocalMessage(id, msgObj){
   }
 }
 
-function getSavedHistory(){
+function getSavedHistory(){ 
   const list = store.get('bp_conversations') || [];
   const ids = new Set();
   return list.filter(item => {
@@ -507,6 +721,7 @@ function getSavedHistory(){
 function saveConversationToHistory(id, title){
   if (!id) return;
   let list = store.get('bp_conversations') || [];
+  
   let displayTitle = title;
   if (!displayTitle || displayTitle === 'การสนทนาใหม่') {
     const msgs = getLocalMessages(id);
@@ -519,6 +734,7 @@ function saveConversationToHistory(id, title){
       displayTitle = 'การสนทนา';
     }
   }
+
   let existing = list.find(item => item.id === id);
   if (existing) {
     if ((!existing.title || existing.title === 'การสนทนาใหม่') && displayTitle !== 'การสนทนาใหม่') {
@@ -535,13 +751,16 @@ function saveConversationToHistory(id, title){
 
 async function deleteConversation(id, event) {
   if (event) event.stopPropagation();
+
   let list = store.get('bp_conversations') || [];
   list = list.filter(x => x.id !== id);
   store.set('bp_conversations', list);
   store.del('bp_msgs_' + id);
+
   try {
     await api('/conversations/' + id, { method: 'DELETE', timeout: 3000 });
   } catch(e) {}
+
   if (convId === id) {
     const remaining = getSavedHistory();
     if (remaining.length > 0) {
@@ -563,9 +782,11 @@ async function syncServerConversations(){
     const serverConvs = res.conversations || [];
     const serverIds = new Set(serverConvs.map(c => c.id));
     const additions = [], titleFixes = {};
+
     for (const sc of serverConvs.slice(0, 15)) {
-      if (sc.id === convId) continue;
+      if (sc.id === convId) continue; // แชทปัจจุบันจัดการโดย loadHistory/send อยู่แล้ว
       let localMsgs = getLocalMessages(sc.id);
+
       if (localMsgs.length === 0) {
         try {
           const msgRes = await api('/conversations/' + sc.id + '/messages', { timeout: 4000 });
@@ -579,11 +800,14 @@ async function syncServerConversations(){
         } catch(e){}
       }
       if (localMsgs.length === 0) continue;
+
       const firstUserMsg = localMsgs.find(m => isUserMessage(m) || m.who === 'user');
-      const autoTitle = firstUserMsg?.payload?.text?.slice(0, 30) || localMsgs[0]?.payload?.text?.slice(0, 30) || 'การสนทนา';
+      const autoTitle = cleanTitle(firstUserMsg?.payload?.text) || cleanTitle(localMsgs[0]?.payload?.text) || (localMsgs[0]?.payload?.type === 'image' ? '🖼 รูปภาพ' : 'การสนทนา');
       additions.push({ id: sc.id, title: autoTitle, createdAt: sc.createdAt });
       titleFixes[sc.id] = autoTitle;
     }
+
+    // แชทที่ถูกลบจากเครื่องอื่น: ยืนยันด้วย 404 ก่อนค่อยลบออกจากเครื่องนี้ (รายการเซิร์ฟเวอร์อาจแบ่งหน้า)
     const gone = [];
     let checks = 0;
     for (const c of (store.get('bp_conversations') || [])) {
@@ -592,6 +816,8 @@ async function syncServerConversations(){
       try { await api('/conversations/' + c.id, { timeout: 3000 }); }
       catch(e){ if (e.status === 404) gone.push(c.id); }
     }
+
+    // อ่านรายการล่าสุดหลังจบ await ทั้งหมด เพื่อไม่ทับ/ซ้ำกับสิ่งที่เพิ่มระหว่างรอ
     const localList = (store.get('bp_conversations') || []).filter(c => !gone.includes(c.id));
     gone.forEach(id => store.del('bp_msgs_' + id));
     let updated = gone.length > 0;
@@ -600,6 +826,7 @@ async function syncServerConversations(){
       if (!existing) { localList.unshift(a); updated = true; }
       else if (!existing.title || existing.title === 'การสนทนาใหม่') { existing.title = titleFixes[a.id]; updated = true; }
     });
+
     if (updated) {
       localList.sort((a,b) => (Date.parse(b.createdAt) || 0) - (Date.parse(a.createdAt) || 0));
       store.set('bp_conversations', localList);
@@ -613,10 +840,12 @@ function renderHistoryList(animate){
   const container = $('historyList');
   if(!container) return;
   container.innerHTML = '';
+
   if(list.length === 0){
     container.innerHTML = '<div style="color:var(--muted);font-size:12px;text-align:center;padding:10px;">ไม่มีประวัติการแชท</div>';
     return;
   }
+
   const stagger = animate && lvl() < 3;
   list.forEach((item, idx) => {
     const div = document.createElement('div');
@@ -633,7 +862,7 @@ function renderHistoryList(animate){
     let tm = null;
     del.onclick = (e) => {
       e.stopPropagation();
-      if(!del.classList.contains('armed')){
+      if(!del.classList.contains('armed')){ // แตะครั้งแรก = ขอยืนยัน (ไม่ใช้ confirm() เพราะบาง WebView บล็อก)
         del.classList.add('armed');
         tm = setTimeout(() => del.classList.remove('armed'), 3000);
         return;
@@ -646,8 +875,14 @@ function renderHistoryList(animate){
   });
 }
 
-function closeMobileSidebar(){ $('sidebar').classList.remove('open'); $('sidebarOverlay').classList.remove('active'); }
-function openMobileSidebar(){ $('sidebar').classList.add('open'); $('sidebarOverlay').classList.add('active'); renderHistoryList(true); }
+function closeMobileSidebar(){
+  $('sidebar').classList.remove('open');$('sidebarOverlay').classList.remove('active');
+}
+
+function openMobileSidebar(){
+  $('sidebar').classList.add('open');$('sidebarOverlay').classList.add('active');
+  renderHistoryList(true);
+}
 
 function showBotLoading() {
   removeBotLoading();
@@ -658,10 +893,12 @@ function showBotLoading() {
   chat.appendChild(row);
   autoStick = true; scrollBottom();
 }
+
 function removeBotLoading() {
   const el = document.getElementById('botLoadingIndicator');
   if (el) el.remove();
 }
+
 function showChatHistoryLoading() {
   chat.innerHTML = `
     <div class="chat-loading">
@@ -684,45 +921,439 @@ async function switchChat(id){
   closeMobileSidebar();
 }
 
+function bindEvents(){
+  $('form').addEventListener('submit', e => {
+    e.preventDefault();
+    const t = input.value.trim();
+    if(busy || (!t && !attachments.length)) return;
+    const atts = attachments; attachments = []; renderTray();
+    input.value = ''; input.style.height = 'auto';
+    sendBtn.classList.remove('fly');
+    if(lvl() < 4){ void sendBtn.offsetWidth; sendBtn.classList.add('fly'); }
+    send(t, atts);
+  });
+
+  input.addEventListener('input', () => {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 140) + 'px';
+    updateSend();
+  });
+
+  input.addEventListener('keydown', e => {
+    if(e.key === 'Enter' && (e.ctrlKey || e.metaKey) && !e.isComposing){
+      e.preventDefault();
+      $('form').requestSubmit();
+    }
+  });
+
+  $('newBtn').onclick = startNewChat;
+  $('newChatSidebarBtn').onclick = startNewChat;
+  $('toggleSidebar').onclick = openMobileSidebar;
+  $('closeSidebarBtn').onclick = closeMobileSidebar;
+  $('sidebarOverlay').onclick = closeMobileSidebar;
+
+  $('settingsBtn').onclick = (e) => {
+    e.preventDefault();
+    setSetup(!$('setup').classList.contains('show'));
+  };
+
+  $('copyUserKeyBtn').onclick = () => {
+    const k = $('userKeyInput').value.trim();
+    if(k){
+      copyText(k);
+      $('copyUserKeyBtn').textContent = "คัดลอกแล้ว!";
+      setTimeout(() => $('copyUserKeyBtn').textContent = "คัดลอก", 2000);
+    }
+  };
+
+  $('hookSave').onclick = () => {
+    const k = $('userKeyInput').value.trim();
+    const oldKey = String(store.get('bp_userKey') || '');
+    if(k) store.set('bp_userKey', k); else store.del('bp_userKey');
+    if(k !== oldKey){
+      // เปลี่ยนตัวตน: ล้าง userId และแคชข้อความเดิม ไม่ให้ปนกับบัญชีอื่น
+      store.del('bp_userId');
+      try { for(let i = localStorage.length - 1; i >= 0; i--){ const key = localStorage.key(i); if(key && key.startsWith('bp_msgs_')) localStorage.removeItem(key); } } catch(e){}
+    }
+    store.del('bp_convId');
+    store.del('bp_conversations');
+    location.reload();
+  };
+}
+
+async function init(){
+  closeMobileSidebar();
+  base = resolveBase();
+
+  if(!base){
+    setStatus('ยังไม่ได้ใส่ WEBHOOK ในโค้ด','err');
+    chat.innerHTML = '<div class="empty" id="empty"><h2>ยังไม่ได้ตั้งค่า Webhook</h2><p>เปิดไฟล์นี้ด้วยโปรแกรมแก้ไขข้อความ แล้วใส่ Webhook URL ในบรรทัด <b>const WEBHOOK = "…"</b></p></div>';
+    return;
+  }
+
+  try {
+    userKey = store.get('bp_userKey');
+    userId = store.get('bp_userId');
+    convId = store.get('bp_convId');
+
+    if(!userKey){
+      const u = await api('/users', { method:'POST', body:{}, auth: false });
+      userKey = u.key; 
+      userId = u.user ? u.user.id : u.id;
+      store.set('bp_userKey', userKey);
+      store.set('bp_userId', userId);
+    }
+    
+    if(userKey && !userId){
+      try {
+        const me = await api('/users/me', { timeout: 4000 });
+        userId = (me.user && me.user.id) || me.id || null;
+        if(userId) store.set('bp_userId', userId);
+      } catch(e){}
+    }
+
+    $('userKeyInput').value = userKey || '';
+
+    if(!convId){
+      await createNewConversation();
+    } else {
+      await loadHistory();
+    }
+    
+    setStatus('ออนไลน์','on');
+    sendBtn.disabled = !input.value.trim();
+    
+    renderHistoryList();
+    startRealtimeSync();
+    syncServerConversations();
+
+  } catch(e) {
+    if(e.status === 401 || e.status === 404){
+      store.del('bp_userKey');
+      store.del('bp_convId');
+    }
+    setStatus('เชื่อมต่อไม่ได้ ตรวจสอบ WEBHOOK ในโค้ด','err');
+    setSetup(true);
+  }
+}
+
+async function handleConversationGone(cid){
+  store.set('bp_conversations', (store.get('bp_conversations') || []).filter(x => x.id !== cid));
+  store.del('bp_msgs_' + cid);
+  if (convId !== cid) { renderHistoryList(); return; }
+  const rest = getSavedHistory();
+  if (rest.length) await switchChat(rest[0].id); else await startNewChat();
+}
+
+async function pollOnce(){
+  if (document.hidden || !convId || !userKey || busy || loadingHistory || polling) return;
+  const cid = convId;
+  polling = true;
+  try {
+    const d = await api('/conversations/' + cid + '/messages', { timeout: 4000 });
+    // ทิ้งผลลัพธ์ถ้าระหว่างรอมีการส่งข้อความ / สลับแชท / โหลดประวัติ (กันเรนเดอร์ซ้ำ)
+    if (busy || loadingHistory || cid !== convId) return;
+    const list = (d.messages || []).sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
+    list.forEach(m => {
+      if (!seen.has(m.id)) {
+        seen.add(m.id);
+        const who = isUserMessage(m) ? 'user' : 'bot';
+        render(m.payload, who, m.createdAt, who === 'bot');
+        saveLocalMessage(cid, { id: m.id, payload: m.payload, who, createdAt: m.createdAt });
+        saveConversationToHistory(cid);
+      }
+    });
+  } catch(e){
+    if (e.status === 404 && cid === convId) handleConversationGone(cid); // แชทถูกลบจากเครื่องอื่น
+  } finally { polling = false; }
+}
+
+function startRealtimeSync() {
+  clearInterval(pollInterval); clearInterval(syncTimer);
+  pollInterval = setInterval(pollOnce, pollMs());
+  syncTimer = setInterval(() => { if (!document.hidden) syncServerConversations(); }, lvl() >= 3 ? 60000 : 30000);
+}
+
+async function createNewConversation(){
+  try {
+    const c = await api('/conversations', { method:'POST', body:{} });
+    convId = c.conversation.id; 
+    store.set('bp_convId', convId);
+    stopTypers(); autoStick = true;
+    seen.clear();
+    chat.innerHTML = '<div class="empty" id="empty"><h2>วันนี้ทำลายอะไรดี?</h2><p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับ WormGPT ได้เลย</p></div>';
+  } catch(e){
+    throw e;
+  }
+}
+
+async function fetchAllMessages(cid, maxPages = 10){
+  let all = [], token = null;
+  const used = new Set();
+  for (let page = 0; page < maxPages; page++){
+    const q = token ? '?nextToken=' + encodeURIComponent(token) : '';
+    let d;
+    try { d = await api('/conversations/' + cid + '/messages' + q, { timeout: 10000 }); }
+    catch(e){ if (page === 0) throw e; break; } // หน้าถัดไปพลาด: ใช้เท่าที่ได้
+    all = all.concat(d.messages || []);
+    token = d.meta && d.meta.nextToken;
+    if (!token || used.has(token)) break;
+    used.add(token);
+  }
+  return all;
+}
+
+function paintHistory(list){
+  stopTypers();
+  chat.innerHTML = '';
+  seen.clear();
+  if (!list.length) { chat.innerHTML = EMPTY_HTML; return; }
+  const limit = renderLimit();
+  const start = Math.max(0, list.length - limit);
+  bulk = true; autoStick = true;
+  if (start > 0) {
+    const n = document.createElement('div');
+    n.className = 'notice';
+    n.textContent = 'โหมดเร็ว: แสดงเฉพาะ ' + limit + ' ข้อความล่าสุด';
+    chat.appendChild(n);
+  }
+  list.forEach((m, i) => {
+    if (seen.has(m.id)) return;
+    seen.add(m.id);
+    if (i >= start) render(m.payload, m.who, m.createdAt, false);
+  });
+  bulk = false;
+  scrollBottom();
+}
+
+async function loadHistory(){
+  if(!convId) return;
+
+  const cid = convId;
+  const token = ++loadToken;
+  loadingHistory = true;
+  stopTypers();
+  showChatHistoryLoading();
+
+  try {
+    let serverList = null, gone = false;
+    try {
+      const raw = await fetchAllMessages(cid);
+      if (token !== loadToken || cid !== convId) return; // มีการโหลด/สลับแชทใหม่กว่าแล้ว
+      serverList = raw.sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt))
+        .map(m => ({ id: m.id, payload: m.payload, who: isUserMessage(m) ? 'user' : 'bot', createdAt: m.createdAt }));
+    } catch(e){
+      if (token !== loadToken || cid !== convId) return;
+      if (e.status === 404) gone = true;
+    }
+
+    if (gone) { loadingHistory = false; await handleConversationGone(cid); return; }
+
+    if (serverList && serverList.length) {
+      // เซิร์ฟเวอร์คือความจริง แต่เก็บข้อความเก่าในเครื่องที่เก่ากว่าหน้าที่ดึงมาไว้ (กันประวัติยาวหาย)
+      const ids = new Set(serverList.map(m => m.id));
+      const firstT = new Date(serverList[0].createdAt).getTime();
+      const older = getLocalMessages(cid).filter(m => !String(m.id).startsWith('usr_') && !ids.has(m.id) && new Date(m.createdAt).getTime() < firstT);
+      const list = older.concat(serverList);
+      store.set('bp_msgs_' + cid, list.map(slimMsg));
+      paintHistory(list);
+      saveConversationToHistory(cid);
+      return;
+    }
+
+    paintHistory(getLocalMessages(cid)); // เซิร์ฟเวอร์ว่าง/ติดต่อไม่ได้ → ใช้ข้อมูลในเครื่อง
+  } finally {
+    if (token === loadToken) loadingHistory = false;
+  }
+}
+
 function esc(s){ return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
-function parseMarkdown(text) {
+function safeUrl(u, allowData){
+  u = String(u || '').trim();
+  if (/^(https?:\/\/|mailto:)/i.test(u)) return u;
+  if (allowData && /^data:image\/(png|jpe?g|gif|webp);base64,[a-z0-9+\/=]+$/i.test(u)) return u;
+  return '';
+}
+
+function mdInline(src){
+  const keep = [];
+  const hold = h => '\u0000' + (keep.push(h) - 1) + '\u0000';
+  let t = esc(String(src == null ? '' : src).replace(/\u0000/g, ''));
+  t = t.replace(/(`+)([\s\S]*?[^`])\1(?!`)/g, (m, a, c) => hold('<code class="inline-code">' + c.trim() + '</code>'));
+  t = t.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+&quot;[^&]*&quot;)?\)/g, (m, alt, u) => {
+    u = safeUrl(u.replace(/&amp;/g, '&'), true);
+    return u ? hold('<img class="md-img" src="' + esc(u) + '" alt="' + alt + '">') : alt;
+  });
+  t = t.replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+&quot;[^&]*&quot;)?\)/g, (m, txt, u) => {
+    u = safeUrl(u.replace(/&amp;/g, '&'), false);
+    return u ? hold('<a href="' + esc(u) + '" target="_blank" rel="noopener noreferrer">') + txt + hold('</a>') : m;
+  });
+  t = t.replace(/(^|[\s(])(https?:\/\/[^\s<]+[^\s<.,;:!?)\]'"])/g, (m, pre, u) => pre + hold('<a href="' + u + '" target="_blank" rel="noopener noreferrer">' + u + '</a>'));
+  t = t.replace(/\*\*\*(?=\S)([\s\S]*?\S)\*\*\*/g, '<strong><em>$1</em></strong>');
+  t = t.replace(/\*\*(?=\S)([\s\S]*?\S)\*\*/g, '<strong>$1</strong>');
+  t = t.replace(/(^|[^\w*])__(?=\S)([\s\S]*?\S)__(?!\w)/g, '$1<strong>$2</strong>');
+  t = t.replace(/(^|[^\w*])\*(?=[^\s*])([\s\S]*?[^\s*])\*(?!\*)/g, '$1<em>$2</em>');
+  t = t.replace(/(^|[^\w])_(?=[^\s_])([\s\S]*?[^\s_])_(?!\w)/g, '$1<em>$2</em>');
+  t = t.replace(/~~(?=\S)([\s\S]*?\S)~~/g, '<del>$1</del>');
+  return t.replace(/\u0000(\d+)\u0000/g, (m, i) => keep[+i]);
+}
+
+function codeBlockHTML(lang, code){
+  const c = String(code).replace(/^(?:[ \t]*\n)+/, '').replace(/\s+$/, '');
+  return '<div class="code-block-wrapper">'
+    + '<div class="code-header"><span class="code-lang">' + esc(lang || 'code') + '</span>'
+    + '<button class="copy-code-btn" type="button" onclick="copyCodeBlock(this)">'
+    + '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'
+    + '<span>คัดลอกโค้ด</span></button></div>'
+    + '<pre><code class="code-content">' + esc(c) + '</code></pre></div>';
+}
+
+const MD_LIST = /^(\s*)([-*+]|\d{1,3}[.)])\s+(.*)$/;
+const MD_HR = /^\s{0,3}([-*_])(?:\s*\1){2,}\s*$/;
+const MD_FENCE = /^\s{0,3}(`{3,}|~{3,})\s*([^`\s]*)[^`]*$/;
+const MD_HEAD = /^\s{0,3}(#{1,6})\s+(.*?)(?:\s+#+)?\s*$/;
+const MD_TSEP = /^\s*\|?\s*:?-+:?\s*(?:\|\s*:?-+:?\s*)*\|?\s*$/;
+const mdBlank = l => /^\s*$/.test(l);
+const mdIndent = l => l.match(/^[ \t]*/)[0].replace(/\t/g, '    ').length;
+
+function mdCells(line){
+  let l = line.trim();
+  if (l[0] === '|') l = l.slice(1);
+  if (l.endsWith('|') && l[l.length - 2] !== '\\') l = l.slice(0, -1);
+  const cells = []; let cur = '';
+  for (let i = 0; i < l.length; i++) {
+    const ch = l[i];
+    if (ch === '\\' && l[i + 1] === '|') { cur += '|'; i++; }
+    else if (ch === '|') { cells.push(cur.trim()); cur = ''; }
+    else cur += ch;
+  }
+  cells.push(cur.trim());
+  return cells;
+}
+
+function mdStartsBlock(l, nxt){
+  return MD_FENCE.test(l) || MD_HEAD.test(l) || MD_HR.test(l) || /^\s{0,3}>/.test(l) || MD_LIST.test(l)
+    || (l.indexOf('|') !== -1 && nxt !== undefined && nxt.indexOf('|') !== -1 && MD_TSEP.test(nxt));
+}
+
+function mdBlocks(lines){
+  const out = []; let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    if (mdBlank(line)) { i++; continue; }
+    let m;
+
+    if ((m = line.match(MD_FENCE))) {
+      const ch = m[1][0], len = m[1].length, lang = m[2];
+      const closeRe = new RegExp('^\\s{0,3}' + (ch === '`' ? '`' : '~') + '{' + len + ',}\\s*$');
+      const code = []; i++;
+      while (i < lines.length && !closeRe.test(lines[i])) { code.push(lines[i]); i++; }
+      i++; // ข้ามบรรทัดปิด (ถ้าไม่มี = ปิดที่ท้ายข้อความ เหมาะกับตอนกำลังพิมพ์)
+      out.push(codeBlockHTML(lang, code.join('\n')));
+      continue;
+    }
+    if ((m = line.match(MD_HEAD))) {
+      const n = m[1].length;
+      out.push('<h' + n + ' class="md-h">' + mdInline(m[2]) + '</h' + n + '>');
+      i++; continue;
+    }
+    if (MD_HR.test(line)) { out.push('<hr>'); i++; continue; }
+    if (/^\s{0,3}>/.test(line)) {
+      const q = [];
+      while (i < lines.length && /^\s{0,3}>/.test(lines[i])) { q.push(lines[i].replace(/^\s{0,3}>\s?/, '')); i++; }
+      out.push('<blockquote>' + mdBlocks(q) + '</blockquote>');
+      continue;
+    }
+    if (line.indexOf('|') !== -1 && i + 1 < lines.length && lines[i + 1].indexOf('|') !== -1 && MD_TSEP.test(lines[i + 1])) {
+      const head = mdCells(line);
+      const al = mdCells(lines[i + 1]).map(c => /^:-+:$/.test(c) ? 'center' : /-+:$/.test(c) ? 'right' : /^:-+/.test(c) ? 'left' : '');
+      i += 2;
+      const rows = [];
+      while (i < lines.length && !mdBlank(lines[i]) && lines[i].indexOf('|') !== -1) { rows.push(mdCells(lines[i])); i++; }
+      const cell = (tag, c, k) => '<' + tag + (al[k] ? ' style="text-align:' + al[k] + '"' : '') + '>' + mdInline(c) + '</' + tag + '>';
+      out.push('<div class="md-table-wrap"><table><thead><tr>' + head.map((c, k) => cell('th', c, k)).join('') + '</tr></thead><tbody>'
+        + rows.map(r => '<tr>' + head.map((_, k) => cell('td', r[k] || '', k)).join('') + '</tr>').join('') + '</tbody></table></div>');
+      continue;
+    }
+    if ((m = line.match(MD_LIST))) {
+      const base = m[1].replace(/\t/g, '    ').length;
+      const ordered = /\d/.test(m[2]);
+      const startNum = ordered ? parseInt(m[2], 10) : 1;
+      const items = [];
+      while (i < lines.length) {
+        let j = i; while (j < lines.length && mdBlank(lines[j])) j++;
+        if (j > i && j < lines.length) { // รายการที่คั่นด้วยบรรทัดว่าง ให้ยังเป็นลิสต์เดียวกัน
+          const nm = lines[j].match(MD_LIST);
+          if (nm && nm[1].length >= base && nm[1].length < base + 2 && /\d/.test(nm[2]) === ordered) i = j;
+        }
+        const lm = lines[i] && lines[i].match(MD_LIST);
+        if (!lm || lm[1].length < base || lm[1].length >= base + 2 || /\d/.test(lm[2]) !== ordered) break;
+        const contentIndent = lm[1].length + lm[2].length + 1;
+        const item = [lm[3]]; i++;
+        while (i < lines.length) {
+          const l = lines[i];
+          if (mdBlank(l)) {
+            let k = i; while (k < lines.length && mdBlank(lines[k])) k++;
+            if (k < lines.length && mdIndent(lines[k]) >= base + 2) { for (; i < k; i++) item.push(''); continue; }
+            break;
+          }
+          const ind = mdIndent(l);
+          if (ind >= base + 2) { item.push(l.slice(Math.min(ind, contentIndent))); i++; continue; }
+          if (MD_LIST.test(l) || mdStartsBlock(l, lines[i + 1])) break;
+          item.push(l.trim()); i++; // ต่อบรรทัดเดียวกับรายการ
+        }
+        let task = '';
+        const tm = item[0].match(/^\[( |x|X)\]\s+(.*)$/);
+        if (tm) { task = '<span class="md-task' + (tm[1] === ' ' ? '' : ' on') + '"></span>'; item[0] = tm[2]; }
+        items.push('<li' + (tm ? ' class="md-task-li"' : '') + '>' + task + mdBlocks(item) + '</li>');
+      }
+      const tag = ordered ? 'ol' : 'ul';
+      out.push('<' + tag + (ordered && startNum !== 1 ? ' start="' + startNum + '"' : '') + '>' + items.join('') + '</' + tag + '>');
+      continue;
+    }
+
+    const para = [line]; i++;
+    while (i < lines.length && !mdBlank(lines[i]) && !mdStartsBlock(lines[i], lines[i + 1])) { para.push(lines[i]); i++; }
+    out.push('<p>' + para.map(l => mdInline(l.trim())).join('<br>') + '</p>');
+  }
+  return out.join('');
+}
+
+function parseMarkdown(text){
   if (!text) return '';
-  const codeBlocks = [];
-  let str = text.replace(/```(\w*)\r?\n?([\s\S]*?)```/g, (match, lang, code) => {
-    const placeholder = `___CODEBLOCK_${codeBlocks.length}___`;
-    codeBlocks.push({ lang: lang.trim() || 'code', code: code.trim() });
-    return placeholder;
-  });
-  str = esc(str);
+  return mdBlocks(String(text).replace(/\r\n?/g, '\n').split('\n'));
+}
 
-  // ลดช่องว่างบรรทัดซ้ำในข้อความตอบกลับ โดยไม่กระทบส่วนอื่น
-  str = str.replace(/\n{2,}/g, '\n');
+function plainText(p){
+  if (!p) return '';
+  if (p.type === 'bloc') return (p.items || []).map(it => (it.payload && it.payload.text) || '').filter(Boolean).join('\n\n');
+  return p.text || '';
+}
 
-  // Parsing Markdown Headers (# - ####)
-  str = str.replace(/^####[ \t]+(.+)$/gm, '<h4 class="md-h4">$1</h4>');
-  str = str.replace(/^###[ \t]+(.+)$/gm, '<h3 class="md-h3">$1</h3>');
-  str = str.replace(/^##[ \t]+(.+)$/gm, '<h2 class="md-h2">$1</h2>');
-  str = str.replace(/^#[ \t]+(.+)$/gm, '<h1 class="md-h1">$1</h1>');
-
-  str = str.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
-  str = str.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  str = str.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
-  
-  // ตัด \n ที่ติดอยู่ก่อนและหลัง placeholder ออก เพื่อป้องกันบรรทัดว่างเกินจำเป็น
-  str = str.replace(/\s*(___CODEBLOCK_\d+___)\s*/g, '$1');
-  codeBlocks.forEach((cb, i) => {
-    const placeholder = `___CODEBLOCK_${i}___`;
-    const codeEscaped = esc(cb.code);
-    const html = '<div class="code-block-wrapper">'
-      + '<div class="code-header"><span class="code-lang">' + cb.lang + '</span>'
-      + '<button class="copy-code-btn" type="button" onclick="copyCodeBlock(this)">'
-      + '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'
-      + '<span>คัดลอกโค้ด</span></button></div>'
-      + '<pre><code class="code-content">' + codeEscaped + '</code></pre></div>';
-    str = str.replace(placeholder, () => html);
-  });
-  return str;
+function bubbleHTML(p){
+  p = p || {};
+  const t = p.type;
+  if (t === 'text') return parseMarkdown(p.text || '');
+  if (t === 'image') {
+    const u = safeUrl(p.imageUrl, true), name = esc(p.title || p.name || 'รูปภาพ');
+    return u ? '<img class="att-img" src="' + esc(u) + '" alt="' + name + '">' : '<span class="file-chip">🖼 ' + name + '</span>';
+  }
+  if (t === 'file') {
+    const u = safeUrl(p.fileUrl, false), name = esc(p.title || 'ไฟล์');
+    return u ? '<a class="file-chip" href="' + esc(u) + '" target="_blank" rel="noopener noreferrer">📄 ' + name + '</a>' : '<span class="file-chip">📄 ' + name + '</span>';
+  }
+  if (t === 'audio') { const u = safeUrl(p.audioUrl, false); return u ? '<audio controls preload="none" src="' + esc(u) + '"></audio>' : ''; }
+  if (t === 'video') { const u = safeUrl(p.videoUrl, false); return u ? '<video controls preload="metadata" src="' + esc(u) + '"></video>' : ''; }
+  if (t === 'bloc') return (p.items || []).map(it => bubbleHTML(Object.assign({ type: it.type }, it.payload || {}))).join('');
+  if (t === 'card') {
+    const u = safeUrl(p.imageUrl, false);
+    return (u ? '<img class="att-img" src="' + esc(u) + '" alt="">' : '')
+      + '<p class="card-title">' + mdInline(p.title || '') + '</p>' + (p.subtitle ? '<p>' + mdInline(p.subtitle) + '</p>' : '')
+      + (p.actions || []).map(a => { const l = safeUrl(a.url || a.value, false); return l ? '<a class="file-chip" href="' + esc(l) + '" target="_blank" rel="noopener noreferrer">' + esc(a.label || l) + '</a> ' : ''; }).join('');
+  }
+  if (p.text) return parseMarkdown(p.text);
+  return '<p>[ข้อความไม่รองรับ]</p>';
 }
 
 window.copyCodeBlock = async function(btn) {
@@ -762,12 +1393,14 @@ function appendCopyMsgBtn(container, fullText) {
 }
 
 function render(p, who, timeIso, animate = false){
+  p = p || {};
   $('empty')?.remove();
   if (who === 'user') autoStick = true;
   const row = document.createElement('div');
   row.className = 'msg ' + who + ((bulk || lvl() >= 3) ? ' still' : '');
-  const b = document.createElement('div'); b.className = 'bubble';
+  const b = document.createElement('div'); b.className = 'bubble md' + (p.type === 'image' ? ' media' : '');
   row.appendChild(b);
+
   const meta = document.createElement('div');
   meta.className = 'msg-meta';
   const timeSpan = document.createElement('span');
@@ -775,8 +1408,10 @@ function render(p, who, timeIso, animate = false){
   meta.appendChild(timeSpan);
   row.appendChild(meta);
   chat.appendChild(row);
-  const lim = renderLimit();
+
+  const lim = renderLimit(); // เครื่องสเปกต่ำ: จำกัดจำนวน DOM
   if (lim !== Infinity && !bulk) { while (chat.childElementCount > lim + 1) chat.removeChild(chat.firstElementChild); }
+
   const L = lvl();
   if (who === 'bot' && animate && L < 3 && p.type === 'text' && p.text) {
     const full = p.text;
@@ -786,56 +1421,74 @@ function render(p, who, timeIso, animate = false){
       i += step;
       const done = i >= full.length;
       if (done) i = full.length;
-      const part = full.slice(0, i);
-      b.innerHTML = parseMarkdown((part.match(/```/g) || []).length % 2 ? part + '\n```' : part);
+      b.innerHTML = parseMarkdown(full.slice(0, i)); // โค้ดบล็อกที่ยังไม่ปิดจะถูกปิดอัตโนมัติ
       if (autoStick) scrollBottom();
       if (done) { clearInterval(timer); typers.delete(timer); appendCopyMsgBtn(meta, full); }
     }, [20, 30, 40][L]);
     typers.add(timer);
   } else {
-    if (p.type === 'text') {
-      b.innerHTML = parseMarkdown(p.text || '');
-    } else {
-      b.textContent = p.text || '[ข้อความไม่รองรับ]';
-    }
-    if (p.text) appendCopyMsgBtn(meta, p.text);
+    b.innerHTML = bubbleHTML(p);
+    const txt = plainText(p);
+    if (txt) appendCopyMsgBtn(meta, txt);
+    b.querySelectorAll('img').forEach(im => { if (!im.complete) im.addEventListener('load', () => { if (autoStick) scrollBottom(); }); });
   }
   if (autoStick) scrollBottom();
 }
 
-async function send(text){
-  if(busy || !text.trim()) return;
-  busy = true; sendBtn.disabled = true;
+async function send(text, atts){
+  atts = atts || [];
+  if(busy || (!text.trim() && !atts.length)) return;
+  busy = true; sendBtn.disabled = true; // ล็อกก่อน await ใดๆ กันกดส่งซ้ำ
+
   if(!convId){
     try {
       await createNewConversation();
     } catch(e) {
-      busy = false; sendBtn.disabled = !input.value.trim();
-      setStatus('ไม่สามารถเชื่อมต่อได้ ตรวจสอบ WEBHOOK ในโค้ด','err');
+      busy = false; updateSend();
+      alert('ไม่สามารถเชื่อมต่อได้ กรุณาตรวจสอบ WEBHOOK ในโค้ด');
       setSetup(true);
       return;
     }
   }
+
   const cid = convId;
-  const tempId = 'usr_' + Date.now();
-  const userMsgObj = { id: tempId, payload: { type: 'text', text }, who: 'user', createdAt: new Date().toISOString() };
-  seen.add(tempId);
-  render(userMsgObj.payload, 'user', userMsgObj.createdAt, false);
-  saveLocalMessage(cid, userMsgObj);
-  saveConversationToHistory(cid, text.slice(0, 30));
+  // รูป = ข้อความชนิด image ส่วนไฟล์ข้อความ/โค้ด = ใส่เป็นโค้ดบล็อกในข้อความเดียว (บอทอ่านได้ทุกตัว)
+  const payloads = atts.filter(a => a.kind === 'image').map(a => ({ type:'image', imageUrl:a.dataUrl, title:a.name }));
+  const fileBlocks = atts.filter(a => a.kind === 'text').map(a => {
+    let fence = '```';
+    while (a.text.includes(fence)) fence += '`';
+    return '**📄 ' + a.name + '**\n\n' + fence + a.lang + '\n' + a.text.replace(/\s+$/, '') + '\n' + fence;
+  });
+  const fullText = [text.trim()].concat(fileBlocks).filter(Boolean).join('\n\n');
+  if (fullText) payloads.push({ type:'text', text: fullText });
+  const title = cleanTitle(text) || (atts[0] ? (atts[0].kind === 'image' ? '🖼 ' : '📄 ') + atts[0].name.slice(0, 24) : '');
+
+  const items = payloads.map(pl => ({ p: pl, tempId: 'usr_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6), createdAt: new Date().toISOString() }));
+  items.forEach((it, idx) => {
+    seen.add(it.tempId);
+    render(it.p, 'user', it.createdAt, false);
+    saveLocalMessage(cid, { id: it.tempId, payload: it.p, who: 'user', createdAt: it.createdAt });
+    if (idx === 0) saveConversationToHistory(cid, title);
+  });
+
   showBotLoading();
+
   try {
-    const r = await api('/messages', { method:'POST', body:{ conversationId:cid, payload:{ type:'text', text } } });
-    if (r && r.message) {
-      if (cid === convId) seen.add(r.message.id);
-      replaceLocalMessageId(cid, tempId, { id: r.message.id, payload: { type:'text', text }, who: 'user', createdAt: r.message.createdAt || userMsgObj.createdAt });
+    for (const it of items) {
+      const wire = it.p.type === 'image' ? { type:'image', imageUrl: it.p.imageUrl } : it.p;
+      const r = await api('/messages', { method:'POST', body:{ conversationId:cid, payload:wire }, timeout: 30000 });
+      if (r && r.message) {
+        if (cid === convId) seen.add(r.message.id);
+        replaceLocalMessageId(cid, it.tempId, { id: r.message.id, payload: it.p, who: 'user', createdAt: r.message.createdAt || it.createdAt });
+      }
     }
     await waitReply(cid);
   } catch(e){
     removeBotLoading();
-    render({ type:'text', text:'ส่งข้อความไม่สำเร็จ กรุณาตรวจสอบการเชื่อมต่อ' }, 'bot', new Date(), false);
+    const hasImg = payloads.some(x => x.type === 'image');
+    render({ type:'text', text: hasImg ? 'ส่งไม่สำเร็จ รูปอาจใหญ่เกินที่ Botpress รับได้ ลองรูปที่เล็กลงหรือตรวจสอบการเชื่อมต่อ' : 'ส่งข้อความไม่สำเร็จ กรุณาตรวจสอบการเชื่อมต่อ' }, 'bot', new Date(), false);
   }
-  busy = false; sendBtn.disabled = !input.value.trim();
+  busy = false; updateSend();
 }
 
 async function waitReply(cid){
@@ -849,6 +1502,7 @@ async function waitReply(cid){
       if(fresh.length){
         removeBotLoading();
         fresh.sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt)).forEach(m => {
+          // ถ้าผู้ใช้สลับแชทระหว่างรอ ให้เก็บลงที่เก็บของแชทเดิมเท่านั้น ไม่เรนเดอร์ลงแชทที่เปิดอยู่
           if (cid === convId) {
             seen.add(m.id);
             render(m.payload, 'bot', m.createdAt, true);
@@ -870,232 +1524,11 @@ async function startNewChat(){
     renderHistoryList();
     closeMobileSidebar();
   } catch(e) {
-    setStatus('สร้างแชทใหม่ไม่สำเร็จ ตรวจสอบการตั้งค่า', 'err');
+    alert('ไม่สามารถสร้างแชทใหม่ได้ กรุณาตรวจสอบการตั้งค่า');
   }
 }
 
-function bindEvents(){
-  $('form').addEventListener('submit', e => {
-    e.preventDefault();
-    const t = input.value.trim();
-    if(!t) return;
-    input.value = ''; input.style.height = 'auto';
-    sendBtn.classList.remove('fly');
-    if(lvl() < 4){ void sendBtn.offsetWidth; sendBtn.classList.add('fly'); }
-    send(t);
-  });
-  input.addEventListener('input', () => {
-    input.style.height = 'auto';
-    input.style.height = Math.min(input.scrollHeight, 140) + 'px';
-    sendBtn.disabled = busy || !input.value.trim();
-  });
-  input.addEventListener('keydown', e => {
-    if(e.key === 'Enter' && (e.ctrlKey || e.metaKey) && !e.isComposing){
-      e.preventDefault();
-      $('form').requestSubmit();
-    }
-  });
-  $('newBtn').onclick = startNewChat;
-  $('newChatSidebarBtn').onclick = startNewChat;
-  $('toggleSidebar').onclick = openMobileSidebar;
-  $('closeSidebarBtn').onclick = closeMobileSidebar;
-  $('sidebarOverlay').onclick = closeMobileSidebar;
-  $('settingsBtn').onclick = (e) => {
-    e.preventDefault();
-    setSetup(!$('setup').classList.contains('show'));
-  };
-  $('copyUserKeyBtn').onclick = () => {
-    const k = $('userKeyInput').value.trim();
-    if(k){
-      copyText(k);
-      $('copyUserKeyBtn').textContent = "คัดลอกแล้ว!";
-      setTimeout(() => $('copyUserKeyBtn').textContent = "คัดลอก", 2000);
-    }
-  };
-  $('hookSave').onclick = () => {
-    const k = $('userKeyInput').value.trim();
-    const oldKey = String(store.get('bp_userKey') || '');
-    if(k) store.set('bp_userKey', k); else store.del('bp_userKey');
-    if(k !== oldKey){
-      store.del('bp_userId');
-      try { for(let i = localStorage.length - 1; i >= 0; i--){ const key = localStorage.key(i); if(key && key.startsWith('bp_msgs_')) localStorage.removeItem(key); } } catch(e){}
-    }
-    store.del('bp_convId');
-    store.del('bp_conversations');
-    location.reload();
-  };
-}
-
-async function init(){
-  closeMobileSidebar();
-  base = resolveBase();
-  if(!base){
-    setStatus('ยังไม่ได้ใส่ WEBHOOK ในโค้ด','err');
-    chat.innerHTML = '<div class="empty" id="empty"><h2>ยังไม่ได้ตั้งค่า Webhook</h2><p>เปิดไฟล์นี้ด้วยโปรแกรมแก้ไขข้อความ แล้วใส่ Webhook URL ในบรรทัด <b>const WEBHOOK = "…"</b></p></div>';
-    return;
-  }
-  try {
-    userKey = store.get('bp_userKey');
-    userId = store.get('bp_userId');
-    convId = store.get('bp_convId');
-    if(!userKey){
-      const u = await api('/users', { method:'POST', body:{}, auth: false });
-      userKey = u.key;
-      userId = u.user ? u.user.id : u.id;
-      store.set('bp_userKey', userKey);
-      store.set('bp_userId', userId);
-    }
-    if(userKey && !userId){
-      try {
-        const me = await api('/users/me', { timeout: 4000 });
-        userId = (me.user && me.user.id) || me.id || null;
-        if(userId) store.set('bp_userId', userId);
-      } catch(e){}
-    }
-    $('userKeyInput').value = userKey || '';
-    if(!convId){
-      await createNewConversation();
-    } else {
-      await loadHistory();
-    }
-    setStatus('ออนไลน์','on');
-    sendBtn.disabled = !input.value.trim();
-    renderHistoryList();
-    startRealtimeSync();
-    syncServerConversations();
-  } catch(e) {
-    if(e.status === 401 || e.status === 404){
-      store.del('bp_userKey');
-      store.del('bp_convId');
-    }
-    setStatus('เชื่อมต่อไม่ได้ ตรวจสอบ WEBHOOK ในโค้ด','err');
-    setSetup(true);
-  }
-}
-
-async function handleConversationGone(cid){
-  store.set('bp_conversations', (store.get('bp_conversations') || []).filter(x => x.id !== cid));
-  store.del('bp_msgs_' + cid);
-  if (convId !== cid) { renderHistoryList(); return; }
-  const rest = getSavedHistory();
-  if (rest.length) await switchChat(rest[0].id); else await startNewChat();
-}
-
-async function pollOnce(){
-  if (document.hidden || !convId || !userKey || busy || loadingHistory || polling) return;
-  const cid = convId;
-  polling = true;
-  try {
-    const d = await api('/conversations/' + cid + '/messages', { timeout: 4000 });
-    if (busy || loadingHistory || cid !== convId) return;
-    const list = (d.messages || []).sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
-    list.forEach(m => {
-      if (!seen.has(m.id)) {
-        seen.add(m.id);
-        const who = isUserMessage(m) ? 'user' : 'bot';
-        render(m.payload, who, m.createdAt, who === 'bot');
-        saveLocalMessage(cid, { id: m.id, payload: m.payload, who, createdAt: m.createdAt });
-        saveConversationToHistory(cid);
-      }
-    });
-  } catch(e){
-    if (e.status === 404 && cid === convId) handleConversationGone(cid);
-  } finally { polling = false; }
-}
-
-function startRealtimeSync() {
-  clearInterval(pollInterval); clearInterval(syncTimer);
-  pollInterval = setInterval(pollOnce, pollMs());
-  syncTimer = setInterval(() => { if (!document.hidden) syncServerConversations(); }, lvl() >= 3 ? 60000 : 30000);
-}
-
-async function createNewConversation(){
-  try {
-    const c = await api('/conversations', { method:'POST', body:{} });
-    convId = c.conversation.id;
-    store.set('bp_convId', convId);
-    stopTypers(); autoStick = true;
-    seen.clear();
-    chat.innerHTML = '<div class="empty" id="empty"><h2>วันนี้ทำลายอะไรดี?</h2><p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับ WormGPT ได้เลย</p></div>';
-  } catch(e){
-    throw e;
-  }
-}
-
-async function fetchAllMessages(cid, maxPages = 10){
-  let all = [], token = null;
-  const used = new Set();
-  for (let page = 0; page < maxPages; page++){
-    const q = token ? '?nextToken=' + encodeURIComponent(token) : '';
-    let d;
-    try { d = await api('/conversations/' + cid + '/messages' + q, { timeout: 10000 }); }
-    catch(e){ if (page === 0) throw e; break; }
-    all = all.concat(d.messages || []);
-    token = d.meta && d.meta.nextToken;
-    if (!token || used.has(token)) break;
-    used.add(token);
-  }
-  return all;
-}
-
-function paintHistory(list){
-  stopTypers();
-  chat.innerHTML = '';
-  seen.clear();
-  if (!list.length) { chat.innerHTML = EMPTY_HTML; return; }
-  const limit = renderLimit();
-  const start = Math.max(0, list.length - limit);
-  bulk = true; autoStick = true;
-  if (start > 0) {
-    const n = document.createElement('div');
-    n.className = 'notice';
-    n.textContent = 'โหมดเร็ว: แสดงเฉพาะ ' + limit + ' ข้อความล่าสุด';
-    chat.appendChild(n);
-  }
-  list.forEach((m, i) => {
-    if (seen.has(m.id)) return;
-    seen.add(m.id);
-    if (i >= start) render(m.payload, m.who, m.createdAt, false);
-  });
-  bulk = false;
-  scrollBottom();
-}
-
-async function loadHistory(){
-  if(!convId) return;
-  const cid = convId;
-  const token = ++loadToken;
-  loadingHistory = true;
-  stopTypers();
-  showChatHistoryLoading();
-  try {
-    let serverList = null, gone = false;
-    try {
-      const raw = await fetchAllMessages(cid);
-      if (token !== loadToken || cid !== convId) return;
-      serverList = raw.sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt))
-        .map(m => ({ id: m.id, payload: m.payload, who: isUserMessage(m) ? 'user' : 'bot', createdAt: m.createdAt }));
-    } catch(e){
-      if (token !== loadToken || cid !== convId) return;
-      if (e.status === 404) gone = true;
-    }
-    if (gone) { loadingHistory = false; await handleConversationGone(cid); return; }
-    if (serverList && serverList.length) {
-      const ids = new Set(serverList.map(m => m.id));
-      const firstT = new Date(serverList[0].createdAt).getTime();
-      const older = getLocalMessages(cid).filter(m => !String(m.id).startsWith('usr_') && !ids.has(m.id) && new Date(m.createdAt).getTime() < firstT);
-      const list = older.concat(serverList);
-      store.set('bp_msgs_' + cid, list);
-      paintHistory(list);
-      saveConversationToHistory(cid);
-      return;
-    }
-    paintHistory(getLocalMessages(cid));
-  } finally {
-    if (token === loadToken) loadingHistory = false;
-  }
-}
-
+/* ===== v3 core: fast-mode, scroll, settings UI ===== */
 const EMPTY_HTML = '<div class="empty" id="empty"><h2>วันนี้ทำลายอะไรดี?</h2><p>พิมพ์ข้อความด้านล่างเพื่อเริ่มคุยกับ WormGPT ได้เลย</p></div>';
 let autoStick = true, bulk = false;
 const typers = new Set();
@@ -1104,7 +1537,7 @@ function scrollBottom(){ chat.scrollTop = chat.scrollHeight; }
 
 window.copyText = async function(t){
   try { if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(t); return true; } } catch(e){}
-  try {
+  try { // สำรอง: ใช้ได้ใน WebView / ไฟล์ในเครื่อง (file://)
     const ta = document.createElement('textarea');
     ta.value = t; ta.setAttribute('readonly', '');
     ta.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0';
@@ -1141,7 +1574,6 @@ function applyPerf(){
   $('fastDesc').textContent = perf.on ? FAST_INFO[perf.level] : 'เปิดเพื่อลดภาระเครื่อง แล้วเลือกระดับ 1 (น้อย) ถึง 5 (มาก)';
   if (pollInterval) startRealtimeSync();
 }
-
 const FS = { s: .92, m: 1, l: 1.18 };
 function applyFS(k){
   if (!FS[k]) k = 'm';
@@ -1149,12 +1581,10 @@ function applyFS(k){
   document.querySelectorAll('#fsGroup button').forEach(b => b.classList.toggle('on', b.dataset.fs === k));
   store.set('bp_fs', k);
 }
-
 function setSetup(show){
   $('setup').classList.toggle('show', show);
   $('setupBackdrop').classList.toggle('show', show);
 }
-
 function initSettingsUI(){
   loadPerf();
   $('fastToggle').onchange = e => { perf.on = e.target.checked; savePerf(); applyPerf(); };
@@ -1162,7 +1592,7 @@ function initSettingsUI(){
   document.querySelectorAll('#fsGroup button').forEach(b => b.onclick = () => applyFS(b.dataset.fs));
   $('setupClose').onclick = () => setSetup(false);
   $('setupBackdrop').onclick = () => setSetup(false);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') { setSetup(false); closeMobileSidebar(); } });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { setSetup(false); closeMobileSidebar(); document.querySelector('.lightbox')?.remove(); } });
   chat.addEventListener('scroll', () => {
     const d = chat.scrollHeight - chat.scrollTop - chat.clientHeight;
     autoStick = d < 80;
@@ -1171,7 +1601,7 @@ function initSettingsUI(){
   $('toBottom').onclick = () => { autoStick = true; chat.scrollTo({ top: chat.scrollHeight, behavior: lvl() >= 4 ? 'auto' : 'smooth' }); };
   if (window.visualViewport) visualViewport.addEventListener('resize', () => { if (autoStick) scrollBottom(); });
   input.placeholder = (window.matchMedia && matchMedia('(hover: none)').matches) ? 'พิมพ์ข้อความ…' : 'พิมพ์ข้อความ… (Ctrl+Enter เพื่อส่ง)';
-  
+  // กลับมาที่แท็บ/กลับมาออนไลน์ → ซิงค์ทันที
   const resync = () => { if (!document.hidden && convId && userKey) { pollOnce(); syncServerConversations(); } };
   document.addEventListener('visibilitychange', resync);
   window.addEventListener('online', resync);
@@ -1179,7 +1609,105 @@ function initSettingsUI(){
   applyFS(store.get('bp_fs') || 'm');
 }
 
+/* ===== v4: attachments (images / text / code) ===== */
+const TEXT_EXT = { js:'javascript', mjs:'javascript', cjs:'javascript', gs:'javascript', ts:'typescript', jsx:'jsx', tsx:'tsx', py:'python', java:'java', kt:'kotlin', c:'c', h:'c', cpp:'cpp', cc:'cpp', hpp:'cpp', cs:'csharp', go:'go', rs:'rust', php:'php', rb:'ruby', sh:'bash', bash:'bash', zsh:'bash', sql:'sql', html:'html', htm:'html', css:'css', scss:'scss', json:'json', md:'markdown', txt:'text', csv:'csv', tsv:'text', xml:'xml', svg:'xml', yml:'yaml', yaml:'yaml', ini:'ini', toml:'toml', log:'text', swift:'swift', dart:'dart', lua:'lua', bat:'batch', ps1:'powershell', r:'r', vue:'vue', svelte:'svelte', env:'text', conf:'text', cfg:'text', gradle:'groovy', tex:'latex' };
+const MAX_FILES = 5, MAX_TEXT = 200 * 1024, MAX_TEXT_TOTAL = 400 * 1024, IMG_TARGET = 450 * 1024;
+let attachments = [];
+let toastTimer = null;
+
+function toast(msg){
+  let t = $('toast');
+  if (!t) { t = document.createElement('div'); t.id = 'toast'; t.className = 'toast'; document.body.appendChild(t); }
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+}
+function updateSend(){ sendBtn.disabled = busy || (!input.value.trim() && attachments.length === 0); }
+function fmtSize(n){ return n < 1024 ? n + ' B' : n < 1048576 ? Math.round(n / 1024) + ' KB' : (n / 1048576).toFixed(1) + ' MB'; }
+function readText(f){ return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result)); r.onerror = () => rej(r.error); r.readAsText(f); }); }
+
+// ย่อรูปและบีบอัดเป็น JPEG ให้พอดีขนาดที่ Chat API รับได้ (ส่งเป็น data URL ในข้อความชนิด image)
+window.fileToImageDataUrl = async function(file){
+  const url = URL.createObjectURL(file);
+  try {
+    const im = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = () => rej(new Error('img')); i.src = url; });
+    let max = 1280, q = .85, out = '';
+    for (let n = 0; n < 6; n++) {
+      const sc = Math.min(1, max / Math.max(im.naturalWidth, im.naturalHeight));
+      const c = document.createElement('canvas');
+      c.width = Math.max(1, Math.round(im.naturalWidth * sc)); c.height = Math.max(1, Math.round(im.naturalHeight * sc));
+      const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.drawImage(im, 0, 0, c.width, c.height);
+      out = c.toDataURL('image/jpeg', q);
+      if (out.length <= IMG_TARGET) break;
+      max = Math.round(max * .78); q = Math.max(.55, q - .08);
+    }
+    return out;
+  } finally { URL.revokeObjectURL(url); }
+};
+
+function renderTray(){
+  const tray = $('attachTray');
+  tray.innerHTML = '';
+  tray.classList.toggle('has', attachments.length > 0);
+  attachments.forEach(a => {
+    const d = document.createElement('div');
+    d.className = 'att ' + (a.kind === 'image' ? 'img' : 'file');
+    d.innerHTML = a.kind === 'image' ? '<img alt="">' : '<span>📄</span><div><div class="nm"></div><div class="sz"></div></div>';
+    if (a.kind === 'image') d.firstChild.src = a.dataUrl;
+    else { d.querySelector('.nm').textContent = a.name; d.querySelector('.sz').textContent = fmtSize(a.size) + ' · ' + a.lang; }
+    const x = document.createElement('button');
+    x.type = 'button'; x.className = 'x'; x.setAttribute('aria-label', 'เอาออก'); x.textContent = '×';
+    x.onclick = () => { attachments = attachments.filter(z => z !== a); renderTray(); updateSend(); };
+    d.appendChild(x); tray.appendChild(d);
+  });
+}
+
+window.addFiles = async function(list){
+  const files = Array.from(list || []);
+  for (const f of files) {
+    if (attachments.length >= MAX_FILES) { toast('แนบได้สูงสุด ' + MAX_FILES + ' ไฟล์'); break; }
+    const ext = (f.name.split('.').pop() || '').toLowerCase();
+    try {
+      if (/^image\//.test(f.type) && f.type !== 'image/svg+xml') {
+        const dataUrl = await fileToImageDataUrl(f);
+        attachments.push({ kind:'image', name: f.name || 'image.jpg', size: f.size, dataUrl });
+      } else if (TEXT_EXT[ext] || /^text\//.test(f.type) || /json|xml|javascript/.test(f.type)) {
+        if (f.size > MAX_TEXT) { toast(f.name + ' ใหญ่เกิน 200 KB'); continue; }
+        const text = await readText(f);
+        if (text.indexOf('\u0000') !== -1) { toast(f.name + ' ไม่ใช่ไฟล์ข้อความ'); continue; }
+        const total = attachments.filter(a => a.kind === 'text').reduce((n, a) => n + a.text.length, 0) + text.length;
+        if (total > MAX_TEXT_TOTAL) { toast('ไฟล์ข้อความรวมกันใหญ่เกิน 400 KB'); continue; }
+        attachments.push({ kind:'text', name: f.name, size: f.size, text, lang: TEXT_EXT[ext] || 'text' });
+      } else {
+        toast('ไม่รองรับไฟล์ ' + f.name + ' (รองรับรูปภาพ ข้อความ และไฟล์โค้ด)');
+      }
+    } catch(e) { toast('อ่านไฟล์ ' + f.name + ' ไม่สำเร็จ'); }
+  }
+  renderTray(); updateSend();
+};
+
+function initAttachments(){
+  $('attachBtn').onclick = () => $('fileInput').click();
+  $('fileInput').onchange = e => { addFiles(e.target.files); e.target.value = ''; };
+  input.addEventListener('paste', e => {
+    const fs = Array.from((e.clipboardData && e.clipboardData.files) || []);
+    if (fs.length) { e.preventDefault(); addFiles(fs); }
+  });
+  const app = document.querySelector('.app');
+  const hasFiles = e => e.dataTransfer && Array.from(e.dataTransfer.types || []).includes('Files');
+  ['dragenter', 'dragover'].forEach(ev => document.addEventListener(ev, e => { if (hasFiles(e)) { e.preventDefault(); app.classList.add('dragging'); } }));
+  document.addEventListener('dragleave', e => { if (!e.relatedTarget) app.classList.remove('dragging'); });
+  document.addEventListener('drop', e => { if (hasFiles(e)) { e.preventDefault(); app.classList.remove('dragging'); addFiles(e.dataTransfer.files); } });
+  chat.addEventListener('click', e => {
+    const im = e.target.closest && e.target.closest('img.att-img, img.md-img');
+    if (!im) return;
+    const lb = document.createElement('div');
+    lb.className = 'lightbox'; lb.innerHTML = '<img alt="">'; lb.firstChild.src = im.src;
+    lb.onclick = () => lb.remove(); document.body.appendChild(lb);
+  });
+}
+
 initSettingsUI();
+initAttachments();
 bindEvents();
 init();
 </script>
