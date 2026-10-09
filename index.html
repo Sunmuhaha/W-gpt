@@ -134,7 +134,6 @@ header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; bord
   background: linear-gradient(135deg, var(--coral), var(--crimson));
   box-shadow: 0 6px 18px rgba(225,29,72,0.45), inset 0 1px 0 rgba(255,255,255,0.4);
 }
-.avatar svg { width: 22px; height: 22px; fill: #fff; }
 .title { font-weight: 600; font-size: 16px; letter-spacing: -0.2px; }
 .status { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; margin-top: 1px; }
 .dot { width: 8px; height: 8px; border-radius: 50%; background: #ffb4bf; transition: .3s; }
@@ -340,7 +339,6 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:0 solid 
 .o1{animation:drift 16s ease-in-out infinite}
 .o2{animation:drift 20s ease-in-out infinite reverse}
 .o3{animation:drift 24s ease-in-out infinite}
-.avatar svg{animation:twinkle 4s ease-in-out infinite}
 .dot.on{animation:ping 2.2s ease-out infinite}
 .empty{animation:rise .6s both}
 .history-item.enter{animation:itemIn .32s both;animation-delay:calc(var(--i,0)*45ms)}
@@ -358,9 +356,9 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:0 solid 
 
 /* settings = modal (desktop) / bottom sheet (mobile) */
 .setup-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:115}
-.setup-backdrop.show{display:block;animation:fade .25s}
+.setup-backdrop.show{display:block;animation:fade 0.25s}
 .setup{position:fixed;z-index:120;left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,460px);max-height:86dvh;overflow-y:auto;overscroll-behavior:contain;background:rgba(36,6,14,.92)}
-.setup.show{animation:modalIn .3s cubic-bezier(.2,.85,.25,1) both}
+.setup.show{animation:modalIn 0.3s cubic-bezier(.2,.85,.25,1) both}
 .setup-head{display:flex;align-items:center;justify-content:space-between}
 .setup-title{font-size:17px;font-weight:600;color:var(--text)}
 .setup-group{display:flex;flex-direction:column;gap:10px;padding-top:14px;border-top:1px solid var(--line)}
@@ -522,7 +520,7 @@ body.f5 .code-block-wrapper{background:#12040a}
       <button class="icon-btn" id="toggleSidebar" aria-label="เมนูประวัติ">
         <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
-      <div class="avatar" style="animation:spin 20s linear infinite;"><img src="https://i.ibb.co/dwLkVjBf/20261008-235915-0000.png" alt="WormGPT" width="100%" style="border-radius:12px;padding:3px;animation:spin 20s linear infinite;"></div>
+      <div class="avatar"><img src="https://i.ibb.co/dwLkVjBf/20261008-235915-0000.png" alt="WormGPT" width="100%" style="padding:3px;animation:spin 20s linear infinite;"></div>
       <div>
         <div class="title">WormGPT</div>
         <div class="status"><span class="dot" id="dot"></span><span id="statusText">กำลังเชื่อมต่อ…</span></div>
