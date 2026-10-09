@@ -10,10 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght,MONO@0,300..800,1;1,300..800,1&display=swap" rel="stylesheet">
-<link rel="icon" type="image/x-icon" href="https://i.ibb.co/sJwjJtjD/20261008-235701-0000.png">
-<meta property="og:description" content="WormGPT">
 <style>
-::selection{background-color:#F86363;}
 :root {
   --wine: #120307;
   --crimson: #e11d48;
@@ -427,16 +424,6 @@ body.f5 .code-block-wrapper{background:#12040a}
   #chat{padding:10px}
 }
 
-@keyframes loop {
-  0% {
-    transform: rotate(0deg); 
-  }
-  100% {
-    transform: rotate(360deg); 
-  }
-}
-
-
 /* ===== v4: markdown / attachments ===== */
 .bubble.md{white-space:normal;overflow-wrap:anywhere;word-break:break-word}
 .bubble.md>*:first-child{margin-top:0!important}
@@ -471,7 +458,7 @@ body.f5 .code-block-wrapper{background:#12040a}
 .md .card-title{font-weight:600}
 .code-block-wrapper pre{max-height:420px;overflow:auto}
 
-.attach-btn{align-self:flex-end;flex:none;margin-bottom:2px;}
+.attach-btn{align-self:flex-end;flex:none;margin-bottom:2.5px;margin-left:2px;}
 .attach-tray{display:none;gap:8px;overflow-x:auto;padding:8px 4px 2px}
 .attach-tray.has{display:flex}
 .att{position:relative;flex:none;border-radius:14px;border:1px solid var(--line);background:var(--glass-strong);animation:rise .25s both}
@@ -487,8 +474,17 @@ body.f5 .code-block-wrapper{background:#12040a}
 .lightbox{position:fixed;inset:0;z-index:250;background:rgba(0,0,0,.88);display:grid;place-items:center;animation:fade .2s;cursor:zoom-out}
 .lightbox img{max-width:94vw;max-height:90dvh;border-radius:12px;object-fit:contain}
 @media (max-width:768px){
-  .attach-btn{width:42px;height:42px;margin-top:1px;}
+  .attach-btn{width:42px;height:42px;margin-top:2.5px;margin-left:0px;}
   .att .x{width:28px;height:28px}
+}
+
+@keyframes loop {
+  0% {
+    transform: rotate(0deg); 
+  }
+  100% {
+    transform: rotate(360deg); 
+  }
 }
 </style>
 </head>
@@ -595,6 +591,15 @@ body.f5 .code-block-wrapper{background:#12040a}
 <script>
 // ใส่ Webhook URL หรือ Webhook ID ของ Botpress ตรงนี้ (ใช้ร่วมกันทุกเครื่อง)
 const WEBHOOK = "https://chat.botpress.cloud/b06203f7-7853-4bab-82ad-997e12f8b6e9";
+
+// ===== อัปโหลดรูป (ให้บอทอ่านรูปได้) =====
+// Botpress อ่านรูปจาก "ลิงก์ https" เท่านั้น จึงอัปโหลดรูปขึ้น ImgBB (ฟรี) แล้วส่งลิงก์ให้บอท
+// ขอคีย์ฟรีที่ https://api.imgbb.com/ แล้วใส่ตรงนี้ (ใช้ร่วมกันทุกเครื่อง)
+const IMGBB_KEY = "7f7ab286578f23d44c8a731ef6b9dcf2";
+const IMGBB_EXPIRE = 0;      // วินาทีที่ลิงก์รูปจะหมดอายุ (60 - 15552000) ใส่ 0 = ไม่หมดอายุ
+// วิธีส่งให้บอท: "both" = ส่งเป็นข้อความรูป + แนบลิงก์ในข้อความ (แนะนำ)
+//               "image" = ส่งเป็นข้อความรูปอย่างเดียว | "link" = ส่งเป็นลิงก์ในข้อความอย่างเดียว
+const IMAGE_MODE = "both";
 const $ = id => document.getElementById(id);
 
 const store = {
@@ -1453,29 +1458,55 @@ async function send(text, atts){
   }
 
   const cid = convId;
-  // รูป = ข้อความชนิด image ส่วนไฟล์ข้อความ/โค้ด = ใส่เป็นโค้ดบล็อกในข้อความเดียว (บอทอ่านได้ทุกตัว)
-  const payloads = atts.filter(a => a.kind === 'image').map(a => ({ type:'image', imageUrl:a.dataUrl, title:a.name }));
+  const imgAtts = atts.filter(a => a.kind === 'image');
   const fileBlocks = atts.filter(a => a.kind === 'text').map(a => {
     let fence = '```';
     while (a.text.includes(fence)) fence += '`';
     return '**📄 ' + a.name + '**\n\n' + fence + a.lang + '\n' + a.text.replace(/\s+$/, '') + '\n' + fence;
   });
-  const fullText = [text.trim()].concat(fileBlocks).filter(Boolean).join('\n\n');
-  if (fullText) payloads.push({ type:'text', text: fullText });
+  const baseText = [text.trim()].concat(fileBlocks).filter(Boolean).join('\n\n');
   const title = cleanTitle(text) || (atts[0] ? (atts[0].kind === 'image' ? '🖼 ' : '📄 ') + atts[0].name.slice(0, 24) : '');
+  // ไม่มีคีย์อัปโหลด: ส่งรูปเป็น data URL (บอทส่วนใหญ่อ่านไม่ได้)
+  const doUpload = !!IMGBB_KEY && imgAtts.length > 0;
+  const mode = doUpload ? IMAGE_MODE : 'image';
+  if (imgAtts.length && !IMGBB_KEY) toast('บอทอาจมองไม่เห็นรูป: ใส่ IMGBB_KEY ในโค้ดเพื่อส่งรูปเป็นลิงก์');
 
-  const items = payloads.map(pl => ({ p: pl, tempId: 'usr_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6), createdAt: new Date().toISOString() }));
-  items.forEach((it, idx) => {
+  const pending = [];
+  let titled = false;
+  const mk = pl => ({ p: pl, tempId: 'usr_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6), createdAt: new Date().toISOString() });
+  const show = it => {
     seen.add(it.tempId);
     render(it.p, 'user', it.createdAt, false);
     saveLocalMessage(cid, { id: it.tempId, payload: it.p, who: 'user', createdAt: it.createdAt });
-    if (idx === 0) saveConversationToHistory(cid, title);
-  });
+    if (!titled) { saveConversationToHistory(cid, title); titled = true; }
+    pending.push(it);
+  };
 
+  const imgItems = imgAtts.map(a => mk({ type:'image', imageUrl:a.dataUrl, title:a.name }));
+  if (mode !== 'link') imgItems.forEach(show);
+  if (mode === 'image' && baseText) show(mk({ type:'text', text: baseText }));
   showBotLoading();
 
   try {
-    for (const it of items) {
+    const notes = [];
+    if (doUpload) {
+      // อัปโหลดรูปเป็นลิงก์ก่อน แล้วค่อยส่ง
+      const res = await Promise.all(imgAtts.map(a => uploadImage(a.dataUrl, a.name).then(u => ({ ok:true, u }), e => ({ ok:false, e }))));
+      const urls = [];
+      res.forEach((r, k) => {
+        if (r.ok) { urls.push({ url: r.u, name: imgAtts[k].name }); if (mode !== 'link') imgItems[k].p = { type:'image', imageUrl:r.u, title:imgAtts[k].name }; }
+        else { notes.push('อัปโหลดรูป ' + imgAtts[k].name + ' ไม่สำเร็จ (ตรวจสอบ IMGBB_KEY / อินเทอร์เน็ต)'); if (mode !== 'link') imgItems[k].skip = true; }
+      });
+      let t = baseText;
+      if (mode === 'both' && urls.length && t) t += '\n\n' + urls.map(u => '🖼 ' + u.name + ': ' + u.url).join('\n');
+      if (mode === 'link' && urls.length) t = (t ? t + '\n\n' : '') + urls.map(u => '![' + u.name.replace(/[\[\]]/g, '') + '](' + u.url + ')').join('\n\n');
+      if (t && mode !== 'image') { removeBotLoading(); show(mk({ type:'text', text: t })); showBotLoading(); }
+    }
+    notes.forEach(n => render({ type:'text', text: n }, 'bot', new Date(), false));
+
+    const toSend = pending.filter(it => !it.skip);
+    if (!toSend.length) { removeBotLoading(); busy = false; updateSend(); return; }
+    for (const it of toSend) {
       const wire = it.p.type === 'image' ? { type:'image', imageUrl: it.p.imageUrl } : it.p;
       const r = await api('/messages', { method:'POST', body:{ conversationId:cid, payload:wire }, timeout: 30000 });
       if (r && r.message) {
@@ -1486,7 +1517,7 @@ async function send(text, atts){
     await waitReply(cid);
   } catch(e){
     removeBotLoading();
-    const hasImg = payloads.some(x => x.type === 'image');
+    const hasImg = imgAtts.length > 0;
     render({ type:'text', text: hasImg ? 'ส่งไม่สำเร็จ รูปอาจใหญ่เกินที่ Botpress รับได้ ลองรูปที่เล็กลงหรือตรวจสอบการเชื่อมต่อ' : 'ส่งข้อความไม่สำเร็จ กรุณาตรวจสอบการเชื่อมต่อ' }, 'bot', new Date(), false);
   }
   busy = false; updateSend();
@@ -1611,6 +1642,21 @@ function initSettingsUI(){
 }
 
 /* ===== v4: attachments (images / text / code) ===== */
+async function uploadImage(dataUrl, name){
+  const fd = new FormData();
+  fd.append('image', dataUrl.split(',')[1]);
+  if (name) fd.append('name', name.replace(/\.[^.]+$/, '').slice(0, 40));
+  const ctl = new AbortController();
+  const tm = setTimeout(() => ctl.abort(), 30000);
+  try {
+    const res = await fetch('https://api.imgbb.com/1/upload?key=' + encodeURIComponent(IMGBB_KEY) + (IMGBB_EXPIRE ? '&expiration=' + IMGBB_EXPIRE : ''), { method:'POST', body: fd, signal: ctl.signal });
+    const j = await res.json();
+    const u = j && j.data && (j.data.url || j.data.display_url);
+    if (!res.ok || !u) throw new Error((j && j.error && j.error.message) || 'upload failed');
+    return u;
+  } finally { clearTimeout(tm); }
+}
+
 const TEXT_EXT = { js:'javascript', mjs:'javascript', cjs:'javascript', gs:'javascript', ts:'typescript', jsx:'jsx', tsx:'tsx', py:'python', java:'java', kt:'kotlin', c:'c', h:'c', cpp:'cpp', cc:'cpp', hpp:'cpp', cs:'csharp', go:'go', rs:'rust', php:'php', rb:'ruby', sh:'bash', bash:'bash', zsh:'bash', sql:'sql', html:'html', htm:'html', css:'css', scss:'scss', json:'json', md:'markdown', txt:'text', csv:'csv', tsv:'text', xml:'xml', svg:'xml', yml:'yaml', yaml:'yaml', ini:'ini', toml:'toml', log:'text', swift:'swift', dart:'dart', lua:'lua', bat:'batch', ps1:'powershell', r:'r', vue:'vue', svelte:'svelte', env:'text', conf:'text', cfg:'text', gradle:'groovy', tex:'latex' };
 const MAX_FILES = 5, MAX_TEXT = 200 * 1024, MAX_TEXT_TOTAL = 400 * 1024, IMG_TARGET = 450 * 1024;
 let attachments = [];
