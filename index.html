@@ -483,7 +483,11 @@ body.f5 .code-block-wrapper{background:#12040a}
   .attach-btn{width:42px;height:42px;margin-top:2.5px;margin-left:0px;}
   .att .x{width:28px;height:28px}
 }
-
+.gpt-img {
+ padding:3px;
+ animation:spin 20s linear infinite;
+ width:100%;
+}
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -520,7 +524,7 @@ body.f5 .code-block-wrapper{background:#12040a}
       <button class="icon-btn" id="toggleSidebar" aria-label="เมนูประวัติ">
         <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
-      <div class="avatar"><img src="https://i.ibb.co/dwLkVjBf/20261008-235915-0000.png" alt="WormGPT" width="100%" style="padding:3px;animation:spin 20s linear infinite;"></div>
+      <div class="avatar"><img src="https://i.ibb.co/dwLkVjBf/20261008-235915-0000.png" alt="WormGPT" class="gpt-img"></div>
       <div>
         <div class="title">WormGPT</div>
         <div class="status"><span class="dot" id="dot"></span><span id="statusText">กำลังเชื่อมต่อ…</span></div>
