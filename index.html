@@ -526,15 +526,22 @@ body.f5 .code-block-wrapper{background:#12040a}
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
     animation: xpop-pop 0.25s ease-in-out;
     border:1px solid var(  --coral);
+    height:500px;
+    overflow:auto;
   }
   .xpop-overlay .xpop-title {
     margin: 0 0 12px;
     font-size: 20px;
     font-weight: 600;
-    color: var(  --ruby);;
+    color: var( --crimson);;
+  }
+  .xpop-co-title {
+  font-size: 16px;
+  color:var(  --coral);
+  margin: 0 0 6px;
   }
   .xpop-overlay .xpop-text {
-    margin: 0 0 20px;
+    margin: 0 0 15px;
     font-size: 15px;
     line-height: 1.6;
     color: var(--text);
@@ -547,7 +554,7 @@ body.f5 .code-block-wrapper{background:#12040a}
     border: none;
     border-radius: 8px;
     background: var(  --crimson);
-    color: var(  --rose);
+    color: white;
     font: inherit;
     font-size: 16px;
     cursor: pointer;
@@ -669,7 +676,10 @@ body.f5 .code-block-wrapper{background:#12040a}
 <div class="xpop-overlay" id="xpop-main" role="dialog" aria-modal="true" aria-labelledby="xpop-main-title">
   <div class="xpop-box">
     <h3 class="xpop-title" id="xpop-main-title">เกี่ยวกับ WormGPT ของเรา</h3>
-    <p class="xpop-text">WormGPT ของเราขับเคลื่อนด้วยโมเดล Qwen 3.8flash และใช้ Fallback เป็น Gemini 3.5 flash-lite ซึ่งทั้งสองเป็นโมเดล unsencored ที่นำมาดัดแปลงเป็น WormGPT</p>
+    <p class="xpop-text">WormGPT ของเราขับเคลื่อนด้วยโมเดล Qwen 3.8flash และใช้ Fallback เป็น Gemini 3.5 flash-lite ซึ่งทั้งสองเป็นโมเดล uncensored ที่เรานำมาดัดแปลงเป็น WormGPT</p>
+     <h3 class="xpop-title" id="xpop-main-title">FAQ</h3>
+     <h3 class="xpop-co-title" id="xpop-main-title">| Q: WormGPT คืออะไร</h3>
+    <p class="xpop-text">| A: โมเดลภาษาขนาดใหญ่ (LLM) ในรูปแบบใต้ดิน (Dark LLM) ที่ถูกสร้างขึ้นมาเพื่อเอื้อประโยชน์ต่อการประกอบอาชญากรรมทางไซเบอร์โดยเฉพาะ โดยมันถูกพัฒนาขึ้นจากการนำโมเดลแบบ Open-source อย่าง GPT-J มาปรับแต่ง (Fine-tuning) ด้วยข้อมูลที่เป็นมัลแวร์และข้อมูลที่ใช้ในการทำ Phishing โดยไม่มีการจำกัดขอบเขตด้านจริยธรรมหรือความปลอดภัยใด ๆ (Ethical Guardrails) เหมือนกับ AI ทั่วไปอย่าง ChatGPT</p>
     <button type="button" class="xpop-close" data-xpop-close>ปิด</button>
   </div>
 </div>
