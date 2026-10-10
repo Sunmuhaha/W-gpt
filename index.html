@@ -80,6 +80,7 @@ html, body {
 .sidebar-overlay {
   display: none;
   position: fixed;
+  backdrop-filter:blur(7px);
   top: 0; left: 0; right: 0; bottom: 0;
   width: 100vw; height: 100vh;
   background: rgba(0, 0, 0, 0.65);
@@ -494,6 +495,73 @@ body.f5 .code-block-wrapper{background:#12040a}
     transform: rotate(360deg);
     }
 }
+
+  /* ===== xpop: ทุก selector ขึ้นต้นด้วย .xpop- เพื่อกันชนกับไฟล์อื่น ===== */
+  .xpop-overlay,
+  .xpop-overlay *,
+  .xpop-overlay *::before,
+  .xpop-overlay *::after {
+    box-sizing: border-box;
+  }
+
+  .xpop-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter:blur(7px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 2147483000;
+  }
+  .xpop-overlay.xpop-show { display: flex; }
+
+  .xpop-box {
+    background: var(  --wine);
+    width: 100%;
+    max-width: 380px;
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    animation: xpop-pop 0.2s ease;
+    border:1px solid var(  --coral);
+  }
+  .xpop-overlay .xpop-title {
+    margin: 0 0 12px;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(  --ruby);;
+  }
+  .xpop-overlay .xpop-text {
+    margin: 0 0 20px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .xpop-overlay .xpop-close {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 0;
+    border: none;
+    border-radius: 8px;
+    background: var(  --crimson);
+    color: var(  --rose);
+    font: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    transition:0.4s;
+  }
+  .xpop-overlay .xpop-close:hover { background: var(  --ruby); }
+  .xpop-link {color:var(--text);}
+  .xpop-link:hover ,xpop-link:active {text-decoration:none;}
+  .xpop-div {text-align:center;margin-top:4px;}
+
+  @keyframes xpop-pop {
+    from { transform: scale(0.9); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
 </style>
 </head>
 <body>
@@ -551,7 +619,9 @@ body.f5 .code-block-wrapper{background:#12040a}
           <button id="copyUserKeyBtn" type="button">คัดลอก</button>
         </div>
         <button id="hookSave" type="button" style="padding:12px;">บันทึก User Key และเชื่อมต่อใหม่</button>
-      </div>
+        <div class="xpop-div"><a href="#" data-xpop-open="xpop-main" class="xpop-link">เกี่ยวกับ WormGPT ของเรา</a>
+        </div>
+         </div>
 
       <div class="setup-group">
         <span class="setup-label">โหมดเร็ว (สำหรับเครื่องสเปกต่ำ)</span>
@@ -594,6 +664,14 @@ body.f5 .code-block-wrapper{background:#12040a}
     </form>
     <div class="hint">Enter = ขึ้นบรรทัดใหม่ · Ctrl+Enter = ส่งข้อความ</div>
   </main>
+</div>
+
+<div class="xpop-overlay" id="xpop-main" role="dialog" aria-modal="true" aria-labelledby="xpop-main-title">
+  <div class="xpop-box">
+    <h3 class="xpop-title" id="xpop-main-title">เกี่ยวกับ WormGPT ของเรา</h3>
+    <p class="xpop-text">WormGPT ของเราขับเคลื่อนด้วยโมเดล Qwen 3.8flash และใช้ Fallback เป็น Gemini 3.5 flash-lite ซึ่งทั้งสองเป็นโมเดล unsencored ที่เรานำมาดัดแปลเป็น WormGPT</p>
+    <button type="button" class="xpop-close" data-xpop-close>ปิด</button>
+  </div>
 </div>
 
 <script>
@@ -2096,6 +2174,46 @@ init();
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
+})();
+
+ // pop up
+ (function () {
+  'use strict';
+
+  function openPopup(id) {
+    var el = document.getElementById(id);
+    if (el) el.classList.add('xpop-show');
+  }
+  function closePopup(el) {
+    el.classList.remove('xpop-show');
+  }
+
+  // เปิด: ใช้ data-xpop-open="id ของ popup"
+  document.addEventListener('click', function (e) {
+    var opener = e.target.closest('[data-xpop-open]');
+    if (opener) {
+      e.preventDefault();
+      openPopup(opener.getAttribute('data-xpop-open'));
+      return;
+    }
+
+    // ปิด: ปุ่มปิด หรือคลิกพื้นหลัง
+    var closer = e.target.closest('[data-xpop-close]');
+    if (closer) {
+      closePopup(closer.closest('.xpop-overlay'));
+      return;
+    }
+    if (e.target.classList && e.target.classList.contains('xpop-overlay')) {
+      closePopup(e.target);
+    }
+  });
+
+  // กด Esc เพื่อปิด
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    var opened = document.querySelectorAll('.xpop-overlay.xpop-show');
+    for (var i = 0; i < opened.length; i++) closePopup(opened[i]);
+  });
 })();
 </script>
 </body>
