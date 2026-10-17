@@ -569,6 +569,36 @@ body.f5 .code-block-wrapper{background:#12040a}
     from { transform: scale(0.9); opacity: 0; }
     to   { transform: scale(1);   opacity: 1; }
   }
+/* ===== v5: model picker ===== */
+.head-info{min-width:0}
+.head-info .title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.head-info .status{min-width:0}
+.head-info #statusText{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.model-btn{height:38px;max-width:220px;flex:0 1 auto;display:inline-flex;align-items:center;gap:8px;padding:0 10px 0 12px;border-radius:12px;border:1px solid var(--line);background:var(--glass);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;user-select:none;transition:background .2s,transform .15s}
+.model-btn:hover{background:var(--glass-strong)}
+.model-btn:active{transform:scale(.97)}
+.model-btn svg{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.model-btn .m-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.model-btn .m-chev{width:14px;height:14px;opacity:.8;transition:transform .2s}
+.model-btn[aria-expanded="true"]{background:var(--glass-hover)}
+.model-btn[aria-expanded="true"] .m-chev{transform:rotate(180deg)}
+.model-menu{position:fixed;z-index:110;width:min(290px,calc(100vw - 16px));padding:6px;border-radius:18px;display:none;flex-direction:column;gap:2px;background:rgba(36,6,14,.94)}
+.model-menu.show{display:flex;animation:fade .15s}
+.model-menu-title{padding:6px 12px 4px;font-size:12px;color:var(--muted)}
+.model-opt{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;text-align:left;padding:10px 12px;border-radius:13px;border:1px solid transparent;background:transparent;color:var(--text);cursor:pointer;transition:background .15s}
+.model-opt:hover{background:var(--glass-strong)}
+.model-opt.on{background:var(--glass-hover);border-color:var(--line)}
+.model-opt .mo-name{display:block;font-size:14px;font-weight:600}
+.model-opt .mo-desc{display:block;font-size:12px;color:var(--muted);margin-top:1px}
+.model-opt .mo-check{width:18px;height:18px;flex:none;stroke:var(--coral);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;opacity:0}
+.model-opt.on .mo-check{opacity:1}
+body.f2 .model-menu{background:rgba(36,6,14,.97)}
+@media (max-width:768px){
+  header{gap:7px}
+  .model-btn{width:42px;height:42px;padding:0;justify-content:center;border-radius:13px}
+  .model-btn .m-name,.model-btn .m-chev{display:none}
+  .model-btn .m-ic{width:18px;height:18px}
+}
 </style>
 </head>
 <body>
@@ -598,11 +628,16 @@ body.f5 .code-block-wrapper{background:#12040a}
         <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
       <div class="avatar"><img src="https://i.ibb.co/dwLkVjBf/20261008-235915-0000.png" alt="WormGPT" class="gpt-img"></div>
-      <div>
+      <div class="head-info">
         <div class="title">WormGPT</div>
         <div class="status"><span class="dot" id="dot"></span><span id="statusText">กำลังเชื่อมต่อ…</span></div>
       </div>
       <div class="sp"></div>
+      <button class="model-btn" id="modelBtn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="เลือกโมเดล">
+        <svg class="m-ic" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 16v4M17 18h4"/></svg>
+        <span class="m-name" id="modelName"></span>
+        <svg class="m-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
       <button class="icon-btn" id="settingsBtn" title="ตั้งค่า Webhook" aria-label="ตั้งค่า">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       </button>
@@ -683,7 +718,7 @@ body.f5 .code-block-wrapper{background:#12040a}
 <div class="xpop-overlay" id="xpop-main" role="dialog" aria-modal="true" aria-labelledby="xpop-main-title">
   <div class="xpop-box">
     <h3 class="xpop-title" id="xpop-main-title">เกี่ยวกับ WormGPT ของเรา</h3>
-    <p class="xpop-text">WormGPT ของเราขับเคลื่อนด้วยโมเดล Qwen 3.8flash และใช้ Fallback เป็น Gemini 3.5 flash-lite ซึ่งทั้งสองเป็นโมเดล uncensored ที่เรานำมาดัดแปลงเป็น WormGPT</p>
+    <p class="xpop-text">WormGPT ของเราขับเคลื่อนด้วยโมเดล Qwen 3.8flash และ Claude Sonnet 4 และใช้ Fallback เป็น Gemini 3.5 flash-lite ซึ่งทั้งสองเป็นโมเดล uncensored ที่เรานำมาดัดแปลงเป็น WormGPT</p>
      <h3 class="xpop-title" id="xpop-main-title">FAQ</h3>
      <h3 class="xpop-co-title" id="xpop-main-title">| Q: WormGPT คืออะไร</h3>
     <p class="xpop-text">| A: โมเดลภาษาขนาดใหญ่ (LLM) ในรูปแบบใต้ดิน (Dark LLM) ที่ถูกสร้างขึ้นมาเพื่อเอื้อประโยชน์ต่อการประกอบอาชญากรรมทางไซเบอร์โดยเฉพาะ โดยมันถูกพัฒนาขึ้นจากการนำโมเดลแบบ Open-source อย่าง GPT-J มาปรับแต่ง (Fine-tuning) ด้วยข้อมูลที่เป็นมัลแวร์และข้อมูลที่ใช้ในการทำ Phishing โดยไม่มีการจำกัดขอบเขตด้านจริยธรรมหรือความปลอดภัยใด ๆ (Ethical Guardrails) เหมือนกับ AI ทั่วไปอย่าง ChatGPT</p>
@@ -692,9 +727,6 @@ body.f5 .code-block-wrapper{background:#12040a}
 </div>
 
 <script>
-// ใส่ Webhook URL หรือ Webhook ID ของ Botpress ตรงนี้ (ใช้ร่วมกันทุกเครื่อง)
-const WEBHOOK = "https://chat.botpress.cloud/b06203f7-7853-4bab-82ad-997e12f8b6e9";
-
 // ===== อัปโหลดรูป (ให้บอทอ่านรูปได้) =====
 // Botpress อ่านรูปจาก "ลิงก์ https" เท่านั้น จึงอัปโหลดรูปขึ้น ImgBB (ฟรี) แล้วส่งลิงก์ให้บอท
 // ขอคีย์ฟรีที่ https://api.imgbb.com/ แล้วใส่ตรงนี้ (ใช้ร่วมกันทุกเครื่อง)
@@ -703,21 +735,33 @@ const IMGBB_EXPIRE = 0;      // วินาทีที่ลิงก์รู
 // วิธีส่งให้บอท: "both" = ส่งเป็นข้อความรูป + แนบลิงก์ในข้อความ (แนะนำ)
 //               "image" = ส่งเป็นข้อความรูปอย่างเดียว | "link" = ส่งเป็นลิงก์ในข้อความอย่างเดียว
 const IMAGE_MODE = "link";
+
+// ===== เลือกโมเดล (dropdown ที่ header) =====
+// โมเดลแต่ละตัวใช้ Botpress Webhook ของตัวเอง (บอทคนละตัว) — ใส่ URL หรือ Webhook ID ตรงช่อง webhook
+// ตัวแรกในรายการคือค่าเริ่มต้น และใช้ประวัติแชทชุดเดิม / โมเดลอื่นแยกประวัติและ User Key ของตัวเอง
+// id ต้องไม่ซ้ำ ใช้ตัวอักษรอังกฤษ/ตัวเลขเท่านั้น
+const MODELS = [
+  { id: "qwen",   name: "Qwen 3.8 Flash",        desc: "(ค่าเริ่มต้น)", webhook: "https://chat.botpress.cloud/b06203f7-7853-4bab-82ad-997e12f8b6e9" },
+  { id: "gemini", name: "Claude Sonnet 4.6", desc: "โมเดลเพื่มเติม(อาจมีข้อจำกัด)",               webhook: "https://chat.botpress.cloud/4d39d98a-1af8-442d-8bbe-b555f78aa116" }, // ← ใส่ Webhook ของโมเดลที่ 2 ตรงนี้
+];
+let modelId = null;
 const $ = id => document.getElementById(id);
 
+const SHARED_KEYS = ['bp_model', 'bp_fast', 'bp_fs'];
+const kp = k => (modelId && MODELS[0] && modelId !== MODELS[0].id && !SHARED_KEYS.includes(k)) ? 'm_' + modelId + '_' + k : k;
 const store = {
   get(k){
     try {
-      const v = localStorage.getItem(k);
+      const v = localStorage.getItem(kp(k));
       if(v === null) return null;
       try { return JSON.parse(v); } catch(e) { return v; }
     } catch(e) { return null; }
   },
   set(k,v){
-    try { localStorage.setItem(k, typeof v === 'object' ? JSON.stringify(v) : v); } catch(e){}
+    try { localStorage.setItem(kp(k), typeof v === 'object' ? JSON.stringify(v) : v); } catch(e){}
   },
   del(k){
-    try { localStorage.removeItem(k); } catch(e){}
+    try { localStorage.removeItem(kp(k)); } catch(e){}
   }
 };
 
@@ -728,7 +772,7 @@ let loadToken = 0, loadingHistory = false;
 const seen=new Set();
 
 function resolveBase(){
-  let h=(WEBHOOK||"").toString().trim().replace(/\/+$/,'');
+  let h=(((MODELS.find(m => m.id === modelId) || MODELS[0] || {}).webhook) || "").toString().trim().replace(/\/+$/,'');
   if(!h) return "";
   return h.startsWith('http') ? h : 'https://chat.botpress.cloud/'+h;
 }
@@ -886,13 +930,16 @@ let syncing = false, polling = false, syncTimer = null;
 async function syncServerConversations(){
   if(!userKey || syncing) return;
   syncing = true;
+  const ep = bpEpoch;
   try {
     const res = await api('/conversations', { timeout: 6000 });
+    if (ep !== bpEpoch) return;
     const serverConvs = res.conversations || [];
     const serverIds = new Set(serverConvs.map(c => c.id));
     const additions = [], titleFixes = {};
 
     for (const sc of serverConvs.slice(0, 15)) {
+      if (ep !== bpEpoch) return;
       if (sc.id === convId) continue; // แชทปัจจุบันจัดการโดย loadHistory/send อยู่แล้ว
       let localMsgs = getLocalMessages(sc.id);
 
@@ -927,6 +974,7 @@ async function syncServerConversations(){
     }
 
     // อ่านรายการล่าสุดหลังจบ await ทั้งหมด เพื่อไม่ทับ/ซ้ำกับสิ่งที่เพิ่มระหว่างรอ
+    if (ep !== bpEpoch) return;
     const localList = (store.get('bp_conversations') || []).filter(c => !gone.includes(c.id));
     gone.forEach(id => store.del('bp_msgs_' + id));
     let updated = gone.length > 0;
@@ -941,7 +989,7 @@ async function syncServerConversations(){
       store.set('bp_conversations', localList);
       renderHistoryList();
     }
-  } catch(e) {} finally { syncing = false; }
+  } catch(e) {} finally { if (ep === bpEpoch) syncing = false; }
 }
 
 function renderHistoryList(animate){
@@ -1082,7 +1130,7 @@ function bindEvents(){
     if(k !== oldKey){
       // เปลี่ยนตัวตน: ล้าง userId และแคชข้อความเดิม ไม่ให้ปนกับบัญชีอื่น
       store.del('bp_userId');
-      try { for(let i = localStorage.length - 1; i >= 0; i--){ const key = localStorage.key(i); if(key && key.startsWith('bp_msgs_')) localStorage.removeItem(key); } } catch(e){}
+      try { for(let i = localStorage.length - 1; i >= 0; i--){ const key = localStorage.key(i); if(key && key.startsWith(kp('bp_msgs_'))) localStorage.removeItem(key); } } catch(e){}
     }
     store.del('bp_convId');
     store.del('bp_conversations');
@@ -1095,8 +1143,8 @@ async function init(){
   base = resolveBase();
 
   if(!base){
-    setStatus('ยังไม่ได้ใส่ WEBHOOK ในโค้ด','err');
-    chat.innerHTML = '<div class="empty" id="empty"><h2>ยังไม่ได้ตั้งค่า Webhook</h2><p>เปิดไฟล์นี้ด้วยโปรแกรมแก้ไขข้อความ แล้วใส่ Webhook URL ในบรรทัด <b>const WEBHOOK = "…"</b></p></div>';
+    setStatus('โมเดลนี้ยังไม่ได้ใส่ Webhook ในโค้ด','err');
+    chat.innerHTML = '<div class="empty" id="empty"><h2>ยังไม่ได้ตั้งค่า Webhook</h2><p>เปิดไฟล์นี้ด้วยโปรแกรมแก้ไขข้อความ แล้วใส่ Webhook URL ในช่อง <b>webhook</b> ของโมเดลนี้ใน <b>const MODELS</b></p></div>';
     return;
   }
 
@@ -1141,7 +1189,7 @@ async function init(){
       store.del('bp_userKey');
       store.del('bp_convId');
     }
-    setStatus('เชื่อมต่อไม่ได้ ตรวจสอบ WEBHOOK ในโค้ด','err');
+    setStatus('เชื่อมต่อไม่ได้ ตรวจสอบ webhook ของโมเดลนี้ในโค้ด','err');
     setSetup(true);
   }
 }
@@ -1554,7 +1602,7 @@ async function send(text, atts){
       await createNewConversation();
     } catch(e) {
       busy = false; updateSend();
-      alert('ไม่สามารถเชื่อมต่อได้ กรุณาตรวจสอบ WEBHOOK ในโค้ด');
+      alert('ไม่สามารถเชื่อมต่อได้ กรุณาตรวจสอบ webhook ของโมเดลนี้ในโค้ด');
       setSetup(true);
       return;
     }
@@ -1856,7 +1904,84 @@ function initAttachments(){
   });
 }
 
+/* ===== v5: model picker ===== */
+// สลับโมเดล = สลับไปใช้ Webhook อีกตัว: รีเซ็ตสถานะของแชท แล้วเชื่อมต่อใหม่ (ไม่ต้องรีโหลดหน้า เพลงจึงไม่สะดุด)
+let bpEpoch = 0;
+async function switchModel(){
+  bpEpoch++;
+  clearInterval(pollInterval); clearInterval(syncTimer);
+  stopTypers(); removeBotLoading();
+  loadToken++; loadingHistory = false; syncing = false; polling = false;
+  seen.clear();
+  base = ""; userKey = null; userId = null; convId = null;
+  $('userKeyInput').value = '';
+  chat.innerHTML = EMPTY_HTML;
+  renderHistoryList();
+  setStatus('กำลังเชื่อมต่อ…', '');
+  await init();
+}
+
+function initModelPicker(){
+  const btn = $('modelBtn');
+  if (!btn || !MODELS.length) return;
+  const saved = store.get('bp_model');
+  modelId = (MODELS.find(m => m.id === saved) || MODELS[0]).id;
+
+  const menu = document.createElement('div');
+  menu.className = 'model-menu glass';
+  menu.setAttribute('role', 'listbox');
+  menu.setAttribute('aria-label', 'เลือกโมเดล');
+  menu.innerHTML = '<div class="model-menu-title">เลือกโมเดล</div>' + MODELS.map(m =>
+    '<button type="button" class="model-opt" role="option" data-id="' + esc(m.id) + '">'
+    + '<span><span class="mo-name">' + esc(m.name) + '</span>' + (m.desc ? '<span class="mo-desc">' + esc(m.desc) + '</span>' : '') + '</span>'
+    + '<svg class="mo-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>'
+  ).join('');
+  document.body.appendChild(menu);
+
+  const current = () => MODELS.find(m => m.id === modelId) || MODELS[0];
+  const paint = () => {
+    const cur = current();
+    $('modelName').textContent = cur.name;
+    btn.title = 'โมเดล: ' + cur.name;
+    btn.setAttribute('aria-label', 'เลือกโมเดล (ตอนนี้: ' + cur.name + ')');
+    menu.querySelectorAll('.model-opt').forEach(o => {
+      const on = o.dataset.id === cur.id;
+      o.classList.toggle('on', on);
+      o.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+  };
+  const open = on => {
+    menu.classList.toggle('show', on);
+    btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+    if (!on) return;
+    const r = btn.getBoundingClientRect(), w = menu.offsetWidth;
+    menu.style.top = (r.bottom + 8) + 'px';
+    menu.style.left = Math.max(8, Math.min(r.right - w, innerWidth - w - 8)) + 'px';
+  };
+
+  btn.onclick = () => open(!menu.classList.contains('show'));
+  menu.addEventListener('click', async e => {
+    const o = e.target.closest('.model-opt');
+    if (!o) return;
+    open(false);
+    if (o.dataset.id === modelId) return;
+    if (busy) { toast('รอให้บอทตอบเสร็จก่อนจึงจะสลับโมเดลได้'); return; }
+    modelId = o.dataset.id;
+    store.set('bp_model', modelId);
+    paint();
+    toast('เปลี่ยนเป็น ' + current().name + ' แล้ว');
+    await switchModel();
+  });
+  document.addEventListener('click', e => {
+    if (menu.classList.contains('show') && !menu.contains(e.target) && !btn.contains(e.target)) open(false);
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') open(false); });
+  addEventListener('resize', () => open(false));
+  paint();
+}
+
 initSettingsUI();
+initModelPicker();
 initAttachments();
 bindEvents();
 init();
