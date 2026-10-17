@@ -599,6 +599,9 @@ body.f2 .model-menu{background:rgba(36,6,14,.97)}
   .model-btn .m-name,.model-btn .m-chev{display:none}
   .model-btn .m-ic{width:18px;height:18px}
 }
+/* ===== v6: device sync ===== */
+.setup #syncLink{padding:12px;border-radius:12px;border:0;cursor:pointer;font:inherit;color:#fff;background:linear-gradient(135deg,var(--coral),var(--crimson));font-weight:500}
+.setup #syncCode[readonly]{text-overflow:ellipsis}
 </style>
 </head>
 <body>
@@ -654,7 +657,22 @@ body.f2 .model-menu{background:rgba(36,6,14,.97)}
       </div>
 
       <div class="setup-group">
-        <span class="setup-label">User Key (ซิงค์ประวัติข้ามเครื่อง)</span>
+        <span class="setup-label">ซิงค์ข้ามเครื่อง</span>
+        <span>คัดลอกรหัสซิงค์ไปเชื่อมในอีกเครื่อง ประวัติแชทของทุกโมเดลจะตามไปด้วย · รหัสนี้เหมือนรหัสผ่าน อย่าส่งให้คนอื่น</span>
+        <div class="setup-row">
+          <input id="syncCode" readonly autocomplete="off" aria-label="รหัสซิงค์ของเครื่องนี้">
+          <button id="syncCopy" type="button">คัดลอก</button>
+        </div>
+        <button id="syncLink" type="button">คัดลอกลิงก์ซิงค์</button>
+        <span>ในอีกเครื่อง วางรหัสหรือลิงก์ตรงนี้ แล้วกดเชื่อมต่อ</span>
+        <div class="setup-row">
+          <input id="syncImport" placeholder="วางรหัสซิงค์หรือลิงก์…" autocomplete="off" aria-label="วางรหัสซิงค์จากเครื่องอื่น">
+          <button id="syncApply" type="button">เชื่อมต่อ</button>
+        </div>
+      </div>
+
+      <div class="setup-group">
+        <span class="setup-label">User Key ของโมเดลนี้ (ขั้นสูง)</span>
         <span>วางคีย์เดียวกันในทุกเครื่องเพื่อใช้ประวัติแชทร่วมกัน</span>
         <div class="setup-row">
           <input id="userKeyInput" placeholder="สร้างให้อัตโนมัติเมื่อเชื่อมต่อ..." autocomplete="off">
@@ -718,7 +736,7 @@ body.f2 .model-menu{background:rgba(36,6,14,.97)}
 <div class="xpop-overlay" id="xpop-main" role="dialog" aria-modal="true" aria-labelledby="xpop-main-title">
   <div class="xpop-box">
     <h3 class="xpop-title" id="xpop-main-title">เกี่ยวกับ WormGPT ของเรา</h3>
-    <p class="xpop-text">WormGPT ของเราขับเคลื่อนด้วยโมเดล Qwen 3.8flash และ Claude Sonnet 4 และใช้ Fallback เป็น Gemini 3.5 flash-lite ซึ่งทั้งสองเป็นโมเดล uncensored ที่เรานำมาดัดแปลงเป็น WormGPT</p>
+    <p class="xpop-text">WormGPT ของเราขับเคลื่อนด้วยโมเดล Qwen 3.8flash และใช้ Fallback เป็น Gemini 3.5 flash-lite ซึ่งทั้งสองเป็นโมเดล uncensored ที่เรานำมาดัดแปลงเป็น WormGPT</p>
      <h3 class="xpop-title" id="xpop-main-title">FAQ</h3>
      <h3 class="xpop-co-title" id="xpop-main-title">| Q: WormGPT คืออะไร</h3>
     <p class="xpop-text">| A: โมเดลภาษาขนาดใหญ่ (LLM) ในรูปแบบใต้ดิน (Dark LLM) ที่ถูกสร้างขึ้นมาเพื่อเอื้อประโยชน์ต่อการประกอบอาชญากรรมทางไซเบอร์โดยเฉพาะ โดยมันถูกพัฒนาขึ้นจากการนำโมเดลแบบ Open-source อย่าง GPT-J มาปรับแต่ง (Fine-tuning) ด้วยข้อมูลที่เป็นมัลแวร์และข้อมูลที่ใช้ในการทำ Phishing โดยไม่มีการจำกัดขอบเขตด้านจริยธรรมหรือความปลอดภัยใด ๆ (Ethical Guardrails) เหมือนกับ AI ทั่วไปอย่าง ChatGPT</p>
@@ -741,7 +759,7 @@ const IMAGE_MODE = "link";
 // ตัวแรกในรายการคือค่าเริ่มต้น และใช้ประวัติแชทชุดเดิม / โมเดลอื่นแยกประวัติและ User Key ของตัวเอง
 // id ต้องไม่ซ้ำ ใช้ตัวอักษรอังกฤษ/ตัวเลขเท่านั้น
 const MODELS = [
-  { id: "qwen",   name: "Qwen 3.8 Flash",        desc: "(ค่าเริ่มต้น)", webhook: "https://chat.botpress.cloud/b06203f7-7853-4bab-82ad-997e12f8b6e9" },
+  { id: "qwen",   name: "Qwen 3.8 Flash",        desc: "โมเดลหลัก (ค่าเริ่มต้น)", webhook: "https://chat.botpress.cloud/b06203f7-7853-4bab-82ad-997e12f8b6e9" },
   { id: "gemini", name: "Claude Sonnet 4.6", desc: "โมเดลเพื่มเติม(อาจมีข้อจำกัด)",               webhook: "https://chat.botpress.cloud/4d39d98a-1af8-442d-8bbe-b555f78aa116" }, // ← ใส่ Webhook ของโมเดลที่ 2 ตรงนี้
 ];
 let modelId = null;
@@ -1765,6 +1783,7 @@ function applyFS(k){
   store.set('bp_fs', k);
 }
 function setSetup(show){
+  if (show) refreshSyncCode();
   $('setup').classList.toggle('show', show);
   $('setupBackdrop').classList.toggle('show', show);
 }
@@ -1905,6 +1924,81 @@ function initAttachments(){
 }
 
 /* ===== v5: model picker ===== */
+/* ===== v6: device sync (รหัสซิงค์ / ลิงก์ซิงค์) ===== */
+// รหัสซิงค์ = User Key ของทุกโมเดลรวมกัน (ใช้ key เดียวกัน = ประวัติแชทชุดเดียวกัน)
+const rawKey = (id, k) => (MODELS[0] && id !== MODELS[0].id) ? 'm_' + id + '_' + k : k;
+function buildSyncCode(){
+  const keys = {};
+  MODELS.forEach(m => {
+    try { const k = localStorage.getItem(rawKey(m.id, 'bp_userKey')); if (k) keys[m.id] = k; } catch(e){}
+  });
+  if (!Object.keys(keys).length) return '';
+  return 'WG1.' + btoa(JSON.stringify({ k: keys })).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+function parseSyncCode(code){
+  code = String(code || '').trim();
+  const i = code.indexOf('#sync=');           // วางทั้งลิงก์ก็ได้
+  if (i !== -1) code = code.slice(i + 6);
+  try {
+    code = decodeURIComponent(code);
+    if (code.indexOf('WG1.') !== 0) return null;
+    let b = code.slice(4).replace(/-/g, '+').replace(/_/g, '/');
+    while (b.length % 4) b += '=';
+    const o = JSON.parse(atob(b));
+    return (o && o.k && typeof o.k === 'object') ? o.k : null;
+  } catch(e){ return null; }
+}
+// ตั้ง key ใหม่ + ล้างแคชของโมเดลนั้น (กันประวัติปนกับบัญชีเดิม) คืนจำนวนโมเดลที่เปลี่ยน
+function applySyncKeys(keys){
+  let changed = 0;
+  MODELS.forEach(m => {
+    const k = keys[m.id];
+    if (typeof k !== 'string' || !k || k.length > 400) return;
+    try {
+      if (localStorage.getItem(rawKey(m.id, 'bp_userKey')) === k) return;
+      localStorage.setItem(rawKey(m.id, 'bp_userKey'), k);
+      ['bp_userId', 'bp_convId', 'bp_conversations'].forEach(x => localStorage.removeItem(rawKey(m.id, x)));
+      const pfx = rawKey(m.id, 'bp_msgs_');
+      for (let i = localStorage.length - 1; i >= 0; i--) { const key = localStorage.key(i); if (key && key.indexOf(pfx) === 0) localStorage.removeItem(key); }
+      changed++;
+    } catch(e){}
+  });
+  return changed;
+}
+function refreshSyncCode(){
+  const el = $('syncCode');
+  if (!el) return;
+  el.value = buildSyncCode();
+  el.placeholder = 'ยังไม่มีรหัส (รอเชื่อมต่อสักครู่)';
+}
+function clearHash(){ try { history.replaceState(null, '', location.pathname + location.search); } catch(e){} }
+function initSync(){
+  $('syncCopy').onclick = async () => {
+    const c = buildSyncCode();
+    if (!c) return toast('ยังไม่มีรหัสซิงค์ รอเชื่อมต่อก่อน');
+    toast(await copyText(c) ? 'คัดลอกรหัสซิงค์แล้ว' : 'คัดลอกไม่สำเร็จ');
+  };
+  $('syncLink').onclick = async () => {
+    const c = buildSyncCode();
+    if (!c) return toast('ยังไม่มีรหัสซิงค์ รอเชื่อมต่อก่อน');
+    toast(await copyText(location.href.split('#')[0] + '#sync=' + c) ? 'คัดลอกลิงก์ซิงค์แล้ว' : 'คัดลอกไม่สำเร็จ');
+  };
+  $('syncApply').onclick = () => {
+    const keys = parseSyncCode($('syncImport').value);
+    if (!keys) return toast('รหัสซิงค์ไม่ถูกต้อง');
+    if (!applySyncKeys(keys)) return toast('เครื่องนี้ใช้รหัสนี้อยู่แล้ว');
+    clearHash();
+    location.reload();
+  };
+  // เปิดจากลิงก์ซิงค์: ยังไม่ใช้ทันที ให้ผู้ใช้กดยืนยันเอง (กันลิงก์แปลกๆ ดึงแชทไปบัญชีคนอื่น)
+  if (location.hash.indexOf('#sync=') === 0) {
+    $('syncImport').value = location.hash.slice(6);
+    clearHash();
+    setSetup(true);
+    toast('พบรหัสซิงค์จากลิงก์ กด "เชื่อมต่อ" เพื่อยืนยัน');
+  }
+}
+
 // สลับโมเดล = สลับไปใช้ Webhook อีกตัว: รีเซ็ตสถานะของแชท แล้วเชื่อมต่อใหม่ (ไม่ต้องรีโหลดหน้า เพลงจึงไม่สะดุด)
 let bpEpoch = 0;
 async function switchModel(){
@@ -1982,6 +2076,7 @@ function initModelPicker(){
 
 initSettingsUI();
 initModelPicker();
+initSync();
 initAttachments();
 bindEvents();
 init();
