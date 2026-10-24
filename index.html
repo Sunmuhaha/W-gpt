@@ -2144,6 +2144,10 @@ init();
   #mpPlayer.mp-playing .mp-mini .mp-cover{animation-play-state:running}
   #mpPlayer .mp-mini .mp-info{flex:1;min-width:0}
   #mpPlayer .mp-mini .mp-btn{width:34px;height:34px}
+  #mpPlayer .mp-mini .mp-play{width:40px;height:40px;
+    background:linear-gradient(135deg,rgba(255,255,255,.45),rgba(255,255,255,.15));
+    box-shadow:0 4px 12px rgba(255,40,70,.45)}
+  #mpPlayer .mp-mini .mp-toggle{width:28px;height:28px;background:rgba(255,255,255,.08)}
   #mpPlayer .mp-title{font-family:Anuphan;font-weight:550;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-top:3px;}
   #mpPlayer .mp-artist{font-size:12px;opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   #mpPlayer .mp-mini .mp-title{font-size:14px}
@@ -2166,19 +2170,20 @@ init();
     border-radius:50%;background:#fff;box-shadow:0 0 8px rgba(255,60,90,.9)}
   #mpPlayer input[type=range]::-moz-range-thumb{width:13px;height:13px;border:none;border-radius:50%;background:#fff}
 
-  #mpPlayer .mp-controls{display:flex;justify-content:center;align-items:center;gap:18px;margin:14px 0 12px}
-  #mpPlayer .mp-controls .mp-btn{width:42px;height:42px}
-  #mpPlayer .mp-controls .mp-play{width:56px;height:56px;
+  #mpPlayer .mp-controls{display:flex;justify-content:center;align-items:center;margin:18px 0 2px}
+  #mpPlayer .mp-controls .mp-play{width:64px;height:64px;
     background:linear-gradient(135deg,rgba(255,255,255,.45),rgba(255,255,255,.15));
     box-shadow:0 6px 18px rgba(255,40,70,.5)}
-  #mpPlayer .mp-volrow{display:flex;align-items:center;gap:8px;opacity:.85}
-  #mpPlayer .mp-volrow svg{width:16px;height:16px;fill:#fff;flex-shrink:0}
+  #mpPlayer .mp-controls .mp-play svg{width:48%;height:48%}
+  #mpPlayer.mp-playing .mp-controls .mp-play{animation:mpPulse 2.4s ease-out infinite}
 
   /* โหมดประหยัดเครื่องของหน้าแชท (body.f1..f5) */
   body.f2 #mpPlayer{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(110,10,28,.88);box-shadow:none}
   body.f4 #mpPlayer,body.f4 #mpPlayer *{animation:none!important;transition:none!important}
 
   @keyframes mpSpin{to{transform:rotate(360deg)}}
+  @keyframes mpPulse{0%{box-shadow:0 6px 18px rgba(255,40,70,.5),0 0 0 0 rgba(255,255,255,.35)}
+    100%{box-shadow:0 6px 18px rgba(255,40,70,.5),0 0 0 14px rgba(255,255,255,0)}}
   @keyframes mpFade{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}`;
 
   const NOTE = '<svg viewBox="0 0 24 24"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/></svg>';
@@ -2190,6 +2195,7 @@ init();
   <div class="mp-mini">
     <div class="mp-cover">${NOTE}<img alt=""></div>
     <div class="mp-info"><div class="mp-title">-</div><div class="mp-artist">-</div></div>
+    <button type="button" class="mp-btn mp-play" aria-label="เล่น/หยุด">${PLAYPAUSE}</button>
     <button type="button" class="mp-btn mp-toggle" aria-label="ขยาย"><svg viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"/></svg></button>
   </div>
   <div class="mp-full">
@@ -2204,6 +2210,9 @@ init();
       <span class="mp-cur">0:00</span>
       <input type="range" class="mp-seek" min="0" max="100" step="0.1" value="0" aria-label="ตำแหน่งเพลง">
       <span class="mp-dur">0:00</span>
+    </div>
+    <div class="mp-controls">
+      <button type="button" class="mp-btn mp-play" aria-label="เล่น/หยุด">${PLAYPAUSE}</button>
     </div>
   </div>`;
 
@@ -2283,14 +2292,11 @@ init();
       }
     }
     const play = () => { audio.play().catch(() => {}); };
+    const toggle = () => { audio.paused ? play() : audio.pause(); };
     const next = auto => { const was = auto || !audio.paused; load(idx + 1); if (was) play(); };
 
-    let started = false;
-    audio.addEventListener('play', () => { started = true; root.classList.add('mp-playing'); });
-    audio.addEventListener('pause', () => {
-      if (audio.ended) { root.classList.remove('mp-playing'); return; }
-      if (started) play();                       // ล็อก: ถ้าถูกหยุด (ปุ่มมีเดีย/หูฟัง/สคริปต์อื่น) ให้เล่นต่อทันที
-    });
+    audio.addEventListener('play', () => root.classList.add('mp-playing'));
+    audio.addEventListener('pause', () => root.classList.remove('mp-playing'));
     audio.addEventListener('ended', () => next(true));                  // เล่นวนไปเรื่อยๆ
     audio.addEventListener('error', () => { if (PLAYLIST.length > 1) setTimeout(() => next(true), 800); });
     audio.addEventListener('loadedmetadata', () => { q('.mp-dur').textContent = fmt(audio.duration); });
@@ -2303,12 +2309,13 @@ init();
     if ('mediaSession' in navigator) {
       try {
         navigator.mediaSession.setActionHandler('play', play);
-        navigator.mediaSession.setActionHandler('pause', () => {});   // ไม่ให้หยุดจากปุ่มมีเดียของระบบ
+        navigator.mediaSession.setActionHandler('pause', () => audio.pause());
         navigator.mediaSession.setActionHandler('previoustrack', () => {});   // ไม่ให้ข้ามเพลงจากปุ่มมีเดียของระบบ
         navigator.mediaSession.setActionHandler('nexttrack', () => {});
       } catch (e) {}
     }
 
+    qa('.mp-play').forEach(b => b.addEventListener('click', toggle));
     seek.addEventListener('input', () => {
       if (audio.duration) audio.currentTime = seek.value / 100 * audio.duration;
       fill(seek);
@@ -2375,6 +2382,8 @@ init();
     if (AUTOPLAY) {
       const evs = ['click', 'keydown', 'touchend'];
       const onGesture = e => {
+        // ถ้าผู้ใช้กดปุ่ม/แถบในเครื่องเล่นเอง ให้ปุ่มจัดการ ไม่ต้องสั่งเล่นซ้ำ
+        if (e.target && e.target.closest && e.target.closest('#mpPlayer button, #mpPlayer input')) return;
         play();
       };
       const cleanup = () => evs.forEach(ev => document.removeEventListener(ev, onGesture, true));
@@ -2386,8 +2395,8 @@ init();
       });
     }
 
-    // ให้สั่งจากสคริปต์อื่นได้ (ไม่มี pause/ข้าม/ย้อน/ปรับเสียง)
-    window.MusicPlayer = { play };
+    // ให้สั่งจากสคริปต์อื่นได้ (ไม่มีข้าม/ย้อน/ปรับเสียง)
+    window.MusicPlayer = { play, pause: () => audio.pause(), toggle };
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
